@@ -8,37 +8,37 @@
 <body>
 <div id="overview"><a href="../../../../../../../target/site/testapidocs/org/apache/omid/tso/client/TestTSOClientConnectionToTSO.html">View Javadoc</a></div><pre>
 
-<a class="jxr_linenumber" name="1" href="#1">1</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="2" href="#2">2</a>   <em class="jxr_javadoccomment"> * Licensed to the Apache Software Foundation (ASF) under one</em>
-<a class="jxr_linenumber" name="3" href="#3">3</a>   <em class="jxr_javadoccomment"> * or more contributor license agreements.  See the NOTICE file</em>
-<a class="jxr_linenumber" name="4" href="#4">4</a>   <em class="jxr_javadoccomment"> * distributed with this work for additional information</em>
-<a class="jxr_linenumber" name="5" href="#5">5</a>   <em class="jxr_javadoccomment"> * regarding copyright ownership.  The ASF licenses this file</em>
-<a class="jxr_linenumber" name="6" href="#6">6</a>   <em class="jxr_javadoccomment"> * to you under the Apache License, Version 2.0 (the</em>
-<a class="jxr_linenumber" name="7" href="#7">7</a>   <em class="jxr_javadoccomment"> * "License"); you may not use this file except in compliance</em>
-<a class="jxr_linenumber" name="8" href="#8">8</a>   <em class="jxr_javadoccomment"> * with the License.  You may obtain a copy of the License at</em>
-<a class="jxr_linenumber" name="9" href="#9">9</a>   <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="10" href="#10">10</a>  <em class="jxr_javadoccomment"> *   <a href="http://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.0</a></em>
-<a class="jxr_linenumber" name="11" href="#11">11</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="12" href="#12">12</a>  <em class="jxr_javadoccomment"> * Unless required by applicable law or agreed to in writing, software</em>
-<a class="jxr_linenumber" name="13" href="#13">13</a>  <em class="jxr_javadoccomment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
-<a class="jxr_linenumber" name="14" href="#14">14</a>  <em class="jxr_javadoccomment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
-<a class="jxr_linenumber" name="15" href="#15">15</a>  <em class="jxr_javadoccomment"> * See the License for the specific language governing permissions and</em>
-<a class="jxr_linenumber" name="16" href="#16">16</a>  <em class="jxr_javadoccomment"> * limitations under the License.</em>
-<a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="1" href="#1">1</a>   <em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="2" href="#2">2</a>   <em class="jxr_comment"> * Licensed to the Apache Software Foundation (ASF) under one</em>
+<a class="jxr_linenumber" name="3" href="#3">3</a>   <em class="jxr_comment"> * or more contributor license agreements.  See the NOTICE file</em>
+<a class="jxr_linenumber" name="4" href="#4">4</a>   <em class="jxr_comment"> * distributed with this work for additional information</em>
+<a class="jxr_linenumber" name="5" href="#5">5</a>   <em class="jxr_comment"> * regarding copyright ownership.  The ASF licenses this file</em>
+<a class="jxr_linenumber" name="6" href="#6">6</a>   <em class="jxr_comment"> * to you under the Apache License, Version 2.0 (the</em>
+<a class="jxr_linenumber" name="7" href="#7">7</a>   <em class="jxr_comment"> * "License"); you may not use this file except in compliance</em>
+<a class="jxr_linenumber" name="8" href="#8">8</a>   <em class="jxr_comment"> * with the License.  You may obtain a copy of the License at</em>
+<a class="jxr_linenumber" name="9" href="#9">9</a>   <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="10" href="#10">10</a>  <em class="jxr_comment"> *   <a href="http://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.0</a></em>
+<a class="jxr_linenumber" name="11" href="#11">11</a>  <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="12" href="#12">12</a>  <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
+<a class="jxr_linenumber" name="13" href="#13">13</a>  <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
+<a class="jxr_linenumber" name="14" href="#14">14</a>  <em class="jxr_comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
+<a class="jxr_linenumber" name="15" href="#15">15</a>  <em class="jxr_comment"> * See the License for the specific language governing permissions and</em>
+<a class="jxr_linenumber" name="16" href="#16">16</a>  <em class="jxr_comment"> * limitations under the License.</em>
+<a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">package</strong> org.apache.omid.tso.client;
 <a class="jxr_linenumber" name="19" href="#19">19</a>  
 <a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> com.google.inject.Guice;
 <a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> com.google.inject.Injector;
-<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.TestUtils;
-<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.tso.HALeaseManagementModule;
-<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.tso.TSOMockModule;
-<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.tso.TSOServer;
-<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.tso.TSOServerConfig;
-<a class="jxr_linenumber" name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.tso.VoidLeaseManagementModule;
-<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> org.apache.statemachine.StateMachine.FsmImpl;
-<a class="jxr_linenumber" name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> org.apache.curator.framework.CuratorFramework;
-<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> org.apache.curator.test.TestingServer;
-<a class="jxr_linenumber" name="31" href="#31">31</a>  <strong class="jxr_keyword">import</strong> org.apache.curator.utils.CloseableUtils;
+<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.curator.framework.CuratorFramework;
+<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.curator.test.TestingServer;
+<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.apache.curator.utils.CloseableUtils;
+<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.TestUtils;
+<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.tso.HALeaseManagementModule;
+<a class="jxr_linenumber" name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.tso.TSOMockModule;
+<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.tso.TSOServer;
+<a class="jxr_linenumber" name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.tso.TSOServerConfig;
+<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.tso.VoidLeaseManagementModule;
+<a class="jxr_linenumber" name="31" href="#31">31</a>  <strong class="jxr_keyword">import</strong> org.apache.statemachine.StateMachine.FsmImpl;
 <a class="jxr_linenumber" name="32" href="#32">32</a>  <strong class="jxr_keyword">import</strong> org.apache.zookeeper.KeeperException.NoNodeException;
 <a class="jxr_linenumber" name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> org.apache.zookeeper.data.Stat;
 <a class="jxr_linenumber" name="34" href="#34">34</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
@@ -127,7 +127,7 @@
 <a class="jxr_linenumber" name="117" href="#117">117</a> 
 <a class="jxr_linenumber" name="118" href="#118">118</a>         <em class="jxr_comment">// Launch a TSO WITHOUT publishing the address in HA...</em>
 <a class="jxr_linenumber" name="119" href="#119">119</a>         TSOServerConfig tsoConfig = <strong class="jxr_keyword">new</strong> TSOServerConfig();
-<a class="jxr_linenumber" name="120" href="#120">120</a>         tsoConfig.setMaxItems(1000);
+<a class="jxr_linenumber" name="120" href="#120">120</a>         tsoConfig.setConflictMapSize(1000);
 <a class="jxr_linenumber" name="121" href="#121">121</a>         tsoConfig.setPort(tsoPortForTest);
 <a class="jxr_linenumber" name="122" href="#122">122</a>         tsoConfig.setLeaseModule(<strong class="jxr_keyword">new</strong> VoidLeaseManagementModule());
 <a class="jxr_linenumber" name="123" href="#123">123</a>         injector = Guice.createInjector(<strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/omid/tso/TSOMockModule.html">TSOMockModule</a>(tsoConfig));
@@ -163,7 +163,7 @@
 <a class="jxr_linenumber" name="153" href="#153">153</a> 
 <a class="jxr_linenumber" name="154" href="#154">154</a>         <em class="jxr_comment">// Launch a TSO publishing the address in HA...</em>
 <a class="jxr_linenumber" name="155" href="#155">155</a>         TSOServerConfig config = <strong class="jxr_keyword">new</strong> TSOServerConfig();
-<a class="jxr_linenumber" name="156" href="#156">156</a>         config.setMaxItems(1000);
+<a class="jxr_linenumber" name="156" href="#156">156</a>         config.setConflictMapSize(1000);
 <a class="jxr_linenumber" name="157" href="#157">157</a>         config.setPort(tsoPortForTest);
 <a class="jxr_linenumber" name="158" href="#158">158</a>         config.setLeaseModule(<strong class="jxr_keyword">new</strong> HALeaseManagementModule(1000, TSO_LEASE_PATH, CURRENT_TSO_PATH, zkClusterForTest, <span class="jxr_string">"omid"</span>));
 <a class="jxr_linenumber" name="159" href="#159">159</a>         injector = Guice.createInjector(<strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/omid/tso/TSOMockModule.html">TSOMockModule</a>(config));
@@ -201,7 +201,7 @@
 <a class="jxr_linenumber" name="191" href="#191">191</a> 
 <a class="jxr_linenumber" name="192" href="#192">192</a>         <em class="jxr_comment">// Start a TSO with HA...</em>
 <a class="jxr_linenumber" name="193" href="#193">193</a>         TSOServerConfig config = <strong class="jxr_keyword">new</strong> TSOServerConfig();
-<a class="jxr_linenumber" name="194" href="#194">194</a>         config.setMaxItems(1000);
+<a class="jxr_linenumber" name="194" href="#194">194</a>         config.setConflictMapSize(1000);
 <a class="jxr_linenumber" name="195" href="#195">195</a>         config.setPort(tsoPortForTest);
 <a class="jxr_linenumber" name="196" href="#196">196</a>         config.setLeaseModule(<strong class="jxr_keyword">new</strong> HALeaseManagementModule(1000, TSO_LEASE_PATH, CURRENT_TSO_PATH, zkClusterForTest, <span class="jxr_string">"omid"</span>));
 <a class="jxr_linenumber" name="197" href="#197">197</a>         injector = Guice.createInjector(<strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/omid/tso/TSOMockModule.html">TSOMockModule</a>(config));

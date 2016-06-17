@@ -8,23 +8,23 @@
 <body>
 <div id="overview"><a href="../../../../../../target/site/testapidocs/org/apache/omid/transaction/TestColumnIterator.html">View Javadoc</a></div><pre>
 
-<a class="jxr_linenumber" name="1" href="#1">1</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="2" href="#2">2</a>   <em class="jxr_javadoccomment"> * Licensed to the Apache Software Foundation (ASF) under one</em>
-<a class="jxr_linenumber" name="3" href="#3">3</a>   <em class="jxr_javadoccomment"> * or more contributor license agreements.  See the NOTICE file</em>
-<a class="jxr_linenumber" name="4" href="#4">4</a>   <em class="jxr_javadoccomment"> * distributed with this work for additional information</em>
-<a class="jxr_linenumber" name="5" href="#5">5</a>   <em class="jxr_javadoccomment"> * regarding copyright ownership.  The ASF licenses this file</em>
-<a class="jxr_linenumber" name="6" href="#6">6</a>   <em class="jxr_javadoccomment"> * to you under the Apache License, Version 2.0 (the</em>
-<a class="jxr_linenumber" name="7" href="#7">7</a>   <em class="jxr_javadoccomment"> * "License"); you may not use this file except in compliance</em>
-<a class="jxr_linenumber" name="8" href="#8">8</a>   <em class="jxr_javadoccomment"> * with the License.  You may obtain a copy of the License at</em>
-<a class="jxr_linenumber" name="9" href="#9">9</a>   <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="10" href="#10">10</a>  <em class="jxr_javadoccomment"> *   <a href="http://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.0</a></em>
-<a class="jxr_linenumber" name="11" href="#11">11</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="12" href="#12">12</a>  <em class="jxr_javadoccomment"> * Unless required by applicable law or agreed to in writing, software</em>
-<a class="jxr_linenumber" name="13" href="#13">13</a>  <em class="jxr_javadoccomment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
-<a class="jxr_linenumber" name="14" href="#14">14</a>  <em class="jxr_javadoccomment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
-<a class="jxr_linenumber" name="15" href="#15">15</a>  <em class="jxr_javadoccomment"> * See the License for the specific language governing permissions and</em>
-<a class="jxr_linenumber" name="16" href="#16">16</a>  <em class="jxr_javadoccomment"> * limitations under the License.</em>
-<a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="1" href="#1">1</a>   <em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="2" href="#2">2</a>   <em class="jxr_comment"> * Licensed to the Apache Software Foundation (ASF) under one</em>
+<a class="jxr_linenumber" name="3" href="#3">3</a>   <em class="jxr_comment"> * or more contributor license agreements.  See the NOTICE file</em>
+<a class="jxr_linenumber" name="4" href="#4">4</a>   <em class="jxr_comment"> * distributed with this work for additional information</em>
+<a class="jxr_linenumber" name="5" href="#5">5</a>   <em class="jxr_comment"> * regarding copyright ownership.  The ASF licenses this file</em>
+<a class="jxr_linenumber" name="6" href="#6">6</a>   <em class="jxr_comment"> * to you under the Apache License, Version 2.0 (the</em>
+<a class="jxr_linenumber" name="7" href="#7">7</a>   <em class="jxr_comment"> * "License"); you may not use this file except in compliance</em>
+<a class="jxr_linenumber" name="8" href="#8">8</a>   <em class="jxr_comment"> * with the License.  You may obtain a copy of the License at</em>
+<a class="jxr_linenumber" name="9" href="#9">9</a>   <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="10" href="#10">10</a>  <em class="jxr_comment"> *   <a href="http://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.0</a></em>
+<a class="jxr_linenumber" name="11" href="#11">11</a>  <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="12" href="#12">12</a>  <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
+<a class="jxr_linenumber" name="13" href="#13">13</a>  <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
+<a class="jxr_linenumber" name="14" href="#14">14</a>  <em class="jxr_comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
+<a class="jxr_linenumber" name="15" href="#15">15</a>  <em class="jxr_comment"> * See the License for the specific language governing permissions and</em>
+<a class="jxr_linenumber" name="16" href="#16">16</a>  <em class="jxr_comment"> * limitations under the License.</em>
+<a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">package</strong> org.apache.omid.transaction;
 <a class="jxr_linenumber" name="19" href="#19">19</a>  
 <a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> com.google.common.collect.ImmutableList;
@@ -40,7 +40,7 @@
 <a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> java.util.Collection;
 <a class="jxr_linenumber" name="31" href="#31">31</a>  <strong class="jxr_keyword">import</strong> java.util.List;
 <a class="jxr_linenumber" name="32" href="#32">32</a>  
-<a class="jxr_linenumber" name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.AssertJUnit.assertEquals;
+<a class="jxr_linenumber" name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertEquals;
 <a class="jxr_linenumber" name="34" href="#34">34</a>  
 <a class="jxr_linenumber" name="35" href="#35">35</a>  @Test(groups = <span class="jxr_string">"noHBase"</span>)
 <a class="jxr_linenumber" name="36" href="#36">36</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/apache/omid/transaction/TestColumnIterator.html">TestColumnIterator</a> {
@@ -67,13 +67,13 @@
 <a class="jxr_linenumber" name="57" href="#57">57</a>              )
 <a class="jxr_linenumber" name="58" href="#58">58</a>      );
 <a class="jxr_linenumber" name="59" href="#59">59</a>  
-<a class="jxr_linenumber" name="60" href="#60">60</a>      @Test
+<a class="jxr_linenumber" name="60" href="#60">60</a>      @Test(timeOut = 10_000)
 <a class="jxr_linenumber" name="61" href="#61">61</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testGroupingCellsByColumnFilteringShadowCells() {
 <a class="jxr_linenumber" name="62" href="#62">62</a>  
 <a class="jxr_linenumber" name="63" href="#63">63</a>          ImmutableList&lt;Collection&lt;Cell&gt;&gt; groupedColumnsWithoutShadowCells =
 <a class="jxr_linenumber" name="64" href="#64">64</a>                  TTable.groupCellsByColumnFilteringShadowCells(cells);
 <a class="jxr_linenumber" name="65" href="#65">65</a>          Log.info(<span class="jxr_string">"Column Groups "</span> + groupedColumnsWithoutShadowCells);
-<a class="jxr_linenumber" name="66" href="#66">66</a>          assertEquals(<span class="jxr_string">"Should be 3 column groups"</span>, 3, groupedColumnsWithoutShadowCells.size());
+<a class="jxr_linenumber" name="66" href="#66">66</a>          assertEquals(groupedColumnsWithoutShadowCells.size(), 3, <span class="jxr_string">"Should be 3 column groups"</span>);
 <a class="jxr_linenumber" name="67" href="#67">67</a>          <strong class="jxr_keyword">int</strong> group1Counter = 0;
 <a class="jxr_linenumber" name="68" href="#68">68</a>          <strong class="jxr_keyword">int</strong> group2Counter = 0;
 <a class="jxr_linenumber" name="69" href="#69">69</a>          <strong class="jxr_keyword">int</strong> group3Counter = 0;
@@ -99,9 +99,9 @@
 <a class="jxr_linenumber" name="89" href="#89">89</a>              }
 <a class="jxr_linenumber" name="90" href="#90">90</a>          }
 <a class="jxr_linenumber" name="91" href="#91">91</a>  
-<a class="jxr_linenumber" name="92" href="#92">92</a>          assertEquals(<span class="jxr_string">"Group 1 should have 2 elems"</span>, 2, group1Counter);
-<a class="jxr_linenumber" name="93" href="#93">93</a>          assertEquals(<span class="jxr_string">"Group 2 should have 1 elems"</span>, 1, group2Counter);
-<a class="jxr_linenumber" name="94" href="#94">94</a>          assertEquals(<span class="jxr_string">"Group 3 should have 1 elems"</span>, 1, group3Counter);
+<a class="jxr_linenumber" name="92" href="#92">92</a>          assertEquals(group1Counter, 2, <span class="jxr_string">"Group 1 should have 2 elems"</span>);
+<a class="jxr_linenumber" name="93" href="#93">93</a>          assertEquals(group2Counter, 1, <span class="jxr_string">"Group 2 should have 1 elems"</span>);
+<a class="jxr_linenumber" name="94" href="#94">94</a>          assertEquals(group3Counter, 1, <span class="jxr_string">"Group 3 should have 1 elems"</span>);
 <a class="jxr_linenumber" name="95" href="#95">95</a>      }
 <a class="jxr_linenumber" name="96" href="#96">96</a>  }
 </pre>

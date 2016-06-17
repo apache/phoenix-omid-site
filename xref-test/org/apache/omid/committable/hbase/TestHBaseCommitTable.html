@@ -8,43 +8,43 @@
 <body>
 <div id="overview"><a href="../../../../../../../target/site/testapidocs/org/apache/omid/committable/hbase/TestHBaseCommitTable.html">View Javadoc</a></div><pre>
 
-<a class="jxr_linenumber" name="1" href="#1">1</a>   <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="2" href="#2">2</a>   <em class="jxr_javadoccomment"> * Licensed to the Apache Software Foundation (ASF) under one</em>
-<a class="jxr_linenumber" name="3" href="#3">3</a>   <em class="jxr_javadoccomment"> * or more contributor license agreements.  See the NOTICE file</em>
-<a class="jxr_linenumber" name="4" href="#4">4</a>   <em class="jxr_javadoccomment"> * distributed with this work for additional information</em>
-<a class="jxr_linenumber" name="5" href="#5">5</a>   <em class="jxr_javadoccomment"> * regarding copyright ownership.  The ASF licenses this file</em>
-<a class="jxr_linenumber" name="6" href="#6">6</a>   <em class="jxr_javadoccomment"> * to you under the Apache License, Version 2.0 (the</em>
-<a class="jxr_linenumber" name="7" href="#7">7</a>   <em class="jxr_javadoccomment"> * "License"); you may not use this file except in compliance</em>
-<a class="jxr_linenumber" name="8" href="#8">8</a>   <em class="jxr_javadoccomment"> * with the License.  You may obtain a copy of the License at</em>
-<a class="jxr_linenumber" name="9" href="#9">9</a>   <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="10" href="#10">10</a>  <em class="jxr_javadoccomment"> *   <a href="http://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.0</a></em>
-<a class="jxr_linenumber" name="11" href="#11">11</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="12" href="#12">12</a>  <em class="jxr_javadoccomment"> * Unless required by applicable law or agreed to in writing, software</em>
-<a class="jxr_linenumber" name="13" href="#13">13</a>  <em class="jxr_javadoccomment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
-<a class="jxr_linenumber" name="14" href="#14">14</a>  <em class="jxr_javadoccomment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
-<a class="jxr_linenumber" name="15" href="#15">15</a>  <em class="jxr_javadoccomment"> * See the License for the specific language governing permissions and</em>
-<a class="jxr_linenumber" name="16" href="#16">16</a>  <em class="jxr_javadoccomment"> * limitations under the License.</em>
-<a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="1" href="#1">1</a>   <em class="jxr_comment">/*</em>
+<a class="jxr_linenumber" name="2" href="#2">2</a>   <em class="jxr_comment"> * Licensed to the Apache Software Foundation (ASF) under one</em>
+<a class="jxr_linenumber" name="3" href="#3">3</a>   <em class="jxr_comment"> * or more contributor license agreements.  See the NOTICE file</em>
+<a class="jxr_linenumber" name="4" href="#4">4</a>   <em class="jxr_comment"> * distributed with this work for additional information</em>
+<a class="jxr_linenumber" name="5" href="#5">5</a>   <em class="jxr_comment"> * regarding copyright ownership.  The ASF licenses this file</em>
+<a class="jxr_linenumber" name="6" href="#6">6</a>   <em class="jxr_comment"> * to you under the Apache License, Version 2.0 (the</em>
+<a class="jxr_linenumber" name="7" href="#7">7</a>   <em class="jxr_comment"> * "License"); you may not use this file except in compliance</em>
+<a class="jxr_linenumber" name="8" href="#8">8</a>   <em class="jxr_comment"> * with the License.  You may obtain a copy of the License at</em>
+<a class="jxr_linenumber" name="9" href="#9">9</a>   <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="10" href="#10">10</a>  <em class="jxr_comment"> *   <a href="http://www.apache.org/licenses/LICENSE-2.0" target="alexandria_uri">http://www.apache.org/licenses/LICENSE-2.0</a></em>
+<a class="jxr_linenumber" name="11" href="#11">11</a>  <em class="jxr_comment"> *</em>
+<a class="jxr_linenumber" name="12" href="#12">12</a>  <em class="jxr_comment"> * Unless required by applicable law or agreed to in writing, software</em>
+<a class="jxr_linenumber" name="13" href="#13">13</a>  <em class="jxr_comment"> * distributed under the License is distributed on an "AS IS" BASIS,</em>
+<a class="jxr_linenumber" name="14" href="#14">14</a>  <em class="jxr_comment"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</em>
+<a class="jxr_linenumber" name="15" href="#15">15</a>  <em class="jxr_comment"> * See the License for the specific language governing permissions and</em>
+<a class="jxr_linenumber" name="16" href="#16">16</a>  <em class="jxr_comment"> * limitations under the License.</em>
+<a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">package</strong> org.apache.omid.committable.hbase;
 <a class="jxr_linenumber" name="19" href="#19">19</a>  
 <a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> com.google.common.base.Optional;
 <a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> com.google.common.util.concurrent.ListenableFuture;
-<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.committable.CommitTable;
-<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.committable.CommitTable.Client;
-<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.committable.CommitTable.CommitTimestamp;
-<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.committable.CommitTable.Writer;
-<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.committable.hbase.HBaseCommitTable.HBaseClient;
-<a class="jxr_linenumber" name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.conf.Configuration;
-<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.HBaseConfiguration;
-<a class="jxr_linenumber" name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.HBaseTestingUtility;
-<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.HColumnDescriptor;
-<a class="jxr_linenumber" name="31" href="#31">31</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.HTableDescriptor;
-<a class="jxr_linenumber" name="32" href="#32">32</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.MiniHBaseCluster;
-<a class="jxr_linenumber" name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.TableName;
-<a class="jxr_linenumber" name="34" href="#34">34</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.HBaseAdmin;
-<a class="jxr_linenumber" name="35" href="#35">35</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Scan;
-<a class="jxr_linenumber" name="36" href="#36">36</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.coprocessor.AggregationClient;
-<a class="jxr_linenumber" name="37" href="#37">37</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.coprocessor.LongColumnInterpreter;
+<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.conf.Configuration;
+<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.HBaseConfiguration;
+<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.HBaseTestingUtility;
+<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.HColumnDescriptor;
+<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.HTableDescriptor;
+<a class="jxr_linenumber" name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.MiniHBaseCluster;
+<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.TableName;
+<a class="jxr_linenumber" name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.HBaseAdmin;
+<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Scan;
+<a class="jxr_linenumber" name="31" href="#31">31</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.coprocessor.AggregationClient;
+<a class="jxr_linenumber" name="32" href="#32">32</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.coprocessor.LongColumnInterpreter;
+<a class="jxr_linenumber" name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.committable.CommitTable;
+<a class="jxr_linenumber" name="34" href="#34">34</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.committable.CommitTable.Client;
+<a class="jxr_linenumber" name="35" href="#35">35</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.committable.CommitTable.CommitTimestamp;
+<a class="jxr_linenumber" name="36" href="#36">36</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.committable.CommitTable.Writer;
+<a class="jxr_linenumber" name="37" href="#37">37</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.committable.hbase.HBaseCommitTable.HBaseClient;
 <a class="jxr_linenumber" name="38" href="#38">38</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
 <a class="jxr_linenumber" name="39" href="#39">39</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
 <a class="jxr_linenumber" name="40" href="#40">40</a>  <strong class="jxr_keyword">import</strong> org.testng.Assert;
@@ -57,9 +57,9 @@
 <a class="jxr_linenumber" name="47" href="#47">47</a>  <strong class="jxr_keyword">import</strong> java.util.concurrent.ExecutionException;
 <a class="jxr_linenumber" name="48" href="#48">48</a>  <strong class="jxr_keyword">import</strong> java.util.concurrent.Future;
 <a class="jxr_linenumber" name="49" href="#49">49</a>  
-<a class="jxr_linenumber" name="50" href="#50">50</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.AssertJUnit.assertEquals;
-<a class="jxr_linenumber" name="51" href="#51">51</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.AssertJUnit.assertFalse;
-<a class="jxr_linenumber" name="52" href="#52">52</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.AssertJUnit.assertTrue;
+<a class="jxr_linenumber" name="50" href="#50">50</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertEquals;
+<a class="jxr_linenumber" name="51" href="#51">51</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertFalse;
+<a class="jxr_linenumber" name="52" href="#52">52</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertTrue;
 <a class="jxr_linenumber" name="53" href="#53">53</a>  
 <a class="jxr_linenumber" name="54" href="#54">54</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../org/apache/omid/committable/hbase/TestHBaseCommitTable.html">TestHBaseCommitTable</a> {
 <a class="jxr_linenumber" name="55" href="#55">55</a>  
@@ -149,14 +149,14 @@
 <a class="jxr_linenumber" name="139" href="#139">139</a>         Client client = commitTable.getClient();
 <a class="jxr_linenumber" name="140" href="#140">140</a> 
 <a class="jxr_linenumber" name="141" href="#141">141</a>         <em class="jxr_comment">// Test that the first time the table is empty</em>
-<a class="jxr_linenumber" name="142" href="#142">142</a>         assertEquals(<span class="jxr_string">"Rows should be 0!"</span>, 0, rowCount(TABLE_NAME, commitTableFamily));
+<a class="jxr_linenumber" name="142" href="#142">142</a>         assertEquals(rowCount(TABLE_NAME, commitTableFamily), 0, <span class="jxr_string">"Rows should be 0!"</span>);
 <a class="jxr_linenumber" name="143" href="#143">143</a> 
 <a class="jxr_linenumber" name="144" href="#144">144</a>         <em class="jxr_comment">// Test the successful creation of 1000 txs in the table</em>
 <a class="jxr_linenumber" name="145" href="#145">145</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; 1000; i++) {
 <a class="jxr_linenumber" name="146" href="#146">146</a>             writer.addCommittedTransaction(i, i + 1);
 <a class="jxr_linenumber" name="147" href="#147">147</a>         }
 <a class="jxr_linenumber" name="148" href="#148">148</a>         writer.flush();
-<a class="jxr_linenumber" name="149" href="#149">149</a>         assertEquals(<span class="jxr_string">"Rows should be 1000!"</span>, 1000, rowCount(TABLE_NAME, commitTableFamily));
+<a class="jxr_linenumber" name="149" href="#149">149</a>         assertEquals(rowCount(TABLE_NAME, commitTableFamily), 1000, <span class="jxr_string">"Rows should be 1000!"</span>);
 <a class="jxr_linenumber" name="150" href="#150">150</a> 
 <a class="jxr_linenumber" name="151" href="#151">151</a>         <em class="jxr_comment">// Test the we get the right commit timestamps for each previously inserted tx</em>
 <a class="jxr_linenumber" name="152" href="#152">152</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">long</strong> i = 0; i &lt; 1000; i++) {
@@ -164,9 +164,9 @@
 <a class="jxr_linenumber" name="154" href="#154">154</a>             assertTrue(commitTimestamp.isPresent());
 <a class="jxr_linenumber" name="155" href="#155">155</a>             assertTrue(commitTimestamp.get().isValid());
 <a class="jxr_linenumber" name="156" href="#156">156</a>             <strong class="jxr_keyword">long</strong> ct = commitTimestamp.get().getValue();
-<a class="jxr_linenumber" name="157" href="#157">157</a>             assertEquals(<span class="jxr_string">"Commit timestamp should be "</span> + (i + 1), (i + 1), ct);
+<a class="jxr_linenumber" name="157" href="#157">157</a>             assertEquals(ct, (i + 1), <span class="jxr_string">"Commit timestamp should be "</span> + (i + 1));
 <a class="jxr_linenumber" name="158" href="#158">158</a>         }
-<a class="jxr_linenumber" name="159" href="#159">159</a>         assertEquals(<span class="jxr_string">"Rows should be 1000!"</span>, 1000, rowCount(TABLE_NAME, commitTableFamily));
+<a class="jxr_linenumber" name="159" href="#159">159</a>         assertEquals(rowCount(TABLE_NAME, commitTableFamily), 1000, <span class="jxr_string">"Rows should be 1000!"</span>);
 <a class="jxr_linenumber" name="160" href="#160">160</a> 
 <a class="jxr_linenumber" name="161" href="#161">161</a>         <em class="jxr_comment">// Test the successful deletion of the 1000 txs</em>
 <a class="jxr_linenumber" name="162" href="#162">162</a>         Future&lt;Void&gt; f;
@@ -174,31 +174,31 @@
 <a class="jxr_linenumber" name="164" href="#164">164</a>             f = client.completeTransaction(i);
 <a class="jxr_linenumber" name="165" href="#165">165</a>             f.get();
 <a class="jxr_linenumber" name="166" href="#166">166</a>         }
-<a class="jxr_linenumber" name="167" href="#167">167</a>         assertEquals(<span class="jxr_string">"Rows should be 0!"</span>, 0, rowCount(TABLE_NAME, commitTableFamily));
+<a class="jxr_linenumber" name="167" href="#167">167</a>         assertEquals(rowCount(TABLE_NAME, commitTableFamily), 0, <span class="jxr_string">"Rows should be 0!"</span>);
 <a class="jxr_linenumber" name="168" href="#168">168</a> 
 <a class="jxr_linenumber" name="169" href="#169">169</a>         <em class="jxr_comment">// Test we don't get a commit timestamp for a non-existent transaction id in the table</em>
 <a class="jxr_linenumber" name="170" href="#170">170</a>         Optional&lt;CommitTimestamp&gt; commitTimestamp = client.getCommitTimestamp(0).get();
-<a class="jxr_linenumber" name="171" href="#171">171</a>         assertFalse(<span class="jxr_string">"Commit timestamp should not be present"</span>, commitTimestamp.isPresent());
+<a class="jxr_linenumber" name="171" href="#171">171</a>         assertFalse(commitTimestamp.isPresent(), <span class="jxr_string">"Commit timestamp should not be present"</span>);
 <a class="jxr_linenumber" name="172" href="#172">172</a> 
 <a class="jxr_linenumber" name="173" href="#173">173</a>         <em class="jxr_comment">// Test that the first time, the low watermark family in table is empty</em>
-<a class="jxr_linenumber" name="174" href="#174">174</a>         assertEquals(<span class="jxr_string">"Rows should be 0!"</span>, 0, rowCount(TABLE_NAME, lowWatermarkFamily));
+<a class="jxr_linenumber" name="174" href="#174">174</a>         assertEquals(rowCount(TABLE_NAME, lowWatermarkFamily), 0, <span class="jxr_string">"Rows should be 0!"</span>);
 <a class="jxr_linenumber" name="175" href="#175">175</a> 
 <a class="jxr_linenumber" name="176" href="#176">176</a>         <em class="jxr_comment">// Test the unsuccessful read of the low watermark the first time</em>
 <a class="jxr_linenumber" name="177" href="#177">177</a>         ListenableFuture&lt;Long&gt; lowWatermarkFuture = client.readLowWatermark();
-<a class="jxr_linenumber" name="178" href="#178">178</a>         assertEquals(<span class="jxr_string">"Low watermark should be 0"</span>, Long.valueOf(0), lowWatermarkFuture.get());
+<a class="jxr_linenumber" name="178" href="#178">178</a>         assertEquals(lowWatermarkFuture.get(), Long.valueOf(0), <span class="jxr_string">"Low watermark should be 0"</span>);
 <a class="jxr_linenumber" name="179" href="#179">179</a> 
 <a class="jxr_linenumber" name="180" href="#180">180</a>         <em class="jxr_comment">// Test the successful update of the low watermark</em>
 <a class="jxr_linenumber" name="181" href="#181">181</a>         <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> lowWatermark = 0; lowWatermark &lt; 1000; lowWatermark++) {
 <a class="jxr_linenumber" name="182" href="#182">182</a>             writer.updateLowWatermark(lowWatermark);
 <a class="jxr_linenumber" name="183" href="#183">183</a>         }
 <a class="jxr_linenumber" name="184" href="#184">184</a>         writer.flush();
-<a class="jxr_linenumber" name="185" href="#185">185</a>         assertEquals(<span class="jxr_string">"Should there be only one row!"</span>, 1, rowCount(TABLE_NAME, lowWatermarkFamily));
+<a class="jxr_linenumber" name="185" href="#185">185</a>         assertEquals(rowCount(TABLE_NAME, lowWatermarkFamily), 1, <span class="jxr_string">"Should there be only one row!"</span>);
 <a class="jxr_linenumber" name="186" href="#186">186</a> 
 <a class="jxr_linenumber" name="187" href="#187">187</a>         <em class="jxr_comment">// Test the successful read of the low watermark</em>
 <a class="jxr_linenumber" name="188" href="#188">188</a>         lowWatermarkFuture = client.readLowWatermark();
 <a class="jxr_linenumber" name="189" href="#189">189</a>         <strong class="jxr_keyword">long</strong> lowWatermark = lowWatermarkFuture.get();
-<a class="jxr_linenumber" name="190" href="#190">190</a>         assertEquals(<span class="jxr_string">"Low watermark should be 999"</span>, 999, lowWatermark);
-<a class="jxr_linenumber" name="191" href="#191">191</a>         assertEquals(<span class="jxr_string">"Should there be only one row!"</span>, 1, rowCount(TABLE_NAME, lowWatermarkFamily));
+<a class="jxr_linenumber" name="190" href="#190">190</a>         assertEquals(lowWatermark, 999, <span class="jxr_string">"Low watermark should be 999"</span>);
+<a class="jxr_linenumber" name="191" href="#191">191</a>         assertEquals(rowCount(TABLE_NAME, lowWatermarkFamily), 1, <span class="jxr_string">"Should there be only one row!"</span>);
 <a class="jxr_linenumber" name="192" href="#192">192</a> 
 <a class="jxr_linenumber" name="193" href="#193">193</a>     }
 <a class="jxr_linenumber" name="194" href="#194">194</a> 
@@ -220,7 +220,7 @@
 <a class="jxr_linenumber" name="210" href="#210">210</a>         Client client = commitTable.getClient();
 <a class="jxr_linenumber" name="211" href="#211">211</a> 
 <a class="jxr_linenumber" name="212" href="#212">212</a>         <em class="jxr_comment">// Test that initially the table is empty</em>
-<a class="jxr_linenumber" name="213" href="#213">213</a>         assertEquals(<span class="jxr_string">"Rows should be 0!"</span>, 0, rowCount(TABLE_NAME, commitTableFamily));
+<a class="jxr_linenumber" name="213" href="#213">213</a>         assertEquals(rowCount(TABLE_NAME, commitTableFamily), 0, <span class="jxr_string">"Rows should be 0!"</span>);
 <a class="jxr_linenumber" name="214" href="#214">214</a> 
 <a class="jxr_linenumber" name="215" href="#215">215</a>         <em class="jxr_comment">// Test that a transaction can be added properly to the commit table</em>
 <a class="jxr_linenumber" name="216" href="#216">216</a>         writer.addCommittedTransaction(TX1_ST, TX1_CT);
@@ -229,28 +229,28 @@
 <a class="jxr_linenumber" name="219" href="#219">219</a>         assertTrue(commitTimestamp.isPresent());
 <a class="jxr_linenumber" name="220" href="#220">220</a>         assertTrue(commitTimestamp.get().isValid());
 <a class="jxr_linenumber" name="221" href="#221">221</a>         <strong class="jxr_keyword">long</strong> ct = commitTimestamp.get().getValue();
-<a class="jxr_linenumber" name="222" href="#222">222</a>         assertEquals(<span class="jxr_string">"Commit timestamp should be "</span> + TX1_CT, TX1_CT, ct);
+<a class="jxr_linenumber" name="222" href="#222">222</a>         assertEquals(ct, TX1_CT, <span class="jxr_string">"Commit timestamp should be "</span> + TX1_CT);
 <a class="jxr_linenumber" name="223" href="#223">223</a> 
 <a class="jxr_linenumber" name="224" href="#224">224</a>         <em class="jxr_comment">// Test that a committed transaction cannot be invalidated and</em>
 <a class="jxr_linenumber" name="225" href="#225">225</a>         <em class="jxr_comment">// preserves its commit timestamp after that</em>
 <a class="jxr_linenumber" name="226" href="#226">226</a>         <strong class="jxr_keyword">boolean</strong> wasInvalidated = client.tryInvalidateTransaction(TX1_ST).get();
-<a class="jxr_linenumber" name="227" href="#227">227</a>         assertFalse(<span class="jxr_string">"Transaction should not be invalidated"</span>, wasInvalidated);
+<a class="jxr_linenumber" name="227" href="#227">227</a>         assertFalse(wasInvalidated, <span class="jxr_string">"Transaction should not be invalidated"</span>);
 <a class="jxr_linenumber" name="228" href="#228">228</a> 
 <a class="jxr_linenumber" name="229" href="#229">229</a>         commitTimestamp = client.getCommitTimestamp(TX1_ST).get();
 <a class="jxr_linenumber" name="230" href="#230">230</a>         assertTrue(commitTimestamp.isPresent());
 <a class="jxr_linenumber" name="231" href="#231">231</a>         assertTrue(commitTimestamp.get().isValid());
 <a class="jxr_linenumber" name="232" href="#232">232</a>         ct = commitTimestamp.get().getValue();
-<a class="jxr_linenumber" name="233" href="#233">233</a>         assertEquals(<span class="jxr_string">"Commit timestamp should be "</span> + TX1_CT, TX1_CT, ct);
+<a class="jxr_linenumber" name="233" href="#233">233</a>         assertEquals(ct, TX1_CT, <span class="jxr_string">"Commit timestamp should be "</span> + TX1_CT);
 <a class="jxr_linenumber" name="234" href="#234">234</a> 
 <a class="jxr_linenumber" name="235" href="#235">235</a>         <em class="jxr_comment">// Test that a non-committed transaction can be invalidated...</em>
 <a class="jxr_linenumber" name="236" href="#236">236</a>         wasInvalidated = client.tryInvalidateTransaction(TX2_ST).get();
-<a class="jxr_linenumber" name="237" href="#237">237</a>         assertTrue(<span class="jxr_string">"Transaction should be invalidated"</span>, wasInvalidated);
+<a class="jxr_linenumber" name="237" href="#237">237</a>         assertTrue(wasInvalidated, <span class="jxr_string">"Transaction should be invalidated"</span>);
 <a class="jxr_linenumber" name="238" href="#238">238</a>         commitTimestamp = client.getCommitTimestamp(TX2_ST).get();
 <a class="jxr_linenumber" name="239" href="#239">239</a>         assertTrue(commitTimestamp.isPresent());
 <a class="jxr_linenumber" name="240" href="#240">240</a>         assertFalse(commitTimestamp.get().isValid());
 <a class="jxr_linenumber" name="241" href="#241">241</a>         ct = commitTimestamp.get().getValue();
-<a class="jxr_linenumber" name="242" href="#242">242</a>         assertEquals(<span class="jxr_string">"Commit timestamp should be "</span> + CommitTable.INVALID_TRANSACTION_MARKER,
-<a class="jxr_linenumber" name="243" href="#243">243</a>                      CommitTable.INVALID_TRANSACTION_MARKER, ct);
+<a class="jxr_linenumber" name="242" href="#242">242</a>         assertEquals(ct, CommitTable.INVALID_TRANSACTION_MARKER,
+<a class="jxr_linenumber" name="243" href="#243">243</a>                      <span class="jxr_string">"Commit timestamp should be "</span> + CommitTable.INVALID_TRANSACTION_MARKER);
 <a class="jxr_linenumber" name="244" href="#244">244</a>         <em class="jxr_comment">// ...and that if it has been already invalidated, it remains</em>
 <a class="jxr_linenumber" name="245" href="#245">245</a>         <em class="jxr_comment">// invalidated when someone tries to commit it</em>
 <a class="jxr_linenumber" name="246" href="#246">246</a>         writer.addCommittedTransaction(TX2_ST, TX2_CT);
@@ -259,12 +259,12 @@
 <a class="jxr_linenumber" name="249" href="#249">249</a>         assertTrue(commitTimestamp.isPresent());
 <a class="jxr_linenumber" name="250" href="#250">250</a>         assertFalse(commitTimestamp.get().isValid());
 <a class="jxr_linenumber" name="251" href="#251">251</a>         ct = commitTimestamp.get().getValue();
-<a class="jxr_linenumber" name="252" href="#252">252</a>         assertEquals(<span class="jxr_string">"Commit timestamp should be "</span> + CommitTable.INVALID_TRANSACTION_MARKER,
-<a class="jxr_linenumber" name="253" href="#253">253</a>                      CommitTable.INVALID_TRANSACTION_MARKER, ct);
+<a class="jxr_linenumber" name="252" href="#252">252</a>         assertEquals(ct, CommitTable.INVALID_TRANSACTION_MARKER,
+<a class="jxr_linenumber" name="253" href="#253">253</a>                      <span class="jxr_string">"Commit timestamp should be "</span> + CommitTable.INVALID_TRANSACTION_MARKER);
 <a class="jxr_linenumber" name="254" href="#254">254</a> 
 <a class="jxr_linenumber" name="255" href="#255">255</a>         <em class="jxr_comment">// Test that at the end of the test, the commit table contains 2</em>
 <a class="jxr_linenumber" name="256" href="#256">256</a>         <em class="jxr_comment">// elements, which correspond to the two rows added in the test</em>
-<a class="jxr_linenumber" name="257" href="#257">257</a>         assertEquals(<span class="jxr_string">"Rows should be 2!"</span>, 2, rowCount(TABLE_NAME, commitTableFamily));
+<a class="jxr_linenumber" name="257" href="#257">257</a>         assertEquals(rowCount(TABLE_NAME, commitTableFamily), 2, <span class="jxr_string">"Rows should be 2!"</span>);
 <a class="jxr_linenumber" name="258" href="#258">258</a> 
 <a class="jxr_linenumber" name="259" href="#259">259</a>     }
 <a class="jxr_linenumber" name="260" href="#260">260</a> 
@@ -284,7 +284,7 @@
 <a class="jxr_linenumber" name="274" href="#274">274</a> 
 <a class="jxr_linenumber" name="275" href="#275">275</a>         <em class="jxr_comment">// Completing first transaction should be fine</em>
 <a class="jxr_linenumber" name="276" href="#276">276</a>         client.completeTransaction(0).get();
-<a class="jxr_linenumber" name="277" href="#277">277</a>         assertEquals(<span class="jxr_string">"Rows should be 999!"</span>, 999, rowCount(TABLE_NAME, commitTableFamily));
+<a class="jxr_linenumber" name="277" href="#277">277</a>         assertEquals(rowCount(TABLE_NAME, commitTableFamily), 999, <span class="jxr_string">"Rows should be 999!"</span>);
 <a class="jxr_linenumber" name="278" href="#278">278</a> 
 <a class="jxr_linenumber" name="279" href="#279">279</a>         <em class="jxr_comment">// When closing, removing a transaction should throw an EE with an IOException</em>
 <a class="jxr_linenumber" name="280" href="#280">280</a>         client.close();
@@ -294,8 +294,8 @@
 <a class="jxr_linenumber" name="284" href="#284">284</a>         } <strong class="jxr_keyword">catch</strong> (ExecutionException e) {
 <a class="jxr_linenumber" name="285" href="#285">285</a>             <em class="jxr_comment">// Expected</em>
 <a class="jxr_linenumber" name="286" href="#286">286</a>         }
-<a class="jxr_linenumber" name="287" href="#287">287</a>         assertEquals(<span class="jxr_string">"Delete queue size should be 0!"</span>, 0, client.deleteQueue.size());
-<a class="jxr_linenumber" name="288" href="#288">288</a>         assertEquals(<span class="jxr_string">"Rows should be 999!"</span>, 999, rowCount(TABLE_NAME, commitTableFamily));
+<a class="jxr_linenumber" name="287" href="#287">287</a>         assertEquals(client.deleteQueue.size(), 0, <span class="jxr_string">"Delete queue size should be 0!"</span>);
+<a class="jxr_linenumber" name="288" href="#288">288</a>         assertEquals(rowCount(TABLE_NAME, commitTableFamily), 999, <span class="jxr_string">"Rows should be 999!"</span>);
 <a class="jxr_linenumber" name="289" href="#289">289</a> 
 <a class="jxr_linenumber" name="290" href="#290">290</a>     }
 <a class="jxr_linenumber" name="291" href="#291">291</a> 
