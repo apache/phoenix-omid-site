@@ -53,7 +53,7 @@
 <a class="jxr_linenumber" name="43" href="#43">43</a>      <strong class="jxr_keyword">final</strong> byte[] data = Bytes.toBytes(<span class="jxr_string">"data"</span>);
 <a class="jxr_linenumber" name="44" href="#44">44</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> byte[] uncommitted = Bytes.toBytes(<span class="jxr_string">"uncommitted"</span>);
 <a class="jxr_linenumber" name="45" href="#45">45</a>  
-<a class="jxr_linenumber" name="46" href="#46">46</a>      @Test(timeOut = 10_000)
+<a class="jxr_linenumber" name="46" href="#46">46</a>      @Test
 <a class="jxr_linenumber" name="47" href="#47">47</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testReadInterleaved(ITestContext context) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="48" href="#48">48</a>          TransactionManager tm = newTransactionManager(context);
 <a class="jxr_linenumber" name="49" href="#49">49</a>          TTable table = <strong class="jxr_keyword">new</strong> TTable(hbaseConf, TEST_TABLE);
@@ -72,7 +72,7 @@
 <a class="jxr_linenumber" name="62" href="#62">62</a>          assertFalse(result.containsColumn(family, col), <span class="jxr_string">"Should be unable to read column"</span>);
 <a class="jxr_linenumber" name="63" href="#63">63</a>      }
 <a class="jxr_linenumber" name="64" href="#64">64</a>  
-<a class="jxr_linenumber" name="65" href="#65">65</a>      @Test(timeOut = 10_000)
+<a class="jxr_linenumber" name="65" href="#65">65</a>      @Test
 <a class="jxr_linenumber" name="66" href="#66">66</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testReadWithSeveralUncommitted(ITestContext context) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="67" href="#67">67</a>          TransactionManager tm = newTransactionManager(context);
 <a class="jxr_linenumber" name="68" href="#68">68</a>          TTable table = <strong class="jxr_keyword">new</strong> TTable(hbaseConf, TEST_TABLE);

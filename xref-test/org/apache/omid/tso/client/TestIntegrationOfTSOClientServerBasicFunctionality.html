@@ -76,7 +76,7 @@
 <a class="jxr_linenumber" name="66" href="#66">66</a>          tsoServerPortForTest = TestUtils.getFreeLocalPort();
 <a class="jxr_linenumber" name="67" href="#67">67</a>  
 <a class="jxr_linenumber" name="68" href="#68">68</a>          TSOServerConfig tsoConfig = <strong class="jxr_keyword">new</strong> TSOServerConfig();
-<a class="jxr_linenumber" name="69" href="#69">69</a>          tsoConfig.setConflictMapSize(1000);
+<a class="jxr_linenumber" name="69" href="#69">69</a>          tsoConfig.setMaxItems(1000);
 <a class="jxr_linenumber" name="70" href="#70">70</a>          tsoConfig.setPort(tsoServerPortForTest);
 <a class="jxr_linenumber" name="71" href="#71">71</a>          Module tsoServerMockModule = <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/omid/tso/TSOMockModule.html">TSOMockModule</a>(tsoConfig);
 <a class="jxr_linenumber" name="72" href="#72">72</a>          Injector injector = Guice.createInjector(tsoServerMockModule);
