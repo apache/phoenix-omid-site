@@ -230,7 +230,7 @@
 <h3><a name="a1._Download_and_Install_the_Required_HBase_Version"></a>1. Download and Install the Required HBase Version</h3>
 <p>You can find HBase distributions in <a class="externalLink" href="http://www.apache.org/dyn/closer.cgi/hbase/">this page</a>. Then start HBase in <a class="externalLink" href="https://hbase.apache.org/book.html#quickstart">standalone mode</a>.</p></div>
 <div class="section">
-<h3><a name="a2._Clone_the_Omid_repository_and_Build_the_TSO_Package:"></a>2. Clone the <a class="externalLink" href="https://github.com/francisco-perez-sorrosal/omid">Omid repository</a> and Build the TSO Package:</h3>
+<h3><a name="a2._Clone_the_Omid_repository_and_Build_the_TSO_Package:"></a>2. Clone the <a class="externalLink" href="https://github.com/apache/incubator-omid">Omid repository</a> and Build the TSO Package:</h3>
 
 <div class="source">
 <div class="source"><pre class="prettyprint">$ git clone git@github.com:yahoo/omid.git
@@ -239,8 +239,8 @@ $ mvn clean install
 </pre></div></div>
 <p>This will generate a binary package containing all dependencies for the TSO in tso-server/target/tso-server-&lt;VERSION&gt;-bin.tar.gz. </p>
 <p><b>Be aware</b> Unit tests use HBase mini cluster, it typically fails to start if you are on VPN, thus unit test fail. Unit tests coverage is also quite extensive and take a while to run on each build (~15min at the moment of writing). So, consider using <tt>mvn clean install -DskipTests</tt> to speed temporal builds. Note that <tt>-Dmaven.test.skip=true</tt> <a class="externalLink" href="http://ericlefevre.net/wordpress/2008/02/21/skipping-tests-with-maven/">is NOT an equivalent</a>.</p>
-<p>As an alternative to clone the project, you can download the required version for the TSO tar.gz package from the <a class="externalLink" href="https://bintray.com/yahoo/maven/omid/view">release repository</a>.</p>
-<p>You can also see the <a class="externalLink" href="https://github.com/yahoo/omid/tags">build history here</a>.</p></div>
+<p>As an alternative to clone the project, you can download the required version for the TSO tar.gz package from the <a class="externalLink" href="https://dist.apache.org/repos/dist/release/incubator/omid/">release repository</a>.</p>
+<p>You can also see the <a class="externalLink" href="https://github.com/apache/incubator-omid/tags">build history here</a>.</p></div>
 <div class="section">
 <h3><a name="a3._Extract_the_TSO_Package"></a>3. Extract the TSO Package</h3>
 
