@@ -32,7 +32,7 @@
 <a class="jxr_linenumber" name="22" href="#22">22</a>  
 <a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/apache/omid/transaction/TestHBaseOmidClientConfiguration.html">TestHBaseOmidClientConfiguration</a> {
 <a class="jxr_linenumber" name="24" href="#24">24</a>  
-<a class="jxr_linenumber" name="25" href="#25">25</a>      @Test
+<a class="jxr_linenumber" name="25" href="#25">25</a>      @Test(timeOut = 10_000)
 <a class="jxr_linenumber" name="26" href="#26">26</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testYamlReading() {
 <a class="jxr_linenumber" name="27" href="#27">27</a>          HBaseOmidClientConfiguration configuration = <strong class="jxr_keyword">new</strong> HBaseOmidClientConfiguration();
 <a class="jxr_linenumber" name="28" href="#28">28</a>          Assert.assertNotNull(configuration.getCommitTableName());
@@ -41,7 +41,7 @@
 <a class="jxr_linenumber" name="31" href="#31">31</a>          Assert.assertNotNull(configuration.getOmidClientConfiguration());
 <a class="jxr_linenumber" name="32" href="#32">32</a>      }
 <a class="jxr_linenumber" name="33" href="#33">33</a>  
-<a class="jxr_linenumber" name="34" href="#34">34</a>      @Test
+<a class="jxr_linenumber" name="34" href="#34">34</a>      @Test(timeOut = 10_000)
 <a class="jxr_linenumber" name="35" href="#35">35</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testYamlReadingFromFile() {
 <a class="jxr_linenumber" name="36" href="#36">36</a>          HBaseOmidClientConfiguration configuration = <strong class="jxr_keyword">new</strong> HBaseOmidClientConfiguration(<span class="jxr_string">"/test-hbase-omid-client-config.yml"</span>);
 <a class="jxr_linenumber" name="37" href="#37">37</a>          Assert.assertNotNull(configuration.getCommitTableName());

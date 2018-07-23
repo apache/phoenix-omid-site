@@ -95,7 +95,7 @@
 <a class="jxr_linenumber" name="85" href="#85">85</a>      <em class="jxr_comment">// Reader and Writer</em>
 <a class="jxr_linenumber" name="86" href="#86">86</a>      <em class="jxr_comment">// ----------------------------------------------------------------------------------------------------------------</em>
 <a class="jxr_linenumber" name="87" href="#87">87</a>  
-<a class="jxr_linenumber" name="88" href="#88">88</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../org/apache/omid/committable/hbase/HBaseCommitTable.html">HBaseWriter</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../../org/apache/omid/committable/NullCommitTable.html">Writer</a> {
+<a class="jxr_linenumber" name="88" href="#88">88</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../org/apache/omid/committable/hbase/HBaseCommitTable.html">HBaseWriter</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../../org/apache/omid/committable/InMemoryCommitTable.html">Writer</a> {
 <a class="jxr_linenumber" name="89" href="#89">89</a>  
 <a class="jxr_linenumber" name="90" href="#90">90</a>          <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> INITIAL_LWM_VALUE = -1L;
 <a class="jxr_linenumber" name="91" href="#91">91</a>          <strong class="jxr_keyword">final</strong> HTable table;
@@ -395,12 +395,12 @@
 <a class="jxr_linenumber" name="385" href="#385">385</a>     <em class="jxr_comment">// ----------------------------------------------------------------------------------------------------------------</em>
 <a class="jxr_linenumber" name="386" href="#386">386</a> 
 <a class="jxr_linenumber" name="387" href="#387">387</a>     @Override
-<a class="jxr_linenumber" name="388" href="#388">388</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/apache/omid/committable/NullCommitTable.html">Writer</a> getWriter() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="388" href="#388">388</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/apache/omid/committable/InMemoryCommitTable.html">Writer</a> getWriter() <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="389" href="#389">389</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/omid/committable/hbase/HBaseCommitTable.html">HBaseWriter</a>();
 <a class="jxr_linenumber" name="390" href="#390">390</a>     }
 <a class="jxr_linenumber" name="391" href="#391">391</a> 
 <a class="jxr_linenumber" name="392" href="#392">392</a>     @Override
-<a class="jxr_linenumber" name="393" href="#393">393</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/apache/omid/committable/NullCommitTable.html">Client</a> getClient() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="393" href="#393">393</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../../org/apache/omid/committable/InMemoryCommitTable.html">Client</a> getClient() <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="394" href="#394">394</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../../org/apache/omid/committable/hbase/HBaseCommitTable.html">HBaseClient</a>();
 <a class="jxr_linenumber" name="395" href="#395">395</a>     }
 <a class="jxr_linenumber" name="396" href="#396">396</a> 

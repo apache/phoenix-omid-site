@@ -64,7 +64,7 @@
 <a class="jxr_linenumber" name="54" href="#54">54</a>          tsoServer.cleanResponses();
 <a class="jxr_linenumber" name="55" href="#55">55</a>      }
 <a class="jxr_linenumber" name="56" href="#56">56</a>  
-<a class="jxr_linenumber" name="57" href="#57">57</a>      @Test
+<a class="jxr_linenumber" name="57" href="#57">57</a>      @Test(timeOut = 10_000)
 <a class="jxr_linenumber" name="58" href="#58">58</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testTimestampRequestReceivingASuccessfulResponse() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="59" href="#59">59</a>          <em class="jxr_comment">// test request timestamp response returns a timestamp</em>
 <a class="jxr_linenumber" name="60" href="#60">60</a>  
@@ -75,7 +75,7 @@
 <a class="jxr_linenumber" name="65" href="#65">65</a>          assertEquals(startTS, START_TS);
 <a class="jxr_linenumber" name="66" href="#66">66</a>      }
 <a class="jxr_linenumber" name="67" href="#67">67</a>  
-<a class="jxr_linenumber" name="68" href="#68">68</a>      @Test
+<a class="jxr_linenumber" name="68" href="#68">68</a>      @Test(timeOut = 10_000)
 <a class="jxr_linenumber" name="69" href="#69">69</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCommitRequestReceivingAnAbortResponse() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="70" href="#70">70</a>          <em class="jxr_comment">// test commit request which is aborted on the server side</em>
 <a class="jxr_linenumber" name="71" href="#71">71</a>          <em class="jxr_comment">// (e.g. due to conflicts with other transaction) throws an</em>
@@ -91,7 +91,7 @@
 <a class="jxr_linenumber" name="81" href="#81">81</a>          }
 <a class="jxr_linenumber" name="82" href="#82">82</a>      }
 <a class="jxr_linenumber" name="83" href="#83">83</a>  
-<a class="jxr_linenumber" name="84" href="#84">84</a>      @Test
+<a class="jxr_linenumber" name="84" href="#84">84</a>      @Test(timeOut = 10_000)
 <a class="jxr_linenumber" name="85" href="#85">85</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCommitRequestReceivingASuccessfulResponse() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="86" href="#86">86</a>          <em class="jxr_comment">// test commit request which is successfully committed on the server</em>
 <a class="jxr_linenumber" name="87" href="#87">87</a>          <em class="jxr_comment">// side returns a commit timestamp</em>

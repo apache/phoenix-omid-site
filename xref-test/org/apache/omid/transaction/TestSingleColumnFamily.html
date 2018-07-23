@@ -44,7 +44,7 @@
 <a class="jxr_linenumber" name="34" href="#34">34</a>  
 <a class="jxr_linenumber" name="35" href="#35">35</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger LOG = LoggerFactory.getLogger(TestSingleColumnFamily.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="36" href="#36">36</a>  
-<a class="jxr_linenumber" name="37" href="#37">37</a>      @Test
+<a class="jxr_linenumber" name="37" href="#37">37</a>      @Test(timeOut = 10_000)
 <a class="jxr_linenumber" name="38" href="#38">38</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testSingleColumnFamily(ITestContext context) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="39" href="#39">39</a>          TransactionManager tm = newTransactionManager(context);
 <a class="jxr_linenumber" name="40" href="#40">40</a>          TTable table1 = <strong class="jxr_keyword">new</strong> TTable(hbaseConf, TEST_TABLE);

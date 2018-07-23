@@ -47,7 +47,7 @@
 <a class="jxr_linenumber" name="37" href="#37">37</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger LOG = LoggerFactory.getLogger(MonitoringContext.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="38" href="#38">38</a>  
 <a class="jxr_linenumber" name="39" href="#39">39</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">volatile</strong> <strong class="jxr_keyword">boolean</strong> flag;
-<a class="jxr_linenumber" name="40" href="#40">40</a>      <strong class="jxr_keyword">private</strong> Map&lt;String, Long&gt; elapsedTimeMsMap = <strong class="jxr_keyword">new</strong> HashMap&lt;&gt;();
+<a class="jxr_linenumber" name="40" href="#40">40</a>      <strong class="jxr_keyword">private</strong> Map&lt;String, Long&gt; elapsedTimeMsMap = <strong class="jxr_keyword">new</strong> ConcurrentHashMap&lt;&gt;();
 <a class="jxr_linenumber" name="41" href="#41">41</a>      <strong class="jxr_keyword">private</strong> Map&lt;String, Stopwatch&gt; timers = <strong class="jxr_keyword">new</strong> ConcurrentHashMap&lt;&gt;();
 <a class="jxr_linenumber" name="42" href="#42">42</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../org/apache/omid/metrics/MetricsRegistry.html">MetricsRegistry</a> metrics;
 <a class="jxr_linenumber" name="43" href="#43">43</a>  

@@ -43,15 +43,15 @@
 <a class="jxr_linenumber" name="33" href="#33">33</a>  
 <a class="jxr_linenumber" name="34" href="#34">34</a>      @Override
 <a class="jxr_linenumber" name="35" href="#35">35</a>      <strong class="jxr_keyword">public</strong> CommitTable.Writer getWriter() {
-<a class="jxr_linenumber" name="36" href="#36">36</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/committable/NullCommitTable.html">Writer</a>();
+<a class="jxr_linenumber" name="36" href="#36">36</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/committable/InMemoryCommitTable.html">Writer</a>();
 <a class="jxr_linenumber" name="37" href="#37">37</a>      }
 <a class="jxr_linenumber" name="38" href="#38">38</a>  
 <a class="jxr_linenumber" name="39" href="#39">39</a>      @Override
 <a class="jxr_linenumber" name="40" href="#40">40</a>      <strong class="jxr_keyword">public</strong> CommitTable.Client getClient() {
-<a class="jxr_linenumber" name="41" href="#41">41</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/committable/NullCommitTable.html">Client</a>();
+<a class="jxr_linenumber" name="41" href="#41">41</a>          <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/committable/InMemoryCommitTable.html">Client</a>();
 <a class="jxr_linenumber" name="42" href="#42">42</a>      }
 <a class="jxr_linenumber" name="43" href="#43">43</a>  
-<a class="jxr_linenumber" name="44" href="#44">44</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/apache/omid/committable/NullCommitTable.html">Writer</a> <strong class="jxr_keyword">implements</strong> CommitTable.Writer {
+<a class="jxr_linenumber" name="44" href="#44">44</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/apache/omid/committable/InMemoryCommitTable.html">Writer</a> <strong class="jxr_keyword">implements</strong> CommitTable.Writer {
 <a class="jxr_linenumber" name="45" href="#45">45</a>          @Override
 <a class="jxr_linenumber" name="46" href="#46">46</a>          <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> addCommittedTransaction(<strong class="jxr_keyword">long</strong> startTimestamp, <strong class="jxr_keyword">long</strong> commitTimestamp) {
 <a class="jxr_linenumber" name="47" href="#47">47</a>              <em class="jxr_comment">// In this implementation, we use only one location that represents</em>
@@ -80,7 +80,7 @@
 <a class="jxr_linenumber" name="70" href="#70">70</a>          }
 <a class="jxr_linenumber" name="71" href="#71">71</a>      }
 <a class="jxr_linenumber" name="72" href="#72">72</a>  
-<a class="jxr_linenumber" name="73" href="#73">73</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/apache/omid/committable/NullCommitTable.html">Client</a> <strong class="jxr_keyword">implements</strong> CommitTable.Client {
+<a class="jxr_linenumber" name="73" href="#73">73</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/apache/omid/committable/InMemoryCommitTable.html">Client</a> <strong class="jxr_keyword">implements</strong> CommitTable.Client {
 <a class="jxr_linenumber" name="74" href="#74">74</a>          @Override
 <a class="jxr_linenumber" name="75" href="#75">75</a>          <strong class="jxr_keyword">public</strong> ListenableFuture&lt;Optional&lt;CommitTimestamp&gt;&gt; getCommitTimestamp(<strong class="jxr_keyword">long</strong> startTimestamp) {
 <a class="jxr_linenumber" name="76" href="#76">76</a>              SettableFuture&lt;Optional&lt;CommitTimestamp&gt;&gt; f = SettableFuture.create();

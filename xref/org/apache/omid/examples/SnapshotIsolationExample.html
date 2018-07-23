@@ -27,161 +27,203 @@
 <a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">package</strong> org.apache.omid.examples;
 <a class="jxr_linenumber" name="19" href="#19">19</a>  
-<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.transaction.HBaseTransactionManager;
-<a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.transaction.RollbackException;
-<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.transaction.TTable;
-<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.transaction.Transaction;
-<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.transaction.TransactionManager;
-<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.lang.StringUtils;
-<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Get;
-<a class="jxr_linenumber" name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Put;
-<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Result;
-<a class="jxr_linenumber" name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.util.Bytes;
-<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
-<a class="jxr_linenumber" name="31" href="#31">31</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
-<a class="jxr_linenumber" name="32" href="#32">32</a>  
-<a class="jxr_linenumber" name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> java.util.Arrays;
+<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> com.google.common.base.Preconditions;
+<a class="jxr_linenumber" name="21" href="#21">21</a>  
+<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.lang.StringUtils;
+<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Get;
+<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Put;
+<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Result;
+<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.util.Bytes;
+<a class="jxr_linenumber" name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.transaction.HBaseTransactionManager;
+<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.transaction.RollbackException;
+<a class="jxr_linenumber" name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.transaction.TTable;
+<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.transaction.Transaction;
+<a class="jxr_linenumber" name="31" href="#31">31</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.transaction.TransactionManager;
+<a class="jxr_linenumber" name="32" href="#32">32</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
+<a class="jxr_linenumber" name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
 <a class="jxr_linenumber" name="34" href="#34">34</a>  
-<a class="jxr_linenumber" name="35" href="#35">35</a>  <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="36" href="#36">36</a>  <em class="jxr_javadoccomment"> * ****************************************************************************************************************</em>
-<a class="jxr_linenumber" name="37" href="#37">37</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="38" href="#38">38</a>  <em class="jxr_javadoccomment"> *  Example code which demonstrates the preservation of Snapshot Isolation when writing shared data concurrently</em>
-<a class="jxr_linenumber" name="39" href="#39">39</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="40" href="#40">40</a>  <em class="jxr_javadoccomment"> * ****************************************************************************************************************</em>
-<a class="jxr_linenumber" name="41" href="#41">41</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="42" href="#42">42</a>  <em class="jxr_javadoccomment"> * Please @see{BasicExample} first</em>
-<a class="jxr_linenumber" name="43" href="#43">43</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="44" href="#44">44</a>  <em class="jxr_javadoccomment"> * In the code below, two concurrent transactions (Tx1 &amp; Tx2), try to update the same column in HBase. This will result</em>
-<a class="jxr_linenumber" name="45" href="#45">45</a>  <em class="jxr_javadoccomment"> * in the rollback of Tx2 -the last one trying to commit- due to conflicts in the writeset with the previously</em>
-<a class="jxr_linenumber" name="46" href="#46">46</a>  <em class="jxr_javadoccomment"> * committed transaction Tx1. Also shows how Tx2 reads the right values from its own snapshot in HBase data.</em>
-<a class="jxr_linenumber" name="47" href="#47">47</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="48" href="#48">48</a>  <em class="jxr_javadoccomment"> * After building the package with 'mvn clean package' find the resulting examples-&lt;version&gt;-bin.tar.gz file in the</em>
-<a class="jxr_linenumber" name="49" href="#49">49</a>  <em class="jxr_javadoccomment"> * 'examples/target' folder. Copy it to the target host and expand with 'tar -zxvf examples-&lt;version&gt;-bin.tar.gz'.</em>
+<a class="jxr_linenumber" name="35" href="#35">35</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="36" href="#36">36</a>  <strong class="jxr_keyword">import</strong> java.util.Arrays;
+<a class="jxr_linenumber" name="37" href="#37">37</a>  
+<a class="jxr_linenumber" name="38" href="#38">38</a>  <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="39" href="#39">39</a>  <em class="jxr_javadoccomment"> * ****************************************************************************************************************</em>
+<a class="jxr_linenumber" name="40" href="#40">40</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="41" href="#41">41</a>  <em class="jxr_javadoccomment"> * Example code which demonstrates the preservation of Snapshot Isolation when writing shared data concurrently</em>
+<a class="jxr_linenumber" name="42" href="#42">42</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="43" href="#43">43</a>  <em class="jxr_javadoccomment"> * ****************************************************************************************************************</em>
+<a class="jxr_linenumber" name="44" href="#44">44</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="45" href="#45">45</a>  <em class="jxr_javadoccomment"> * Please @see{BasicExample} first</em>
+<a class="jxr_linenumber" name="46" href="#46">46</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="47" href="#47">47</a>  <em class="jxr_javadoccomment"> * In the code below, two concurrent transactions (Tx1 and Tx2), try to update the same column in HBase. This will</em>
+<a class="jxr_linenumber" name="48" href="#48">48</a>  <em class="jxr_javadoccomment"> * result in the rollback of Tx2 -the last one trying to commit- due to conflicts in the writeset with the previously</em>
+<a class="jxr_linenumber" name="49" href="#49">49</a>  <em class="jxr_javadoccomment"> * committed transaction Tx1. Also shows how Tx2 reads the right values from its own snapshot in HBase data.</em>
 <a class="jxr_linenumber" name="50" href="#50">50</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="51" href="#51">51</a>  <em class="jxr_javadoccomment"> * Make sure that 'hbase-site.xml' and 'core-site.xml' are either in classpath (see run.sh) or explicitly referenced via</em>
-<a class="jxr_linenumber" name="52" href="#52">52</a>  <em class="jxr_javadoccomment"> * command line arguments. If a secure HBase deployment is needed, use also command line arguments to specify the</em>
-<a class="jxr_linenumber" name="53" href="#53">53</a>  <em class="jxr_javadoccomment"> * principal (user) and keytab file.</em>
-<a class="jxr_linenumber" name="54" href="#54">54</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="55" href="#55">55</a>  <em class="jxr_javadoccomment"> * The example requires a user table to perform transactional read/write operations. A table is already specified in</em>
-<a class="jxr_linenumber" name="56" href="#56">56</a>  <em class="jxr_javadoccomment"> * the default configuration, and can be created with the following command using the 'hbase shell':</em>
+<a class="jxr_linenumber" name="51" href="#51">51</a>  <em class="jxr_javadoccomment"> * After building the package with 'mvn clean package' find the resulting examples-{version}-bin.tar.gz file in the</em>
+<a class="jxr_linenumber" name="52" href="#52">52</a>  <em class="jxr_javadoccomment"> * 'examples/target' folder. Copy it to the target host and expand with 'tar -zxvf examples-{version}-bin.tar.gz'.</em>
+<a class="jxr_linenumber" name="53" href="#53">53</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="54" href="#54">54</a>  <em class="jxr_javadoccomment"> * Make sure that 'hbase-site.xml' and 'core-site.xml' are either in classpath (see run.sh) or explicitly referenced via</em>
+<a class="jxr_linenumber" name="55" href="#55">55</a>  <em class="jxr_javadoccomment"> * command line arguments. If a secure HBase deployment is needed, use also command line arguments to specify the</em>
+<a class="jxr_linenumber" name="56" href="#56">56</a>  <em class="jxr_javadoccomment"> * principal (user) and keytab file.</em>
 <a class="jxr_linenumber" name="57" href="#57">57</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="58" href="#58">58</a>  <em class="jxr_javadoccomment"> * &lt;pre&gt;</em>
-<a class="jxr_linenumber" name="59" href="#59">59</a>  <em class="jxr_javadoccomment"> * create 'MY_TX_TABLE', {NAME =&gt; 'MY_CF', VERSIONS =&gt; '2147483647', TTL =&gt; '2147483647'}</em>
-<a class="jxr_linenumber" name="60" href="#60">60</a>  <em class="jxr_javadoccomment"> * &lt;/pre&gt;</em>
-<a class="jxr_linenumber" name="61" href="#61">61</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="62" href="#62">62</a>  <em class="jxr_javadoccomment"> * Make sure that the principal/user has RW permissions for the given table using also the 'hbase shell':</em>
-<a class="jxr_linenumber" name="63" href="#63">63</a>  <em class="jxr_javadoccomment"> * &lt;pre&gt;</em>
-<a class="jxr_linenumber" name="64" href="#64">64</a>  <em class="jxr_javadoccomment"> * grant '&lt;principal/user&gt;', 'RW', 'MY_TX_TABLE'</em>
-<a class="jxr_linenumber" name="65" href="#65">65</a>  <em class="jxr_javadoccomment"> * &lt;/pre&gt;</em>
-<a class="jxr_linenumber" name="66" href="#66">66</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="67" href="#67">67</a>  <em class="jxr_javadoccomment"> * Alternatively, a table with a column family already created can be used by specifying the table name and column</em>
-<a class="jxr_linenumber" name="68" href="#68">68</a>  <em class="jxr_javadoccomment"> * family identifiers using the command line arguments (see details also in 'run.sh') If a table namespace is required,</em>
-<a class="jxr_linenumber" name="69" href="#69">69</a>  <em class="jxr_javadoccomment"> * specify it like this: 'namespace:table_name'</em>
-<a class="jxr_linenumber" name="70" href="#70">70</a>  <em class="jxr_javadoccomment"> *</em>
-<a class="jxr_linenumber" name="71" href="#71">71</a>  <em class="jxr_javadoccomment"> * Finally, run the example using the 'run.sh' script without arguments or specifying the necessary configuration</em>
-<a class="jxr_linenumber" name="72" href="#72">72</a>  <em class="jxr_javadoccomment"> * parameters if required.</em>
-<a class="jxr_linenumber" name="73" href="#73">73</a>  <em class="jxr_javadoccomment"> */</em>
-<a class="jxr_linenumber" name="74" href="#74">74</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/apache/omid/examples/SnapshotIsolationExample.html">SnapshotIsolationExample</a> {
-<a class="jxr_linenumber" name="75" href="#75">75</a>  
-<a class="jxr_linenumber" name="76" href="#76">76</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger LOG = LoggerFactory.getLogger(SnapshotIsolationExample.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="77" href="#77">77</a>  
-<a class="jxr_linenumber" name="78" href="#78">78</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> main(String[] args) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="79" href="#79">79</a>  
-<a class="jxr_linenumber" name="80" href="#80">80</a>          LOG.info(<span class="jxr_string">"Parsing the command line arguments"</span>);
-<a class="jxr_linenumber" name="81" href="#81">81</a>          String userTableName = <span class="jxr_string">"MY_TX_TABLE"</span>;
-<a class="jxr_linenumber" name="82" href="#82">82</a>          <strong class="jxr_keyword">if</strong> (args != <strong class="jxr_keyword">null</strong> &amp;&amp; args.length &gt; 0 &amp;&amp; StringUtils.isNotEmpty(args[0])) {
-<a class="jxr_linenumber" name="83" href="#83">83</a>              userTableName = args[0];
-<a class="jxr_linenumber" name="84" href="#84">84</a>          }
-<a class="jxr_linenumber" name="85" href="#85">85</a>          byte[] family = Bytes.toBytes(<span class="jxr_string">"MY_CF"</span>);
-<a class="jxr_linenumber" name="86" href="#86">86</a>          <strong class="jxr_keyword">if</strong> (args != <strong class="jxr_keyword">null</strong> &amp;&amp; args.length &gt; 1 &amp;&amp; StringUtils.isNotEmpty(args[1])) {
-<a class="jxr_linenumber" name="87" href="#87">87</a>              family = Bytes.toBytes(args[1]);
-<a class="jxr_linenumber" name="88" href="#88">88</a>          }
-<a class="jxr_linenumber" name="89" href="#89">89</a>          LOG.info(<span class="jxr_string">"Table '{}', column family '{}'"</span>, userTableName, Bytes.toString(family));
-<a class="jxr_linenumber" name="90" href="#90">90</a>  
-<a class="jxr_linenumber" name="91" href="#91">91</a>          byte[] exampleRow = Bytes.toBytes(<span class="jxr_string">"EXAMPLE_ROW"</span>);
-<a class="jxr_linenumber" name="92" href="#92">92</a>          byte[] qualifier = Bytes.toBytes(<span class="jxr_string">"MY_Q"</span>);
-<a class="jxr_linenumber" name="93" href="#93">93</a>          byte[] initialData = Bytes.toBytes(<span class="jxr_string">"initialVal"</span>);
-<a class="jxr_linenumber" name="94" href="#94">94</a>          byte[] dataValue1 = Bytes.toBytes(<span class="jxr_string">"val1"</span>);
-<a class="jxr_linenumber" name="95" href="#95">95</a>          byte[] dataValue2 = Bytes.toBytes(<span class="jxr_string">"val2"</span>);
-<a class="jxr_linenumber" name="96" href="#96">96</a>  
-<a class="jxr_linenumber" name="97" href="#97">97</a>          LOG.info(<span class="jxr_string">"--------------------------------------------------------------------------------------------------"</span>);
-<a class="jxr_linenumber" name="98" href="#98">98</a>          LOG.info(<span class="jxr_string">"NOTE: All Transactions in the Example access column {}:{}/{}/{} [TABLE:ROW/CF/Q]"</span>,
-<a class="jxr_linenumber" name="99" href="#99">99</a>                   userTableName, Bytes.toString(exampleRow), Bytes.toString(family), Bytes.toString(qualifier));
-<a class="jxr_linenumber" name="100" href="#100">100</a>         LOG.info(<span class="jxr_string">"--------------------------------------------------------------------------------------------------"</span>);
-<a class="jxr_linenumber" name="101" href="#101">101</a> 
-<a class="jxr_linenumber" name="102" href="#102">102</a>         LOG.info(<span class="jxr_string">"Creating access to Omid Transaction Manager &amp; Transactional Table '{}'"</span>, userTableName);
-<a class="jxr_linenumber" name="103" href="#103">103</a>         <strong class="jxr_keyword">try</strong> (TransactionManager tm = HBaseTransactionManager.newInstance();
-<a class="jxr_linenumber" name="104" href="#104">104</a>              <a href="../../../../org/apache/omid/transaction/TTable.html">TTable</a> txTable = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/TTable.html">TTable</a>(userTableName))
-<a class="jxr_linenumber" name="105" href="#105">105</a>         {
-<a class="jxr_linenumber" name="106" href="#106">106</a> 
-<a class="jxr_linenumber" name="107" href="#107">107</a>             <em class="jxr_comment">// A transaction Tx0 sets an initial value to a particular column in an specific row</em>
-<a class="jxr_linenumber" name="108" href="#108">108</a>             <a href="../../../../org/apache/omid/transaction/Transaction.html">Transaction</a> tx0 = tm.begin();
-<a class="jxr_linenumber" name="109" href="#109">109</a>             Put initialPut = <strong class="jxr_keyword">new</strong> Put(exampleRow);
-<a class="jxr_linenumber" name="110" href="#110">110</a>             initialPut.add(family, qualifier, initialData);
-<a class="jxr_linenumber" name="111" href="#111">111</a>             txTable.put(tx0, initialPut);
-<a class="jxr_linenumber" name="112" href="#112">112</a>             tm.commit(tx0);
-<a class="jxr_linenumber" name="113" href="#113">113</a>             LOG.info(<span class="jxr_string">"Initial Transaction {} COMMITTED. Base value written in {}:{}/{}/{} = {}"</span>,
-<a class="jxr_linenumber" name="114" href="#114">114</a>                      tx0, userTableName, Bytes.toString(exampleRow), Bytes.toString(family),
-<a class="jxr_linenumber" name="115" href="#115">115</a>                      Bytes.toString(qualifier), Bytes.toString(initialData));
-<a class="jxr_linenumber" name="116" href="#116">116</a> 
-<a class="jxr_linenumber" name="117" href="#117">117</a>             <em class="jxr_comment">// Transaction Tx1 starts, creates its own snapshot of the current data in HBase and writes new data</em>
-<a class="jxr_linenumber" name="118" href="#118">118</a>             <a href="../../../../org/apache/omid/transaction/Transaction.html">Transaction</a> tx1 = tm.begin();
-<a class="jxr_linenumber" name="119" href="#119">119</a>             LOG.info(<span class="jxr_string">"Transaction {} STARTED"</span>, tx1);
-<a class="jxr_linenumber" name="120" href="#120">120</a>             Put tx1Put = <strong class="jxr_keyword">new</strong> Put(exampleRow);
-<a class="jxr_linenumber" name="121" href="#121">121</a>             tx1Put.add(family, qualifier, dataValue1);
-<a class="jxr_linenumber" name="122" href="#122">122</a>             txTable.put(tx1, tx1Put);
-<a class="jxr_linenumber" name="123" href="#123">123</a>             LOG.info(<span class="jxr_string">"Transaction {} updates base value in {}:{}/{}/{} = {} in its own Snapshot"</span>,
-<a class="jxr_linenumber" name="124" href="#124">124</a>                      tx1, userTableName, Bytes.toString(exampleRow), Bytes.toString(family),
-<a class="jxr_linenumber" name="125" href="#125">125</a>                      Bytes.toString(qualifier), Bytes.toString(dataValue1));
-<a class="jxr_linenumber" name="126" href="#126">126</a> 
-<a class="jxr_linenumber" name="127" href="#127">127</a>             <em class="jxr_comment">// A concurrent transaction Tx2 starts, creates its own snapshot and reads the column value</em>
-<a class="jxr_linenumber" name="128" href="#128">128</a>             <a href="../../../../org/apache/omid/transaction/Transaction.html">Transaction</a> tx2 = tm.begin();
-<a class="jxr_linenumber" name="129" href="#129">129</a>             LOG.info(<span class="jxr_string">"Concurrent Transaction {} STARTED"</span>, tx2);
-<a class="jxr_linenumber" name="130" href="#130">130</a>             Get tx2Get = <strong class="jxr_keyword">new</strong> Get(exampleRow);
-<a class="jxr_linenumber" name="131" href="#131">131</a>             tx2Get.addColumn(family, qualifier);
-<a class="jxr_linenumber" name="132" href="#132">132</a>             <em class="jxr_comment">// As Tx1 is not yet committed, it should read the value set by Tx0 not the value written by Tx1</em>
-<a class="jxr_linenumber" name="133" href="#133">133</a>             Result tx2GetResult = txTable.get(tx2, tx2Get);
-<a class="jxr_linenumber" name="134" href="#134">134</a>             assert Arrays.equals(tx2GetResult.value(), initialData);
-<a class="jxr_linenumber" name="135" href="#135">135</a>             LOG.info(<span class="jxr_string">"Concurrent Transaction {} should read base value in {}:{}/{}/{} from its Snapshot | Value read = {}"</span>,
-<a class="jxr_linenumber" name="136" href="#136">136</a>                      tx2, userTableName, Bytes.toString(exampleRow), Bytes.toString(family),
-<a class="jxr_linenumber" name="137" href="#137">137</a>                      Bytes.toString(qualifier), Bytes.toString(tx2GetResult.value()));
-<a class="jxr_linenumber" name="138" href="#138">138</a> 
-<a class="jxr_linenumber" name="139" href="#139">139</a>             <em class="jxr_comment">// Transaction Tx1 tries to commit and as there're no conflicting changes, persists the new value in HBase</em>
-<a class="jxr_linenumber" name="140" href="#140">140</a>             tm.commit(tx1);
-<a class="jxr_linenumber" name="141" href="#141">141</a>             LOG.info(<span class="jxr_string">"Transaction {} COMMITTED. New column value {}:{}/{}/{} = {}"</span>,
-<a class="jxr_linenumber" name="142" href="#142">142</a>                      tx1, userTableName, Bytes.toString(exampleRow), Bytes.toString(family),
-<a class="jxr_linenumber" name="143" href="#143">143</a>                      Bytes.toString(qualifier), Bytes.toString(dataValue1));
-<a class="jxr_linenumber" name="144" href="#144">144</a> 
-<a class="jxr_linenumber" name="145" href="#145">145</a>             <em class="jxr_comment">// Tx2 reading again after Tx1 commit must read data from its snapshot...</em>
-<a class="jxr_linenumber" name="146" href="#146">146</a>             tx2Get = <strong class="jxr_keyword">new</strong> Get(exampleRow);
-<a class="jxr_linenumber" name="147" href="#147">147</a>             tx2Get.addColumn(family, qualifier);
-<a class="jxr_linenumber" name="148" href="#148">148</a>             tx2GetResult = txTable.get(tx2, tx2Get);
-<a class="jxr_linenumber" name="149" href="#149">149</a>             <em class="jxr_comment">// ...so it must read the initial value written by Tx0</em>
-<a class="jxr_linenumber" name="150" href="#150">150</a>             LOG.info(<span class="jxr_string">"Concurrent Transaction {} should read again base value in {}:{}/{}/{} from its Snapshot | Value read = {}"</span>,
-<a class="jxr_linenumber" name="151" href="#151">151</a>                      tx2, userTableName, Bytes.toString(exampleRow), Bytes.toString(family),
-<a class="jxr_linenumber" name="152" href="#152">152</a>                      Bytes.toString(qualifier), Bytes.toString(tx2GetResult.value()));
-<a class="jxr_linenumber" name="153" href="#153">153</a> 
-<a class="jxr_linenumber" name="154" href="#154">154</a>             <em class="jxr_comment">// Tx2 tries to write the column written by the committed concurrent transaction Tx1...</em>
-<a class="jxr_linenumber" name="155" href="#155">155</a>             Put tx2Put = <strong class="jxr_keyword">new</strong> Put(exampleRow);
-<a class="jxr_linenumber" name="156" href="#156">156</a>             tx2Put.add(family, qualifier, dataValue2);
-<a class="jxr_linenumber" name="157" href="#157">157</a>             txTable.put(tx2, tx2Put);
-<a class="jxr_linenumber" name="158" href="#158">158</a>             LOG.info(<span class="jxr_string">"Concurrent Transaction {} updates {}:{}/{}/{} = {} in its own Snapshot (Will conflict with {} at commit time)"</span>,
-<a class="jxr_linenumber" name="159" href="#159">159</a>                      tx2, userTableName, Bytes.toString(exampleRow), Bytes.toString(family),
-<a class="jxr_linenumber" name="160" href="#160">160</a>                      Bytes.toString(qualifier), Bytes.toString(dataValue1), tx1);
-<a class="jxr_linenumber" name="161" href="#161">161</a> 
-<a class="jxr_linenumber" name="162" href="#162">162</a>             <em class="jxr_comment">// ... and when committing, Tx2 has to abort due to concurrent conflicts with committed transaction Tx1</em>
-<a class="jxr_linenumber" name="163" href="#163">163</a>             <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="164" href="#164">164</a>                 LOG.info(<span class="jxr_string">"Concurrent Transaction {} TRYING TO COMMIT"</span>, tx2);
-<a class="jxr_linenumber" name="165" href="#165">165</a>                 tm.commit(tx2);
-<a class="jxr_linenumber" name="166" href="#166">166</a>             } <strong class="jxr_keyword">catch</strong> (RollbackException e) {
-<a class="jxr_linenumber" name="167" href="#167">167</a>                 LOG.error(<span class="jxr_string">"Concurrent Transaction {} ROLLED-BACK!!! : {}"</span>, tx2, e.getMessage());
-<a class="jxr_linenumber" name="168" href="#168">168</a>             }
-<a class="jxr_linenumber" name="169" href="#169">169</a> 
-<a class="jxr_linenumber" name="170" href="#170">170</a>         }
-<a class="jxr_linenumber" name="171" href="#171">171</a> 
-<a class="jxr_linenumber" name="172" href="#172">172</a>     }
-<a class="jxr_linenumber" name="173" href="#173">173</a> 
-<a class="jxr_linenumber" name="174" href="#174">174</a> }
+<a class="jxr_linenumber" name="58" href="#58">58</a>  <em class="jxr_javadoccomment"> * The example requires a user table to perform transactional read/write operations. A table is already specified in the</em>
+<a class="jxr_linenumber" name="59" href="#59">59</a>  <em class="jxr_javadoccomment"> * default configuration, and can be created with the following command using the 'hbase shell':</em>
+<a class="jxr_linenumber" name="60" href="#60">60</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="61" href="#61">61</a>  <em class="jxr_javadoccomment"> * &lt;pre&gt;</em>
+<a class="jxr_linenumber" name="62" href="#62">62</a>  <em class="jxr_javadoccomment"> * create 'MY_TX_TABLE', {NAME =&amp;gt; 'MY_CF', VERSIONS =&amp;gt; '2147483647', TTL =&amp;gt; '2147483647'}</em>
+<a class="jxr_linenumber" name="63" href="#63">63</a>  <em class="jxr_javadoccomment"> * &lt;/pre&gt;</em>
+<a class="jxr_linenumber" name="64" href="#64">64</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="65" href="#65">65</a>  <em class="jxr_javadoccomment"> * Make sure that the principal/user has RW permissions for the given table using also the 'hbase shell':</em>
+<a class="jxr_linenumber" name="66" href="#66">66</a>  <em class="jxr_javadoccomment"> * &lt;pre&gt;</em>
+<a class="jxr_linenumber" name="67" href="#67">67</a>  <em class="jxr_javadoccomment"> * grant '{principal/user}', 'RW', 'MY_TX_TABLE'</em>
+<a class="jxr_linenumber" name="68" href="#68">68</a>  <em class="jxr_javadoccomment"> * &lt;/pre&gt;</em>
+<a class="jxr_linenumber" name="69" href="#69">69</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="70" href="#70">70</a>  <em class="jxr_javadoccomment"> * Alternatively, a table with a column family already created can be used by specifying the table name and column</em>
+<a class="jxr_linenumber" name="71" href="#71">71</a>  <em class="jxr_javadoccomment"> * family identifiers using the command line arguments (see details also in 'run.sh') If a table namespace is required,</em>
+<a class="jxr_linenumber" name="72" href="#72">72</a>  <em class="jxr_javadoccomment"> * specify it like this: 'namespace:table_name'</em>
+<a class="jxr_linenumber" name="73" href="#73">73</a>  <em class="jxr_javadoccomment"> *</em>
+<a class="jxr_linenumber" name="74" href="#74">74</a>  <em class="jxr_javadoccomment"> * Finally, run the example using the 'run.sh' script without arguments or specifying the necessary configuration</em>
+<a class="jxr_linenumber" name="75" href="#75">75</a>  <em class="jxr_javadoccomment"> * parameters if required.</em>
+<a class="jxr_linenumber" name="76" href="#76">76</a>  <em class="jxr_javadoccomment"> */</em>
+<a class="jxr_linenumber" name="77" href="#77">77</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/apache/omid/examples/SnapshotIsolationExample.html">SnapshotIsolationExample</a> {
+<a class="jxr_linenumber" name="78" href="#78">78</a>  
+<a class="jxr_linenumber" name="79" href="#79">79</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger LOG = LoggerFactory.getLogger(SnapshotIsolationExample.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="80" href="#80">80</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> byte[] qualifier;
+<a class="jxr_linenumber" name="81" href="#81">81</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> byte[] initialData;
+<a class="jxr_linenumber" name="82" href="#82">82</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> byte[] dataValue1;
+<a class="jxr_linenumber" name="83" href="#83">83</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> byte[] dataValue2;
+<a class="jxr_linenumber" name="84" href="#84">84</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../org/apache/omid/examples/RowIdGenerator.html">RowIdGenerator</a> rowIdGenerator = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/examples/SnapshotIsolationExample.html">StaticRowIdGenerator</a>();
+<a class="jxr_linenumber" name="85" href="#85">85</a>      <strong class="jxr_keyword">private</strong> String userTableName;
+<a class="jxr_linenumber" name="86" href="#86">86</a>      <strong class="jxr_keyword">private</strong> byte[] family;
+<a class="jxr_linenumber" name="87" href="#87">87</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../org/apache/omid/transaction/TransactionManager.html">TransactionManager</a> tm;
+<a class="jxr_linenumber" name="88" href="#88">88</a>      <strong class="jxr_keyword">private</strong> <a href="../../../../org/apache/omid/transaction/TTable.html">TTable</a> txTable;
+<a class="jxr_linenumber" name="89" href="#89">89</a>  
+<a class="jxr_linenumber" name="90" href="#90">90</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> main(String[] args) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="91" href="#91">91</a>          <a href="../../../../org/apache/omid/examples/SnapshotIsolationExample.html">SnapshotIsolationExample</a> example = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/examples/SnapshotIsolationExample.html">SnapshotIsolationExample</a>(args);
+<a class="jxr_linenumber" name="92" href="#92">92</a>          example.execute();
+<a class="jxr_linenumber" name="93" href="#93">93</a>          example.close();
+<a class="jxr_linenumber" name="94" href="#94">94</a>      }
+<a class="jxr_linenumber" name="95" href="#95">95</a>  
+<a class="jxr_linenumber" name="96" href="#96">96</a>      <a href="../../../../org/apache/omid/examples/SnapshotIsolationExample.html">SnapshotIsolationExample</a>(String[] args) <strong class="jxr_keyword">throws</strong> IOException, InterruptedException {
+<a class="jxr_linenumber" name="97" href="#97">97</a>          LOG.info(<span class="jxr_string">"Parsing the command line arguments"</span>);
+<a class="jxr_linenumber" name="98" href="#98">98</a>          userTableName = <span class="jxr_string">"MY_TX_TABLE"</span>;
+<a class="jxr_linenumber" name="99" href="#99">99</a>          <strong class="jxr_keyword">if</strong> (args != <strong class="jxr_keyword">null</strong> &amp;&amp; args.length &gt; 0 &amp;&amp; StringUtils.isNotEmpty(args[0])) {
+<a class="jxr_linenumber" name="100" href="#100">100</a>             userTableName = args[0];
+<a class="jxr_linenumber" name="101" href="#101">101</a>         }
+<a class="jxr_linenumber" name="102" href="#102">102</a>         family = Bytes.toBytes(<span class="jxr_string">"MY_CF"</span>);
+<a class="jxr_linenumber" name="103" href="#103">103</a>         <strong class="jxr_keyword">if</strong> (args != <strong class="jxr_keyword">null</strong> &amp;&amp; args.length &gt; 1 &amp;&amp; StringUtils.isNotEmpty(args[1])) {
+<a class="jxr_linenumber" name="104" href="#104">104</a>             family = Bytes.toBytes(args[1]);
+<a class="jxr_linenumber" name="105" href="#105">105</a>         }
+<a class="jxr_linenumber" name="106" href="#106">106</a>         LOG.info(<span class="jxr_string">"Table '{}', column family '{}'"</span>, userTableName, Bytes.toString(family));
+<a class="jxr_linenumber" name="107" href="#107">107</a> 
+<a class="jxr_linenumber" name="108" href="#108">108</a>         qualifier = Bytes.toBytes(<span class="jxr_string">"MY_Q"</span>);
+<a class="jxr_linenumber" name="109" href="#109">109</a>         initialData = Bytes.toBytes(<span class="jxr_string">"initialVal"</span>);
+<a class="jxr_linenumber" name="110" href="#110">110</a>         dataValue1 = Bytes.toBytes(<span class="jxr_string">"val1"</span>);
+<a class="jxr_linenumber" name="111" href="#111">111</a>         dataValue2 = Bytes.toBytes(<span class="jxr_string">"val2"</span>);
+<a class="jxr_linenumber" name="112" href="#112">112</a> 
+<a class="jxr_linenumber" name="113" href="#113">113</a>         LOG.info(<span class="jxr_string">"--------"</span>);
+<a class="jxr_linenumber" name="114" href="#114">114</a>         LOG.info(<span class="jxr_string">"NOTE: All Transactions in the Example access column {}:{}/{}/{} [TABLE:ROW/CF/Q]"</span>,
+<a class="jxr_linenumber" name="115" href="#115">115</a>                  userTableName, Bytes.toString(rowIdGenerator.getRowId()), Bytes.toString(family),
+<a class="jxr_linenumber" name="116" href="#116">116</a>                  Bytes.toString(qualifier));
+<a class="jxr_linenumber" name="117" href="#117">117</a>         LOG.info(<span class="jxr_string">"--------"</span>);
+<a class="jxr_linenumber" name="118" href="#118">118</a> 
+<a class="jxr_linenumber" name="119" href="#119">119</a>         LOG.info(<span class="jxr_string">"Creating access to Omid Transaction Manager &amp; Transactional Table '{}'"</span>, userTableName);
+<a class="jxr_linenumber" name="120" href="#120">120</a>         tm = HBaseTransactionManager.newInstance();
+<a class="jxr_linenumber" name="121" href="#121">121</a>         txTable = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/TTable.html">TTable</a>(userTableName);
+<a class="jxr_linenumber" name="122" href="#122">122</a>     }
+<a class="jxr_linenumber" name="123" href="#123">123</a> 
+<a class="jxr_linenumber" name="124" href="#124">124</a>     <strong class="jxr_keyword">void</strong> execute() <strong class="jxr_keyword">throws</strong> IOException, RollbackException {
+<a class="jxr_linenumber" name="125" href="#125">125</a> 
+<a class="jxr_linenumber" name="126" href="#126">126</a>         <em class="jxr_comment">// A transaction Tx0 sets an initial value to a particular column in an specific row</em>
+<a class="jxr_linenumber" name="127" href="#127">127</a>         <a href="../../../../org/apache/omid/transaction/Transaction.html">Transaction</a> tx0 = tm.begin();
+<a class="jxr_linenumber" name="128" href="#128">128</a>         byte[] rowId = rowIdGenerator.getRowId();
+<a class="jxr_linenumber" name="129" href="#129">129</a>         Put initialPut = <strong class="jxr_keyword">new</strong> Put(rowId);
+<a class="jxr_linenumber" name="130" href="#130">130</a>         initialPut.add(family, qualifier, initialData);
+<a class="jxr_linenumber" name="131" href="#131">131</a>         txTable.put(tx0, initialPut);
+<a class="jxr_linenumber" name="132" href="#132">132</a>         tm.commit(tx0);
+<a class="jxr_linenumber" name="133" href="#133">133</a>         LOG.info(<span class="jxr_string">"Initial Transaction {} COMMITTED. Base value written in {}:{}/{}/{} = {}"</span>,
+<a class="jxr_linenumber" name="134" href="#134">134</a>                  tx0, userTableName, Bytes.toString(rowId), Bytes.toString(family),
+<a class="jxr_linenumber" name="135" href="#135">135</a>                  Bytes.toString(qualifier), Bytes.toString(initialData));
+<a class="jxr_linenumber" name="136" href="#136">136</a> 
+<a class="jxr_linenumber" name="137" href="#137">137</a>         <em class="jxr_comment">// Transaction Tx1 starts, creates its own snapshot of the current data in HBase and writes new data</em>
+<a class="jxr_linenumber" name="138" href="#138">138</a>         <a href="../../../../org/apache/omid/transaction/Transaction.html">Transaction</a> tx1 = tm.begin();
+<a class="jxr_linenumber" name="139" href="#139">139</a>         LOG.info(<span class="jxr_string">"Transaction {} STARTED"</span>, tx1);
+<a class="jxr_linenumber" name="140" href="#140">140</a>         Put tx1Put = <strong class="jxr_keyword">new</strong> Put(rowId);
+<a class="jxr_linenumber" name="141" href="#141">141</a>         tx1Put.add(family, qualifier, dataValue1);
+<a class="jxr_linenumber" name="142" href="#142">142</a>         txTable.put(tx1, tx1Put);
+<a class="jxr_linenumber" name="143" href="#143">143</a>         LOG.info(<span class="jxr_string">"Transaction {} updates base value in {}:{}/{}/{} = {} in its own Snapshot"</span>,
+<a class="jxr_linenumber" name="144" href="#144">144</a>                  tx1, userTableName, Bytes.toString(rowId), Bytes.toString(family),
+<a class="jxr_linenumber" name="145" href="#145">145</a>                  Bytes.toString(qualifier), Bytes.toString(dataValue1));
+<a class="jxr_linenumber" name="146" href="#146">146</a> 
+<a class="jxr_linenumber" name="147" href="#147">147</a>         <em class="jxr_comment">// A concurrent transaction Tx2 starts, creates its own snapshot and reads the column value</em>
+<a class="jxr_linenumber" name="148" href="#148">148</a>         <a href="../../../../org/apache/omid/transaction/Transaction.html">Transaction</a> tx2 = tm.begin();
+<a class="jxr_linenumber" name="149" href="#149">149</a>         LOG.info(<span class="jxr_string">"Concurrent Transaction {} STARTED"</span>, tx2);
+<a class="jxr_linenumber" name="150" href="#150">150</a>         Get tx2Get = <strong class="jxr_keyword">new</strong> Get(rowId);
+<a class="jxr_linenumber" name="151" href="#151">151</a>         tx2Get.addColumn(family, qualifier);
+<a class="jxr_linenumber" name="152" href="#152">152</a>         Result tx2GetResult = txTable.get(tx2, tx2Get);
+<a class="jxr_linenumber" name="153" href="#153">153</a>         Preconditions.checkState(Arrays.equals(tx2GetResult.value(), initialData),
+<a class="jxr_linenumber" name="154" href="#154">154</a>                                  <span class="jxr_string">"As Tx1 is not yet committed, Tx2 should read the value set by Tx0 not the value written by Tx1"</span>);
+<a class="jxr_linenumber" name="155" href="#155">155</a>         LOG.info(
+<a class="jxr_linenumber" name="156" href="#156">156</a>             <span class="jxr_string">"Concurrent Transaction {} should read base value in {}:{}/{}/{} from its Snapshot | Value read = {}"</span>,
+<a class="jxr_linenumber" name="157" href="#157">157</a>             tx2, userTableName, Bytes.toString(rowId), Bytes.toString(family),
+<a class="jxr_linenumber" name="158" href="#158">158</a>             Bytes.toString(qualifier), Bytes.toString(tx2GetResult.value()));
+<a class="jxr_linenumber" name="159" href="#159">159</a> 
+<a class="jxr_linenumber" name="160" href="#160">160</a>         <em class="jxr_comment">// Transaction Tx1 tries to commit and as there're no conflicting changes, persists the new value in HBase</em>
+<a class="jxr_linenumber" name="161" href="#161">161</a>         tm.commit(tx1);
+<a class="jxr_linenumber" name="162" href="#162">162</a>         LOG.info(<span class="jxr_string">"Transaction {} COMMITTED. New column value {}:{}/{}/{} = {}"</span>,
+<a class="jxr_linenumber" name="163" href="#163">163</a>                  tx1, userTableName, Bytes.toString(rowId), Bytes.toString(family),
+<a class="jxr_linenumber" name="164" href="#164">164</a>                  Bytes.toString(qualifier), Bytes.toString(dataValue1));
+<a class="jxr_linenumber" name="165" href="#165">165</a> 
+<a class="jxr_linenumber" name="166" href="#166">166</a>         <em class="jxr_comment">// Tx2 reading again after Tx1 commit must read data from its snapshot...</em>
+<a class="jxr_linenumber" name="167" href="#167">167</a>         tx2Get = <strong class="jxr_keyword">new</strong> Get(rowId);
+<a class="jxr_linenumber" name="168" href="#168">168</a>         tx2Get.addColumn(family, qualifier);
+<a class="jxr_linenumber" name="169" href="#169">169</a>         tx2GetResult = txTable.get(tx2, tx2Get);
+<a class="jxr_linenumber" name="170" href="#170">170</a>         <em class="jxr_comment">// ...so it must read the initial value written by Tx0</em>
+<a class="jxr_linenumber" name="171" href="#171">171</a>         LOG.info(
+<a class="jxr_linenumber" name="172" href="#172">172</a>             <span class="jxr_string">"Concurrent Transaction {} should read again base value in {}:{}/{}/{} from its Snapshot | Value read = {}"</span>,
+<a class="jxr_linenumber" name="173" href="#173">173</a>             tx2, userTableName, Bytes.toString(rowId), Bytes.toString(family),
+<a class="jxr_linenumber" name="174" href="#174">174</a>             Bytes.toString(qualifier), Bytes.toString(tx2GetResult.value()));
+<a class="jxr_linenumber" name="175" href="#175">175</a>         Preconditions.checkState(Arrays.equals(tx2GetResult.value(), initialData),
+<a class="jxr_linenumber" name="176" href="#176">176</a>                                  <span class="jxr_string">"Tx2 must read the initial value written by Tx0"</span>);
+<a class="jxr_linenumber" name="177" href="#177">177</a> 
+<a class="jxr_linenumber" name="178" href="#178">178</a>         <em class="jxr_comment">// Tx2 tries to write the column written by the committed concurrent transaction Tx1...</em>
+<a class="jxr_linenumber" name="179" href="#179">179</a>         Put tx2Put = <strong class="jxr_keyword">new</strong> Put(rowId);
+<a class="jxr_linenumber" name="180" href="#180">180</a>         tx2Put.add(family, qualifier, dataValue2);
+<a class="jxr_linenumber" name="181" href="#181">181</a>         txTable.put(tx2, tx2Put);
+<a class="jxr_linenumber" name="182" href="#182">182</a>         LOG.info(
+<a class="jxr_linenumber" name="183" href="#183">183</a>             <span class="jxr_string">"Concurrent Transaction {} updates {}:{}/{}/{} = {} in its own Snapshot (Will conflict with {} at commit time)"</span>,
+<a class="jxr_linenumber" name="184" href="#184">184</a>             tx2, userTableName, Bytes.toString(rowId), Bytes.toString(family),
+<a class="jxr_linenumber" name="185" href="#185">185</a>             Bytes.toString(qualifier), Bytes.toString(dataValue1), tx1);
+<a class="jxr_linenumber" name="186" href="#186">186</a> 
+<a class="jxr_linenumber" name="187" href="#187">187</a>         <em class="jxr_comment">// ... and when committing, Tx2 has to abort due to concurrent conflicts with committed transaction Tx1</em>
+<a class="jxr_linenumber" name="188" href="#188">188</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="189" href="#189">189</a>             LOG.info(<span class="jxr_string">"Concurrent Transaction {} TRYING TO COMMIT"</span>, tx2);
+<a class="jxr_linenumber" name="190" href="#190">190</a>             tm.commit(tx2);
+<a class="jxr_linenumber" name="191" href="#191">191</a>             <em class="jxr_comment">// should throw an exception</em>
+<a class="jxr_linenumber" name="192" href="#192">192</a>             Preconditions.checkState(false, <span class="jxr_string">"Should have thrown RollbackException"</span>);
+<a class="jxr_linenumber" name="193" href="#193">193</a>         } <strong class="jxr_keyword">catch</strong> (RollbackException e) {
+<a class="jxr_linenumber" name="194" href="#194">194</a>             LOG.info(<span class="jxr_string">"Concurrent Transaction {} ROLLED-BACK : {}"</span>, tx2, e.getMessage());
+<a class="jxr_linenumber" name="195" href="#195">195</a>         }
+<a class="jxr_linenumber" name="196" href="#196">196</a>     }
+<a class="jxr_linenumber" name="197" href="#197">197</a> 
+<a class="jxr_linenumber" name="198" href="#198">198</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> close() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="199" href="#199">199</a>         tm.close();
+<a class="jxr_linenumber" name="200" href="#200">200</a>         txTable.close();
+<a class="jxr_linenumber" name="201" href="#201">201</a>     }
+<a class="jxr_linenumber" name="202" href="#202">202</a> 
+<a class="jxr_linenumber" name="203" href="#203">203</a> 
+<a class="jxr_linenumber" name="204" href="#204">204</a>     <strong class="jxr_keyword">void</strong> setRowIdGenerator(<a href="../../../../org/apache/omid/examples/RowIdGenerator.html">RowIdGenerator</a> rowIdGenerator) {
+<a class="jxr_linenumber" name="205" href="#205">205</a>         <strong class="jxr_keyword">this</strong>.rowIdGenerator = rowIdGenerator;
+<a class="jxr_linenumber" name="206" href="#206">206</a>     }
+<a class="jxr_linenumber" name="207" href="#207">207</a> 
+<a class="jxr_linenumber" name="208" href="#208">208</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/apache/omid/examples/SnapshotIsolationExample.html">StaticRowIdGenerator</a> <strong class="jxr_keyword">implements</strong> <a href="../../../../org/apache/omid/examples/RowIdGenerator.html">RowIdGenerator</a> {
+<a class="jxr_linenumber" name="209" href="#209">209</a> 
+<a class="jxr_linenumber" name="210" href="#210">210</a>         @Override
+<a class="jxr_linenumber" name="211" href="#211">211</a>         <strong class="jxr_keyword">public</strong> byte[] getRowId() {
+<a class="jxr_linenumber" name="212" href="#212">212</a>             <strong class="jxr_keyword">return</strong> Bytes.toBytes(<span class="jxr_string">"EXAMPLE_ROW"</span>);
+<a class="jxr_linenumber" name="213" href="#213">213</a>         }
+<a class="jxr_linenumber" name="214" href="#214">214</a>     }
+<a class="jxr_linenumber" name="215" href="#215">215</a> }
+<a class="jxr_linenumber" name="216" href="#216">216</a> 
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
