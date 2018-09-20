@@ -69,14 +69,14 @@
 <a class="jxr_linenumber" name="59" href="#59">59</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">boolean</strong> retainNonTransactionallyDeletedCells;
 <a class="jxr_linenumber" name="60" href="#60">60</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> lowWatermark;
 <a class="jxr_linenumber" name="61" href="#61">61</a>  
-<a class="jxr_linenumber" name="62" href="#62">62</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> <a href="../../../../../org/apache/hadoop/hbase/regionserver/Region.html">Region</a> hRegion;
+<a class="jxr_linenumber" name="62" href="#62">62</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">final</strong> Region hRegion;
 <a class="jxr_linenumber" name="63" href="#63">63</a>  
 <a class="jxr_linenumber" name="64" href="#64">64</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">boolean</strong> hasMoreRows = false;
 <a class="jxr_linenumber" name="65" href="#65">65</a>      <strong class="jxr_keyword">private</strong> List&lt;Cell&gt; currentRowWorthValues = <strong class="jxr_keyword">new</strong> ArrayList&lt;Cell&gt;();
 <a class="jxr_linenumber" name="66" href="#66">66</a>  
 <a class="jxr_linenumber" name="67" href="#67">67</a>      <strong class="jxr_keyword">public</strong> <a href="../../../../../org/apache/hadoop/hbase/regionserver/CompactorScanner.html">CompactorScanner</a>(ObserverContext&lt;RegionCoprocessorEnvironment&gt; e,
 <a class="jxr_linenumber" name="68" href="#68">68</a>                              InternalScanner internalScanner,
-<a class="jxr_linenumber" name="69" href="#69">69</a>                              <a href="../../../../../org/apache/omid/committable/NullCommitTable.html">Client</a> commitTableClient,
+<a class="jxr_linenumber" name="69" href="#69">69</a>                              <a href="../../../../../org/apache/omid/committable/InMemoryCommitTable.html">Client</a> commitTableClient,
 <a class="jxr_linenumber" name="70" href="#70">70</a>                              Queue&lt;CommitTable.Client&gt; commitTableClientQueue,
 <a class="jxr_linenumber" name="71" href="#71">71</a>                              <strong class="jxr_keyword">boolean</strong> isMajorCompaction,
 <a class="jxr_linenumber" name="72" href="#72">72</a>                              <strong class="jxr_keyword">boolean</strong> preserveNonTransactionallyDeletedCells) <strong class="jxr_keyword">throws</strong> IOException {
@@ -97,7 +97,7 @@
 <a class="jxr_linenumber" name="87" href="#87">87</a>          <strong class="jxr_keyword">return</strong> next(results, -1);
 <a class="jxr_linenumber" name="88" href="#88">88</a>      }
 <a class="jxr_linenumber" name="89" href="#89">89</a>  
-<a class="jxr_linenumber" name="90" href="#90">90</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> next(List&lt;Cell&gt; result, <a href="../../../../../org/apache/hadoop/hbase/regionserver/ScannerContext.html">ScannerContext</a> scannerContext) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="90" href="#90">90</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> next(List&lt;Cell&gt; result, ScannerContext scannerContext) <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="91" href="#91">91</a>          <strong class="jxr_keyword">int</strong> limit = scannerContext.getBatchLimit();
 <a class="jxr_linenumber" name="92" href="#92">92</a>          <strong class="jxr_keyword">return</strong> next(result, limit);
 <a class="jxr_linenumber" name="93" href="#93">93</a>      }
@@ -245,7 +245,7 @@
 <a class="jxr_linenumber" name="235" href="#235">235</a>             } <strong class="jxr_keyword">else</strong> {
 <a class="jxr_linenumber" name="236" href="#236">236</a>                 Get g = <strong class="jxr_keyword">new</strong> Get(CellUtil.cloneRow(cell));
 <a class="jxr_linenumber" name="237" href="#237">237</a>                 byte[] family = CellUtil.cloneFamily(cell);
-<a class="jxr_linenumber" name="238" href="#238">238</a>                 byte[] qualifier = CellUtils.addShadowCellSuffix(cell.getQualifierArray(),
+<a class="jxr_linenumber" name="238" href="#238">238</a>                 byte[] qualifier = CellUtils.addShadowCellSuffixPrefix(cell.getQualifierArray(),
 <a class="jxr_linenumber" name="239" href="#239">239</a>                         cell.getQualifierOffset(),
 <a class="jxr_linenumber" name="240" href="#240">240</a>                         cell.getQualifierLength());
 <a class="jxr_linenumber" name="241" href="#241">241</a>                 g.addColumn(family, qualifier);

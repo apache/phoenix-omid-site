@@ -72,7 +72,7 @@
 <a class="jxr_linenumber" name="62" href="#62">62</a>  
 <a class="jxr_linenumber" name="63" href="#63">63</a>      <em class="jxr_comment">// ----------------------------------------------------------------------------------------------------------------</em>
 <a class="jxr_linenumber" name="64" href="#64">64</a>  
-<a class="jxr_linenumber" name="65" href="#65">65</a>      <strong class="jxr_keyword">static</strong> <a href="../../../../org/apache/omid/tso/TSOServer.html">TSOServer</a> getInitializedTsoServer(<a href="../../../../org/apache/omid/tso/TSOServerConfig.html">TSOServerConfig</a> config) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="65" href="#65">65</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <a href="../../../../org/apache/omid/tso/TSOServer.html">TSOServer</a> getInitializedTsoServer(<a href="../../../../org/apache/omid/tso/TSOServerConfig.html">TSOServerConfig</a> config) <strong class="jxr_keyword">throws</strong> IOException {
 <a class="jxr_linenumber" name="66" href="#66">66</a>          LOG.info(<span class="jxr_string">"Configuring TSO Server..."</span>);
 <a class="jxr_linenumber" name="67" href="#67">67</a>          Injector injector = Guice.createInjector(buildModuleList(config));
 <a class="jxr_linenumber" name="68" href="#68">68</a>          LOG.info(<span class="jxr_string">"TSO Server configured. Creating instance..."</span>);
