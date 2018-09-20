@@ -194,7 +194,7 @@
       <div id="breadcrumbs">
         <ul class="breadcrumb">
               
-                  <li id="projectVersion">Version: 0.8.2.11-SNAPSHOT
+                  <li id="projectVersion">Version: 0.9.1.0-SNAPSHOT
                     </li>
               
               
@@ -207,7 +207,19 @@
                 
         <div id="bodyColumn" >
                                   
-            <h1>Management of Client Failures</h1>
+            <!--
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+--><h1>Management of Client Failures</h1>
 <p>Upon user application crashes, Transactional Clients may leave some orphaned data in the datastore, even though the data in the datastore is kept in a consistent state. When another Transactional Client comes across this data, it will check whether the associated transaction was committed or not. If the data belongs to a transaction which has not been committed, and the transaction id is lower than the low watermark, then the data is deleted, since it belongs to a transaction that can never be committed.</p>
 <p>If data belongs to a transaction that was already committed, this means that the Transactional Client crashed between sending the commit request and completing the transaction in the commit table. This means that shadow cells have not been deleted. The Transactional Client reading will write the shadow cell for the orphan data. However, it is not able to complete the transaction in the commit table as it can not guarantee that shadow cells have been written for all cells in the transaction, since only the crashed client knew which cells it had written to. Consequently, this means that the commit table can grow indefinitely. Initially, this flaw should not cause many problems, since:</p>
 

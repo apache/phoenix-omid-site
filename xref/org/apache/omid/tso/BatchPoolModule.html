@@ -62,23 +62,27 @@
 <a class="jxr_linenumber" name="52" href="#52">52</a>  
 <a class="jxr_linenumber" name="53" href="#53">53</a>          LOG.info(<span class="jxr_string">"Pool Size (# of Batches) {}; Batch Size {}"</span>, poolSize, batchSize);
 <a class="jxr_linenumber" name="54" href="#54">54</a>          LOG.info(<span class="jxr_string">"Total Batch Size (Pool size * Batch Size): {}"</span>, poolSize * batchSize);
-<a class="jxr_linenumber" name="55" href="#55">55</a>          GenericObjectPoolConfig config = <strong class="jxr_keyword">new</strong> GenericObjectPoolConfig();
-<a class="jxr_linenumber" name="56" href="#56">56</a>          config.setMaxTotal(poolSize);
-<a class="jxr_linenumber" name="57" href="#57">57</a>          config.setBlockWhenExhausted(<strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="58" href="#58">58</a>          GenericObjectPool&lt;Batch&gt; batchPool = <strong class="jxr_keyword">new</strong> GenericObjectPool&lt;&gt;(<strong class="jxr_keyword">new</strong> Batch.BatchFactory(batchSize), config);
-<a class="jxr_linenumber" name="59" href="#59">59</a>          LOG.info(<span class="jxr_string">"Pre-creating objects in the pool..."</span>); <em class="jxr_comment">// TODO There should be a better way to do this</em>
-<a class="jxr_linenumber" name="60" href="#60">60</a>          List&lt;Batch&gt; batches = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;(poolSize);
-<a class="jxr_linenumber" name="61" href="#61">61</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; poolSize; i++) {
-<a class="jxr_linenumber" name="62" href="#62">62</a>              batches.add(batchPool.borrowObject());
-<a class="jxr_linenumber" name="63" href="#63">63</a>          }
-<a class="jxr_linenumber" name="64" href="#64">64</a>          <strong class="jxr_keyword">for</strong> (Batch batch : batches) {
-<a class="jxr_linenumber" name="65" href="#65">65</a>              batchPool.returnObject(batch);
-<a class="jxr_linenumber" name="66" href="#66">66</a>          }
-<a class="jxr_linenumber" name="67" href="#67">67</a>          <strong class="jxr_keyword">return</strong> batchPool;
-<a class="jxr_linenumber" name="68" href="#68">68</a>  
-<a class="jxr_linenumber" name="69" href="#69">69</a>      }
-<a class="jxr_linenumber" name="70" href="#70">70</a>  
-<a class="jxr_linenumber" name="71" href="#71">71</a>  }
+<a class="jxr_linenumber" name="55" href="#55">55</a>          <em class="jxr_comment">// Setup ObjectPool behaviour</em>
+<a class="jxr_linenumber" name="56" href="#56">56</a>          GenericObjectPoolConfig config = <strong class="jxr_keyword">new</strong> GenericObjectPoolConfig();
+<a class="jxr_linenumber" name="57" href="#57">57</a>          config.setMaxTotal(poolSize);
+<a class="jxr_linenumber" name="58" href="#58">58</a>          config.setMaxIdle(poolSize + 1); <em class="jxr_comment">// This avoids GenericObjectPool to destroy the batches when returned to</em>
+<a class="jxr_linenumber" name="59" href="#59">59</a>                                           <em class="jxr_comment">// the pool during the pre-creation below</em>
+<a class="jxr_linenumber" name="60" href="#60">60</a>          config.setBlockWhenExhausted(<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="61" href="#61">61</a>          GenericObjectPool&lt;Batch&gt; batchPool = <strong class="jxr_keyword">new</strong> GenericObjectPool&lt;&gt;(<strong class="jxr_keyword">new</strong> Batch.BatchFactory(batchSize), config);
+<a class="jxr_linenumber" name="62" href="#62">62</a>          LOG.info(<span class="jxr_string">"Pre-creating objects in the pool..."</span>);
+<a class="jxr_linenumber" name="63" href="#63">63</a>          <em class="jxr_comment">// TODO There should be a better way to do the pre-creation below avoiding the two loops</em>
+<a class="jxr_linenumber" name="64" href="#64">64</a>          List&lt;Batch&gt; batches = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;(poolSize);
+<a class="jxr_linenumber" name="65" href="#65">65</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; poolSize; i++) {
+<a class="jxr_linenumber" name="66" href="#66">66</a>              batches.add(batchPool.borrowObject());
+<a class="jxr_linenumber" name="67" href="#67">67</a>          }
+<a class="jxr_linenumber" name="68" href="#68">68</a>          <strong class="jxr_keyword">for</strong> (Batch batch : batches) {
+<a class="jxr_linenumber" name="69" href="#69">69</a>              batchPool.returnObject(batch);
+<a class="jxr_linenumber" name="70" href="#70">70</a>          }
+<a class="jxr_linenumber" name="71" href="#71">71</a>          <strong class="jxr_keyword">return</strong> batchPool;
+<a class="jxr_linenumber" name="72" href="#72">72</a>  
+<a class="jxr_linenumber" name="73" href="#73">73</a>      }
+<a class="jxr_linenumber" name="74" href="#74">74</a>  
+<a class="jxr_linenumber" name="75" href="#75">75</a>  }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
