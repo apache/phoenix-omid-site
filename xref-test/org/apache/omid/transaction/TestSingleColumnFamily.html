@@ -27,17 +27,17 @@
 <a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">package</strong> org.apache.omid.transaction;
 <a class="jxr_linenumber" name="19" href="#19">19</a>  
-<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Put;
-<a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Result;
-<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.ResultScanner;
-<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Scan;
-<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.util.Bytes;
-<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
-<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
-<a class="jxr_linenumber" name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> org.testng.ITestContext;
-<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.Test;
-<a class="jxr_linenumber" name="29" href="#29">29</a>  
-<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertTrue;
+<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertTrue;
+<a class="jxr_linenumber" name="21" href="#21">21</a>  
+<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Put;
+<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Result;
+<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.ResultScanner;
+<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Scan;
+<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.util.Bytes;
+<a class="jxr_linenumber" name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
+<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
+<a class="jxr_linenumber" name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> org.testng.ITestContext;
+<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.Test;
 <a class="jxr_linenumber" name="31" href="#31">31</a>  
 <a class="jxr_linenumber" name="32" href="#32">32</a>  @Test(groups = <span class="jxr_string">"sharedHBase"</span>)
 <a class="jxr_linenumber" name="33" href="#33">33</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/apache/omid/transaction/TestSingleColumnFamily.html">TestSingleColumnFamily</a> <strong class="jxr_keyword">extends</strong> <a href="../../../../org/apache/omid/transaction/OmidTestBase.html">OmidTestBase</a> {
@@ -47,14 +47,14 @@
 <a class="jxr_linenumber" name="37" href="#37">37</a>      @Test(timeOut = 10_000)
 <a class="jxr_linenumber" name="38" href="#38">38</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testSingleColumnFamily(ITestContext context) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="39" href="#39">39</a>          TransactionManager tm = newTransactionManager(context);
-<a class="jxr_linenumber" name="40" href="#40">40</a>          TTable table1 = <strong class="jxr_keyword">new</strong> TTable(hbaseConf, TEST_TABLE);
+<a class="jxr_linenumber" name="40" href="#40">40</a>          TTable table1 = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE);
 <a class="jxr_linenumber" name="41" href="#41">41</a>          <strong class="jxr_keyword">int</strong> num = 10;
 <a class="jxr_linenumber" name="42" href="#42">42</a>          Transaction t = tm.begin();
 <a class="jxr_linenumber" name="43" href="#43">43</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> j = 0; j &lt; num; j++) {
 <a class="jxr_linenumber" name="44" href="#44">44</a>              byte[] data = Bytes.toBytes(j);
 <a class="jxr_linenumber" name="45" href="#45">45</a>              Put put = <strong class="jxr_keyword">new</strong> Put(data);
-<a class="jxr_linenumber" name="46" href="#46">46</a>              put.add(Bytes.toBytes(TEST_FAMILY), Bytes.toBytes(<span class="jxr_string">"value1"</span>), data);
-<a class="jxr_linenumber" name="47" href="#47">47</a>              put.add(Bytes.toBytes(TEST_FAMILY), Bytes.toBytes(<span class="jxr_string">"value2"</span>), data);
+<a class="jxr_linenumber" name="46" href="#46">46</a>              put.addColumn(Bytes.toBytes(TEST_FAMILY), Bytes.toBytes(<span class="jxr_string">"value1"</span>), data);
+<a class="jxr_linenumber" name="47" href="#47">47</a>              put.addColumn(Bytes.toBytes(TEST_FAMILY), Bytes.toBytes(<span class="jxr_string">"value2"</span>), data);
 <a class="jxr_linenumber" name="48" href="#48">48</a>              table1.put(t, put);
 <a class="jxr_linenumber" name="49" href="#49">49</a>          }
 <a class="jxr_linenumber" name="50" href="#50">50</a>          <em class="jxr_comment">//tm.tryCommit(t);</em>
@@ -78,7 +78,7 @@
 <a class="jxr_linenumber" name="68" href="#68">68</a>              byte[] data = Bytes.toBytes(j);
 <a class="jxr_linenumber" name="69" href="#69">69</a>              byte[] ndata = Bytes.toBytes(j * 10);
 <a class="jxr_linenumber" name="70" href="#70">70</a>              Put put = <strong class="jxr_keyword">new</strong> Put(data);
-<a class="jxr_linenumber" name="71" href="#71">71</a>              put.add(Bytes.toBytes(TEST_FAMILY), Bytes.toBytes(<span class="jxr_string">"value2"</span>), ndata);
+<a class="jxr_linenumber" name="71" href="#71">71</a>              put.addColumn(Bytes.toBytes(TEST_FAMILY), Bytes.toBytes(<span class="jxr_string">"value2"</span>), ndata);
 <a class="jxr_linenumber" name="72" href="#72">72</a>              table1.put(t, put);
 <a class="jxr_linenumber" name="73" href="#73">73</a>          }
 <a class="jxr_linenumber" name="74" href="#74">74</a>          tm.commit(t);

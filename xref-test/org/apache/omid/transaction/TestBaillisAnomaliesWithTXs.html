@@ -27,27 +27,27 @@
 <a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">package</strong> org.apache.omid.transaction;
 <a class="jxr_linenumber" name="19" href="#19">19</a>  
-<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Delete;
-<a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Put;
-<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Result;
-<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.ResultScanner;
-<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Scan;
-<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.filter.CompareFilter;
-<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.filter.Filter;
-<a class="jxr_linenumber" name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
-<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.util.Bytes;
-<a class="jxr_linenumber" name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
-<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> org.testng.ITestContext;
-<a class="jxr_linenumber" name="31" href="#31">31</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.BeforeMethod;
-<a class="jxr_linenumber" name="32" href="#32">32</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.Test;
-<a class="jxr_linenumber" name="33" href="#33">33</a>  
-<a class="jxr_linenumber" name="34" href="#34">34</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
-<a class="jxr_linenumber" name="35" href="#35">35</a>  <strong class="jxr_keyword">import</strong> java.util.Arrays;
-<a class="jxr_linenumber" name="36" href="#36">36</a>  
-<a class="jxr_linenumber" name="37" href="#37">37</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.slf4j.LoggerFactory.getLogger;
-<a class="jxr_linenumber" name="38" href="#38">38</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertEquals;
-<a class="jxr_linenumber" name="39" href="#39">39</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertNull;
-<a class="jxr_linenumber" name="40" href="#40">40</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.fail;
+<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.slf4j.LoggerFactory.getLogger;
+<a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertEquals;
+<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertNull;
+<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.fail;
+<a class="jxr_linenumber" name="24" href="#24">24</a>  
+<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> java.util.Arrays;
+<a class="jxr_linenumber" name="27" href="#27">27</a>  
+<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Delete;
+<a class="jxr_linenumber" name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Put;
+<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Result;
+<a class="jxr_linenumber" name="31" href="#31">31</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.ResultScanner;
+<a class="jxr_linenumber" name="32" href="#32">32</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Scan;
+<a class="jxr_linenumber" name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.filter.CompareFilter;
+<a class="jxr_linenumber" name="34" href="#34">34</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.filter.Filter;
+<a class="jxr_linenumber" name="35" href="#35">35</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.filter.SingleColumnValueFilter;
+<a class="jxr_linenumber" name="36" href="#36">36</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.util.Bytes;
+<a class="jxr_linenumber" name="37" href="#37">37</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
+<a class="jxr_linenumber" name="38" href="#38">38</a>  <strong class="jxr_keyword">import</strong> org.testng.ITestContext;
+<a class="jxr_linenumber" name="39" href="#39">39</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.BeforeMethod;
+<a class="jxr_linenumber" name="40" href="#40">40</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.Test;
 <a class="jxr_linenumber" name="41" href="#41">41</a>  
 <a class="jxr_linenumber" name="42" href="#42">42</a>  <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="43" href="#43">43</a>  <em class="jxr_javadoccomment"> * These tests try to analyze the transactional anomalies described by P. Baillis et al. in</em>
@@ -99,7 +99,7 @@
 <a class="jxr_linenumber" name="89" href="#89">89</a>  
 <a class="jxr_linenumber" name="90" href="#90">90</a>          <em class="jxr_comment">// 0) Start transactions</em>
 <a class="jxr_linenumber" name="91" href="#91">91</a>          TransactionManager tm = newTransactionManager(context);
-<a class="jxr_linenumber" name="92" href="#92">92</a>          TTable txTable = <strong class="jxr_keyword">new</strong> TTable(hbaseConf, TEST_TABLE);
+<a class="jxr_linenumber" name="92" href="#92">92</a>          TTable txTable = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE);
 <a class="jxr_linenumber" name="93" href="#93">93</a>  
 <a class="jxr_linenumber" name="94" href="#94">94</a>          Transaction tx1 = tm.begin();
 <a class="jxr_linenumber" name="95" href="#95">95</a>          Transaction tx2 = tm.begin();
@@ -113,7 +113,7 @@
 <a class="jxr_linenumber" name="103" href="#103">103</a> 
 <a class="jxr_linenumber" name="104" href="#104">104</a>         <em class="jxr_comment">// 2) insert into test (id, value) values(3, 30); -- T2</em>
 <a class="jxr_linenumber" name="105" href="#105">105</a>         Put newRow = <strong class="jxr_keyword">new</strong> Put(rowId3);
-<a class="jxr_linenumber" name="106" href="#106">106</a>         newRow.add(famName, colName, dataValue3);
+<a class="jxr_linenumber" name="106" href="#106">106</a>         newRow.addColumn(famName, colName, dataValue3);
 <a class="jxr_linenumber" name="107" href="#107">107</a>         txTable.put(tx2, newRow);
 <a class="jxr_linenumber" name="108" href="#108">108</a> 
 <a class="jxr_linenumber" name="109" href="#109">109</a>         <em class="jxr_comment">// 3) Commit TX 2</em>
@@ -139,7 +139,7 @@
 <a class="jxr_linenumber" name="129" href="#129">129</a> 
 <a class="jxr_linenumber" name="130" href="#130">130</a>         <em class="jxr_comment">// 0) Start transactions</em>
 <a class="jxr_linenumber" name="131" href="#131">131</a>         TransactionManager tm = newTransactionManager(context);
-<a class="jxr_linenumber" name="132" href="#132">132</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(hbaseConf, TEST_TABLE);
+<a class="jxr_linenumber" name="132" href="#132">132</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE);
 <a class="jxr_linenumber" name="133" href="#133">133</a>         Transaction tx1 = tm.begin();
 <a class="jxr_linenumber" name="134" href="#134">134</a>         Transaction tx2 = tm.begin();
 <a class="jxr_linenumber" name="135" href="#135">135</a> 
@@ -153,7 +153,7 @@
 <a class="jxr_linenumber" name="143" href="#143">143</a>             Put row = <strong class="jxr_keyword">new</strong> Put(updateRes.getRow());
 <a class="jxr_linenumber" name="144" href="#144">144</a>             <strong class="jxr_keyword">int</strong> val = Bytes.toInt(updateRes.getValue(famName, colName));
 <a class="jxr_linenumber" name="145" href="#145">145</a>             LOG.info(<span class="jxr_string">"Updating row id {} with value {}"</span>, Bytes.toString(updateRes.getRow()), val);
-<a class="jxr_linenumber" name="146" href="#146">146</a>             row.add(famName, colName, Bytes.toBytes(val + 10));
+<a class="jxr_linenumber" name="146" href="#146">146</a>             row.addColumn(famName, colName, Bytes.toBytes(val + 10));
 <a class="jxr_linenumber" name="147" href="#147">147</a>             txTable.put(tx1, row);
 <a class="jxr_linenumber" name="148" href="#148">148</a>             updateRes = tx1Scanner.next();
 <a class="jxr_linenumber" name="149" href="#149">149</a>             count++;
@@ -208,7 +208,7 @@
 <a class="jxr_linenumber" name="198" href="#198">198</a> 
 <a class="jxr_linenumber" name="199" href="#199">199</a>         <em class="jxr_comment">// 0) Start transactions</em>
 <a class="jxr_linenumber" name="200" href="#200">200</a>         TransactionManager tm = newTransactionManager(context);
-<a class="jxr_linenumber" name="201" href="#201">201</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(hbaseConf, TEST_TABLE);
+<a class="jxr_linenumber" name="201" href="#201">201</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE);
 <a class="jxr_linenumber" name="202" href="#202">202</a>         Transaction tx1 = tm.begin();
 <a class="jxr_linenumber" name="203" href="#203">203</a>         Transaction tx2 = tm.begin();
 <a class="jxr_linenumber" name="204" href="#204">204</a> 
@@ -247,12 +247,12 @@
 <a class="jxr_linenumber" name="237" href="#237">237</a> 
 <a class="jxr_linenumber" name="238" href="#238">238</a>         <em class="jxr_comment">// 3) update test set value = 11 where id = 1; -- T1</em>
 <a class="jxr_linenumber" name="239" href="#239">239</a>         Put updateRow1Tx1 = <strong class="jxr_keyword">new</strong> Put(rowId1);
-<a class="jxr_linenumber" name="240" href="#240">240</a>         updateRow1Tx1.add(famName, colName, Bytes.toBytes(<span class="jxr_string">"11"</span>));
+<a class="jxr_linenumber" name="240" href="#240">240</a>         updateRow1Tx1.addColumn(famName, colName, Bytes.toBytes(<span class="jxr_string">"11"</span>));
 <a class="jxr_linenumber" name="241" href="#241">241</a>         txTable.put(tx1, updateRow1Tx1);
 <a class="jxr_linenumber" name="242" href="#242">242</a> 
 <a class="jxr_linenumber" name="243" href="#243">243</a>         <em class="jxr_comment">// 4) update test set value = 11 where id = 1; -- T2</em>
 <a class="jxr_linenumber" name="244" href="#244">244</a>         Put updateRow1Tx2 = <strong class="jxr_keyword">new</strong> Put(rowId1);
-<a class="jxr_linenumber" name="245" href="#245">245</a>         updateRow1Tx2.add(famName, colName, Bytes.toBytes(<span class="jxr_string">"11"</span>));
+<a class="jxr_linenumber" name="245" href="#245">245</a>         updateRow1Tx2.addColumn(famName, colName, Bytes.toBytes(<span class="jxr_string">"11"</span>));
 <a class="jxr_linenumber" name="246" href="#246">246</a>         txTable.put(tx2, updateRow1Tx2);
 <a class="jxr_linenumber" name="247" href="#247">247</a> 
 <a class="jxr_linenumber" name="248" href="#248">248</a>         <em class="jxr_comment">// 5) commit -- T1</em>
@@ -284,7 +284,7 @@
 <a class="jxr_linenumber" name="274" href="#274">274</a> 
 <a class="jxr_linenumber" name="275" href="#275">275</a>         <em class="jxr_comment">// 0) Start transactions</em>
 <a class="jxr_linenumber" name="276" href="#276">276</a>         TransactionManager tm = newTransactionManager(context);
-<a class="jxr_linenumber" name="277" href="#277">277</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(hbaseConf, TEST_TABLE);
+<a class="jxr_linenumber" name="277" href="#277">277</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE);
 <a class="jxr_linenumber" name="278" href="#278">278</a>         Transaction tx1 = tm.begin();
 <a class="jxr_linenumber" name="279" href="#279">279</a>         Transaction tx2 = tm.begin();
 <a class="jxr_linenumber" name="280" href="#280">280</a> 
@@ -339,12 +339,12 @@
 <a class="jxr_linenumber" name="329" href="#329">329</a> 
 <a class="jxr_linenumber" name="330" href="#330">330</a>         <em class="jxr_comment">// 4) update test set value = 12 where id = 1; -- T2</em>
 <a class="jxr_linenumber" name="331" href="#331">331</a>         Put updateRow1Tx2 = <strong class="jxr_keyword">new</strong> Put(rowId1);
-<a class="jxr_linenumber" name="332" href="#332">332</a>         updateRow1Tx2.add(famName, colName, Bytes.toBytes(<span class="jxr_string">"12"</span>));
+<a class="jxr_linenumber" name="332" href="#332">332</a>         updateRow1Tx2.addColumn(famName, colName, Bytes.toBytes(<span class="jxr_string">"12"</span>));
 <a class="jxr_linenumber" name="333" href="#333">333</a>         txTable.put(tx1, updateRow1Tx2);
 <a class="jxr_linenumber" name="334" href="#334">334</a> 
 <a class="jxr_linenumber" name="335" href="#335">335</a>         <em class="jxr_comment">// 5) update test set value = 18 where id = 1; -- T2</em>
 <a class="jxr_linenumber" name="336" href="#336">336</a>         Put updateRow2Tx2 = <strong class="jxr_keyword">new</strong> Put(rowId2);
-<a class="jxr_linenumber" name="337" href="#337">337</a>         updateRow2Tx2.add(famName, colName, Bytes.toBytes(<span class="jxr_string">"18"</span>));
+<a class="jxr_linenumber" name="337" href="#337">337</a>         updateRow2Tx2.addColumn(famName, colName, Bytes.toBytes(<span class="jxr_string">"18"</span>));
 <a class="jxr_linenumber" name="338" href="#338">338</a>         txTable.put(tx2, updateRow2Tx2);
 <a class="jxr_linenumber" name="339" href="#339">339</a> 
 <a class="jxr_linenumber" name="340" href="#340">340</a>         <em class="jxr_comment">// 6) commit -- T2</em>
@@ -384,7 +384,7 @@
 <a class="jxr_linenumber" name="374" href="#374">374</a> 
 <a class="jxr_linenumber" name="375" href="#375">375</a>         <em class="jxr_comment">// 0) Start transactions</em>
 <a class="jxr_linenumber" name="376" href="#376">376</a>         TransactionManager tm = newTransactionManager(context);
-<a class="jxr_linenumber" name="377" href="#377">377</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(hbaseConf, TEST_TABLE);
+<a class="jxr_linenumber" name="377" href="#377">377</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE);
 <a class="jxr_linenumber" name="378" href="#378">378</a>         Transaction tx1 = tm.begin();
 <a class="jxr_linenumber" name="379" href="#379">379</a>         Transaction tx2 = tm.begin();
 <a class="jxr_linenumber" name="380" href="#380">380</a> 
@@ -397,9 +397,9 @@
 <a class="jxr_linenumber" name="387" href="#387">387</a>         <em class="jxr_comment">// 3) update test set value = 12 where id = 1; -- T2</em>
 <a class="jxr_linenumber" name="388" href="#388">388</a>         <em class="jxr_comment">// 4) update test set value = 18 where id = 2; -- T2</em>
 <a class="jxr_linenumber" name="389" href="#389">389</a>         Put updateRow1Tx2 = <strong class="jxr_keyword">new</strong> Put(rowId1);
-<a class="jxr_linenumber" name="390" href="#390">390</a>         updateRow1Tx2.add(famName, colName, Bytes.toBytes(12));
+<a class="jxr_linenumber" name="390" href="#390">390</a>         updateRow1Tx2.addColumn(famName, colName, Bytes.toBytes(12));
 <a class="jxr_linenumber" name="391" href="#391">391</a>         Put updateRow2Tx2 = <strong class="jxr_keyword">new</strong> Put(rowId2);
-<a class="jxr_linenumber" name="392" href="#392">392</a>         updateRow2Tx2.add(famName, colName, Bytes.toBytes(18));
+<a class="jxr_linenumber" name="392" href="#392">392</a>         updateRow2Tx2.addColumn(famName, colName, Bytes.toBytes(18));
 <a class="jxr_linenumber" name="393" href="#393">393</a>         txTable.put(tx2, Arrays.asList(updateRow1Tx2, updateRow2Tx2));
 <a class="jxr_linenumber" name="394" href="#394">394</a> 
 <a class="jxr_linenumber" name="395" href="#395">395</a>         <em class="jxr_comment">// 5) commit; -- T2</em>
@@ -445,7 +445,7 @@
 <a class="jxr_linenumber" name="435" href="#435">435</a> 
 <a class="jxr_linenumber" name="436" href="#436">436</a>         <em class="jxr_comment">// 0) Start transactions</em>
 <a class="jxr_linenumber" name="437" href="#437">437</a>         TransactionManager tm = newTransactionManager(context);
-<a class="jxr_linenumber" name="438" href="#438">438</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(hbaseConf, TEST_TABLE);
+<a class="jxr_linenumber" name="438" href="#438">438</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE);
 <a class="jxr_linenumber" name="439" href="#439">439</a>         Transaction tx1 = tm.begin();
 <a class="jxr_linenumber" name="440" href="#440">440</a>         Transaction tx2 = tm.begin();
 <a class="jxr_linenumber" name="441" href="#441">441</a> 
@@ -502,12 +502,12 @@
 <a class="jxr_linenumber" name="492" href="#492">492</a> 
 <a class="jxr_linenumber" name="493" href="#493">493</a>         <em class="jxr_comment">// 3) update test set value = 11 where id = 1; -- T1</em>
 <a class="jxr_linenumber" name="494" href="#494">494</a>         Put updateRow1Tx1 = <strong class="jxr_keyword">new</strong> Put(rowId1);
-<a class="jxr_linenumber" name="495" href="#495">495</a>         updateRow1Tx1.add(famName, colName, Bytes.toBytes(<span class="jxr_string">"11"</span>));
+<a class="jxr_linenumber" name="495" href="#495">495</a>         updateRow1Tx1.addColumn(famName, colName, Bytes.toBytes(<span class="jxr_string">"11"</span>));
 <a class="jxr_linenumber" name="496" href="#496">496</a>         txTable.put(tx1, updateRow1Tx1);
 <a class="jxr_linenumber" name="497" href="#497">497</a> 
 <a class="jxr_linenumber" name="498" href="#498">498</a>         <em class="jxr_comment">// 4) update test set value = 21 where id = 2; -- T2</em>
 <a class="jxr_linenumber" name="499" href="#499">499</a>         Put updateRow2Tx2 = <strong class="jxr_keyword">new</strong> Put(rowId2);
-<a class="jxr_linenumber" name="500" href="#500">500</a>         updateRow2Tx2.add(famName, colName, Bytes.toBytes(<span class="jxr_string">"21"</span>));
+<a class="jxr_linenumber" name="500" href="#500">500</a>         updateRow2Tx2.addColumn(famName, colName, Bytes.toBytes(<span class="jxr_string">"21"</span>));
 <a class="jxr_linenumber" name="501" href="#501">501</a>         txTable.put(tx2, updateRow2Tx2);
 <a class="jxr_linenumber" name="502" href="#502">502</a> 
 <a class="jxr_linenumber" name="503" href="#503">503</a>         <em class="jxr_comment">// 5) commit; -- T1</em>
@@ -533,7 +533,7 @@
 <a class="jxr_linenumber" name="523" href="#523">523</a> 
 <a class="jxr_linenumber" name="524" href="#524">524</a>         <em class="jxr_comment">// 0) Start transactions</em>
 <a class="jxr_linenumber" name="525" href="#525">525</a>         TransactionManager tm = newTransactionManager(context);
-<a class="jxr_linenumber" name="526" href="#526">526</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(hbaseConf, TEST_TABLE);
+<a class="jxr_linenumber" name="526" href="#526">526</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE);
 <a class="jxr_linenumber" name="527" href="#527">527</a>         Transaction tx1 = tm.begin();
 <a class="jxr_linenumber" name="528" href="#528">528</a>         Transaction tx2 = tm.begin();
 <a class="jxr_linenumber" name="529" href="#529">529</a> 
@@ -552,12 +552,12 @@
 <a class="jxr_linenumber" name="542" href="#542">542</a> 
 <a class="jxr_linenumber" name="543" href="#543">543</a>         <em class="jxr_comment">// 3) insert into test (id, value) values(3, 30); -- T1</em>
 <a class="jxr_linenumber" name="544" href="#544">544</a>         Put insertRow3Tx1 = <strong class="jxr_keyword">new</strong> Put(rowId1);
-<a class="jxr_linenumber" name="545" href="#545">545</a>         insertRow3Tx1.add(famName, colName, Bytes.toBytes(<span class="jxr_string">"30"</span>));
+<a class="jxr_linenumber" name="545" href="#545">545</a>         insertRow3Tx1.addColumn(famName, colName, Bytes.toBytes(<span class="jxr_string">"30"</span>));
 <a class="jxr_linenumber" name="546" href="#546">546</a>         txTable.put(tx1, insertRow3Tx1);
 <a class="jxr_linenumber" name="547" href="#547">547</a> 
 <a class="jxr_linenumber" name="548" href="#548">548</a>         <em class="jxr_comment">// 4) insert into test (id, value) values(4, 42); -- T2</em>
 <a class="jxr_linenumber" name="549" href="#549">549</a>         Put updateRow4Tx2 = <strong class="jxr_keyword">new</strong> Put(rowId2);
-<a class="jxr_linenumber" name="550" href="#550">550</a>         updateRow4Tx2.add(famName, colName, Bytes.toBytes(<span class="jxr_string">"42"</span>));
+<a class="jxr_linenumber" name="550" href="#550">550</a>         updateRow4Tx2.addColumn(famName, colName, Bytes.toBytes(<span class="jxr_string">"42"</span>));
 <a class="jxr_linenumber" name="551" href="#551">551</a>         txTable.put(tx2, updateRow4Tx2);
 <a class="jxr_linenumber" name="552" href="#552">552</a> 
 <a class="jxr_linenumber" name="553" href="#553">553</a>         <em class="jxr_comment">// 5) commit; -- T1</em>
@@ -580,14 +580,14 @@
 <a class="jxr_linenumber" name="570" href="#570">570</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> loadBaseDataOnTestTable(ITestContext context) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="571" href="#571">571</a> 
 <a class="jxr_linenumber" name="572" href="#572">572</a>         TransactionManager tm = newTransactionManager(context);
-<a class="jxr_linenumber" name="573" href="#573">573</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(hbaseConf, TEST_TABLE);
+<a class="jxr_linenumber" name="573" href="#573">573</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE);
 <a class="jxr_linenumber" name="574" href="#574">574</a> 
 <a class="jxr_linenumber" name="575" href="#575">575</a>         Transaction initializationTx = tm.begin();
 <a class="jxr_linenumber" name="576" href="#576">576</a>         Put row1 = <strong class="jxr_keyword">new</strong> Put(rowId1);
-<a class="jxr_linenumber" name="577" href="#577">577</a>         row1.add(famName, colName, dataValue1);
+<a class="jxr_linenumber" name="577" href="#577">577</a>         row1.addColumn(famName, colName, dataValue1);
 <a class="jxr_linenumber" name="578" href="#578">578</a>         txTable.put(initializationTx, row1);
 <a class="jxr_linenumber" name="579" href="#579">579</a>         Put row2 = <strong class="jxr_keyword">new</strong> Put(rowId2);
-<a class="jxr_linenumber" name="580" href="#580">580</a>         row2.add(famName, colName, dataValue2);
+<a class="jxr_linenumber" name="580" href="#580">580</a>         row2.addColumn(famName, colName, dataValue2);
 <a class="jxr_linenumber" name="581" href="#581">581</a>         txTable.put(initializationTx, row2);
 <a class="jxr_linenumber" name="582" href="#582">582</a> 
 <a class="jxr_linenumber" name="583" href="#583">583</a>         tm.commit(initializationTx);

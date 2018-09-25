@@ -27,23 +27,23 @@
 <a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">package</strong> org.apache.omid.transaction;
 <a class="jxr_linenumber" name="19" href="#19">19</a>  
-<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.tso.client.TSOClient;
-<a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Get;
-<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Put;
-<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Result;
-<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.util.Bytes;
-<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> org.testng.ITestContext;
-<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.Test;
-<a class="jxr_linenumber" name="27" href="#27">27</a>  
-<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Matchers.anyLong;
-<a class="jxr_linenumber" name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Matchers.anySetOf;
-<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.doReturn;
-<a class="jxr_linenumber" name="31" href="#31">31</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.spy;
-<a class="jxr_linenumber" name="32" href="#32">32</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.timeout;
-<a class="jxr_linenumber" name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.times;
-<a class="jxr_linenumber" name="34" href="#34">34</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.verify;
-<a class="jxr_linenumber" name="35" href="#35">35</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertEquals;
-<a class="jxr_linenumber" name="36" href="#36">36</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertTrue;
+<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Matchers.anyLong;
+<a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Matchers.anySetOf;
+<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.doReturn;
+<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.spy;
+<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.timeout;
+<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.times;
+<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.verify;
+<a class="jxr_linenumber" name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertEquals;
+<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertTrue;
+<a class="jxr_linenumber" name="29" href="#29">29</a>  
+<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Get;
+<a class="jxr_linenumber" name="31" href="#31">31</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Put;
+<a class="jxr_linenumber" name="32" href="#32">32</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.client.Result;
+<a class="jxr_linenumber" name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> org.apache.hadoop.hbase.util.Bytes;
+<a class="jxr_linenumber" name="34" href="#34">34</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.tso.client.TSOClient;
+<a class="jxr_linenumber" name="35" href="#35">35</a>  <strong class="jxr_keyword">import</strong> org.testng.ITestContext;
+<a class="jxr_linenumber" name="36" href="#36">36</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.Test;
 <a class="jxr_linenumber" name="37" href="#37">37</a>  
 <a class="jxr_linenumber" name="38" href="#38">38</a>  <em class="jxr_comment">// TODO These tests should be adapted to a future test for AbstractTransactionManager as they should be DB independent</em>
 <a class="jxr_linenumber" name="39" href="#39">39</a>  @Test(groups = <span class="jxr_string">"sharedHBase"</span>)
@@ -62,7 +62,7 @@
 <a class="jxr_linenumber" name="52" href="#52">52</a>  
 <a class="jxr_linenumber" name="53" href="#53">53</a>          TSOClient tsoClient = spy(getClient(context));
 <a class="jxr_linenumber" name="54" href="#54">54</a>  
-<a class="jxr_linenumber" name="55" href="#55">55</a>          <strong class="jxr_keyword">long</strong> fakeEpoch = tsoClient.getNewStartTimestamp().get() + FAKE_EPOCH_INCREMENT;
+<a class="jxr_linenumber" name="55" href="#55">55</a>          <strong class="jxr_keyword">long</strong> fakeEpoch = tsoClient.getNewStartTimestamp().get() + (FAKE_EPOCH_INCREMENT * AbstractTransactionManager.MAX_CHECKPOINTS_PER_TXN);
 <a class="jxr_linenumber" name="56" href="#56">56</a>  
 <a class="jxr_linenumber" name="57" href="#57">57</a>          <em class="jxr_comment">// Modify the epoch before testing the begin method</em>
 <a class="jxr_linenumber" name="58" href="#58">58</a>          doReturn(fakeEpoch).when(tsoClient).getEpoch();
@@ -84,16 +84,16 @@
 <a class="jxr_linenumber" name="74" href="#74">74</a>          TSOClient tsoClient = spy(getClient(context));
 <a class="jxr_linenumber" name="75" href="#75">75</a>          TransactionManager tm = newTransactionManager(context, tsoClient);
 <a class="jxr_linenumber" name="76" href="#76">76</a>  
-<a class="jxr_linenumber" name="77" href="#77">77</a>          <strong class="jxr_keyword">try</strong> (TTable txTable = <strong class="jxr_keyword">new</strong> TTable(hbaseConf, TEST_TABLE)) {
+<a class="jxr_linenumber" name="77" href="#77">77</a>          <strong class="jxr_keyword">try</strong> (TTable txTable = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE)) {
 <a class="jxr_linenumber" name="78" href="#78">78</a>  
 <a class="jxr_linenumber" name="79" href="#79">79</a>              <em class="jxr_comment">// Add initial data in a transactional context</em>
 <a class="jxr_linenumber" name="80" href="#80">80</a>              Transaction tx1 = tm.begin();
 <a class="jxr_linenumber" name="81" href="#81">81</a>              Put put = <strong class="jxr_keyword">new</strong> Put(row1);
-<a class="jxr_linenumber" name="82" href="#82">82</a>              put.add(testFamily, qualifier, data1);
+<a class="jxr_linenumber" name="82" href="#82">82</a>              put.addColumn(testFamily, qualifier, data1);
 <a class="jxr_linenumber" name="83" href="#83">83</a>              txTable.put(tx1, put);
 <a class="jxr_linenumber" name="84" href="#84">84</a>              tm.commit(tx1);
 <a class="jxr_linenumber" name="85" href="#85">85</a>  
-<a class="jxr_linenumber" name="86" href="#86">86</a>              verify(tsoClient, times(EXPECTED_INVOCATIONS_FOR_COMMIT)).commit(anyLong(), anySetOf(HBaseCellId.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="86" href="#86">86</a>              verify(tsoClient, times(EXPECTED_INVOCATIONS_FOR_COMMIT)).commit(anyLong(), anySetOf(HBaseCellId.<strong class="jxr_keyword">class</strong>), anySetOf(HBaseCellId.<strong class="jxr_keyword">class</strong>));
 <a class="jxr_linenumber" name="87" href="#87">87</a>  
 <a class="jxr_linenumber" name="88" href="#88">88</a>              <em class="jxr_comment">// Create a read-only tx and verify that commit has not been invoked again in the TSOClient</em>
 <a class="jxr_linenumber" name="89" href="#89">89</a>              AbstractTransaction readOnlyTx = (AbstractTransaction) tm.begin();
@@ -103,7 +103,7 @@
 <a class="jxr_linenumber" name="93" href="#93">93</a>              assertTrue(readOnlyTx.getWriteSet().isEmpty());
 <a class="jxr_linenumber" name="94" href="#94">94</a>              tm.commit(readOnlyTx);
 <a class="jxr_linenumber" name="95" href="#95">95</a>  
-<a class="jxr_linenumber" name="96" href="#96">96</a>              verify(tsoClient, times(EXPECTED_INVOCATIONS_FOR_COMMIT)).commit(anyLong(), anySetOf(HBaseCellId.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="96" href="#96">96</a>              verify(tsoClient, times(EXPECTED_INVOCATIONS_FOR_COMMIT)).commit(anyLong(), anySetOf(HBaseCellId.<strong class="jxr_keyword">class</strong>), anySetOf(HBaseCellId.<strong class="jxr_keyword">class</strong>));
 <a class="jxr_linenumber" name="97" href="#97">97</a>              assertEquals(readOnlyTx.getStatus(), Transaction.Status.COMMITTED_RO);
 <a class="jxr_linenumber" name="98" href="#98">98</a>          }
 <a class="jxr_linenumber" name="99" href="#99">99</a>  

@@ -106,7 +106,7 @@
 <a class="jxr_linenumber" name="96" href="#96">96</a>          Runtime.getRuntime().gc();
 <a class="jxr_linenumber" name="97" href="#97">97</a>          writer.println(<span class="jxr_string">"# Free mem (MB) :"</span> + (Runtime.getRuntime().freeMemory() / (<strong class="jxr_keyword">double</strong>) (1024 * 1024)));
 <a class="jxr_linenumber" name="98" href="#98">98</a>          writer.println(<span class="jxr_string">"# Elapsed (s): "</span> + elapsedSeconds);
-<a class="jxr_linenumber" name="99" href="#99">99</a>          writer.println(<span class="jxr_string">"# Elapsed per 100 ops (ms): "</span> + (elapsed / (<strong class="jxr_keyword">double</strong>) totalOps / 100 / (<strong class="jxr_keyword">double</strong>) 1000000));
+<a class="jxr_linenumber" name="99" href="#99">99</a>          writer.println(<span class="jxr_string">"# Elapsed per 100 ops (ms): "</span> + (elapsed / (<strong class="jxr_keyword">double</strong>) totalOps / 100 / 1000000));
 <a class="jxr_linenumber" name="100" href="#100">100</a>         writer.println(<span class="jxr_string">"# Ops per s : "</span> + (totalOps / elapsedSeconds));
 <a class="jxr_linenumber" name="101" href="#101">101</a>         writer.println(<span class="jxr_string">"# Avg gap: "</span> + (tempAvg));
 <a class="jxr_linenumber" name="102" href="#102">102</a>         writer.println(<span class="jxr_string">"# Std dev gap: "</span> + Math.sqrt((tempStdDev / ENTRIES)));
