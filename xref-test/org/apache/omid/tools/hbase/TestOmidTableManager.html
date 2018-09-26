@@ -53,7 +53,7 @@
 <a class="jxr_linenumber" name="43" href="#43">43</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setUpClass() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="44" href="#44">44</a>          <em class="jxr_comment">// HBase setup</em>
 <a class="jxr_linenumber" name="45" href="#45">45</a>          hbaseConf = HBaseConfiguration.create();
-<a class="jxr_linenumber" name="46" href="#46">46</a>          hbaseConf.setBoolean(<span class="jxr_string">"hbase.localcluster.assign.random.ports"</span>,<strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="46" href="#46">46</a>  
 <a class="jxr_linenumber" name="47" href="#47">47</a>          hBaseTestUtil = <strong class="jxr_keyword">new</strong> HBaseTestingUtility(hbaseConf);
 <a class="jxr_linenumber" name="48" href="#48">48</a>          hBaseTestUtil.startMiniCluster(1);
 <a class="jxr_linenumber" name="49" href="#49">49</a>  
