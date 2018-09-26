@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Date-Revision-yyyymmdd" content="20180926" />
     <meta http-equiv="Content-Language" content="en" />
-    <title>Omid Packaging &#x2013; Dependency Information</title>
+    <title>Omid Packaging &#x2013; Source Code Management</title>
     <link rel="stylesheet" href="./css/apache-maven-fluido-1.5.min.css" />
     <link rel="stylesheet" href="./css/site.css" />
     <link rel="stylesheet" href="./css/print.css" media="print" />
@@ -87,37 +87,23 @@
         <div id="bodyColumn" >
                                   
             <div class="section">
-<h2><a name="Dependency_Information"></a>Dependency Information</h2><a name="Dependency_Information"></a>
+<h2><a name="Overview"></a>Overview</h2><a name="Overview"></a>
+<p>This project uses <a class="externalLink" href="https://git-scm.com/">Git</a> to manage its source code. Instructions on Git use can be found at <a class="externalLink" href="https://git-scm.com/documentation">https://git-scm.com/documentation</a>.</p></div>
 <div class="section">
-<h3><a name="Apache_Maven"></a>Apache Maven</h3><a name="Apache_Maven"></a>
-<div class="source"><pre class="prettyprint">&lt;dependency&gt;
-  &lt;groupId&gt;org.apache.omid&lt;/groupId&gt;
-  &lt;artifactId&gt;omid-packaging&lt;/artifactId&gt;
-  &lt;version&gt;0.8.2.1-SNAPSHOT&lt;/version&gt;
-  &lt;type&gt;pom&lt;/type&gt;
-&lt;/dependency&gt;</pre></div></div>
+<h2><a name="Web_Browser_Access"></a>Web Browser Access</h2><a name="Web_Browser_Access"></a>
+<p>The following is a link to a browsable version of the source repository:</p>
+<div class="source"><pre class="prettyprint"><a class="externalLink" href="https://github.com/yahoo/omid/omid-packaging">https://github.com/yahoo/omid/omid-packaging</a></pre></div></div>
 <div class="section">
-<h3><a name="Apache_Buildr"></a>Apache Buildr</h3><a name="Apache_Buildr"></a>
-<div class="source"><pre class="prettyprint">'org.apache.omid:omid-packaging:pom:0.8.2.1-SNAPSHOT'</pre></div></div>
+<h2><a name="Anonymous_Access"></a>Anonymous Access</h2><a name="Anonymous_Access"></a>
+<p>The source can be checked out anonymously from Git with this command (See <a class="externalLink" href="https://git-scm.com/docs/git-clone">https://git-scm.com/docs/git-clone</a>):</p>
+<div class="source"><pre class="prettyprint">$ git clone --branch master git://github.com/yahoo/omid.git</pre></div></div>
 <div class="section">
-<h3><a name="Apache_Ivy"></a>Apache Ivy</h3><a name="Apache_Ivy"></a>
-<div class="source"><pre class="prettyprint">&lt;dependency org=&quot;org.apache.omid&quot; name=&quot;omid-packaging&quot; rev=&quot;0.8.2.1-SNAPSHOT&quot;&gt;
-  &lt;artifact name=&quot;omid-packaging&quot; type=&quot;pom&quot; /&gt;
-&lt;/dependency&gt;</pre></div></div>
+<h2><a name="Developer_Access"></a>Developer Access</h2><a name="Developer_Access"></a>
+<p>Only project developers can access the Git tree via this method (See <a class="externalLink" href="https://git-scm.com/docs/git-clone">https://git-scm.com/docs/git-clone</a>).</p>
+<div class="source"><pre class="prettyprint">$ git clone --branch master https://$%7BGH_TOKEN%7D@github.com/yahoo/omid.git</pre></div></div>
 <div class="section">
-<h3><a name="Groovy_Grape"></a>Groovy Grape</h3><a name="Groovy_Grape"></a>
-<div class="source"><pre class="prettyprint">@Grapes(
-@Grab(group='org.apache.omid', module='omid-packaging', version='0.8.2.1-SNAPSHOT')
-)</pre></div></div>
-<div class="section">
-<h3><a name="Gradle.2FGrails"></a>Gradle/Grails</h3><a name="Gradle.2FGrails"></a>
-<div class="source"><pre class="prettyprint">compile 'org.apache.omid:omid-packaging:0.8.2.1-SNAPSHOT'</pre></div></div>
-<div class="section">
-<h3><a name="Scala_SBT"></a>Scala SBT</h3><a name="Scala_SBT"></a>
-<div class="source"><pre class="prettyprint">libraryDependencies += &quot;org.apache.omid&quot; % &quot;omid-packaging&quot; % &quot;0.8.2.1-SNAPSHOT&quot;</pre></div></div>
-<div class="section">
-<h3><a name="Leiningen"></a>Leiningen</h3><a name="Leiningen"></a>
-<div class="source"><pre class="prettyprint">[org.apache.omid/omid-packaging &quot;0.8.2.1-SNAPSHOT&quot;]</pre></div></div></div>
+<h2><a name="Access_from_Behind_a_Firewall"></a>Access from Behind a Firewall</h2><a name="Access_from_Behind_a_Firewall"></a>
+<p>Refer to the documentation of the SCM used for more information about access behind a firewall.</p></div>
                   </div>
           </div>
 
