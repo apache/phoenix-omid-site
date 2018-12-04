@@ -25,9 +25,9 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2011 - 2018 Apache Software Foundation</copyright>
     <item>
-      <title>File: 139,
+      <title>File: 161,
              Errors: 0,
-             Warnings: 939,
+             Warnings: 1377,
              Infos: 0
       </title>
             <link>http://omid.incubator.apache.org/checkstyle.html</link>
@@ -46,454 +46,6 @@ under the License.
           <tbody>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.HBaseTransactionClient.java">org/apache/omid/transaction/HBaseTransactionClient.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.benchmarks.tso.RawTxRunner.java">org/apache/omid/benchmarks/tso/RawTxRunner.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  12
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.HBaseTimestampStorage.java">org/apache/omid/timestamp/storage/HBaseTimestampStorage.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  3
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.CommitTimestampLocator.java">org/apache/omid/transaction/CommitTimestampLocator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.FatalExceptionHandler.java">org/apache/omid/tso/FatalExceptionHandler.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.TSOProtocol.java">org/apache/omid/tso/client/TSOProtocol.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  9
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.zk.ZKUtils.java">org/apache/omid/zk/ZKUtils.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.ReplyProcessor.java">org/apache/omid/tso/ReplyProcessor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.AbstractMetricsConfig.java">org/apache/omid/metrics/AbstractMetricsConfig.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.TSOFuture.java">org/apache/omid/tso/client/TSOFuture.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.util.DummyCellIdImpl.java">org/apache/omid/tso/util/DummyCellIdImpl.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.TransactionException.java">org/apache/omid/transaction/TransactionException.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.Metric.java">org/apache/omid/metrics/Metric.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.HBaseTransaction.java">org/apache/omid/transaction/HBaseTransaction.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.MockTSOClient.java">org/apache/omid/tso/client/MockTSOClient.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  5
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.TTableCellGetterAdapter.java">org/apache/omid/transaction/TTableCellGetterAdapter.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  3
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.RequestProcessor.java">org/apache/omid/tso/RequestProcessor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  4
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.TSOServerConfig.java">org/apache/omid/tso/TSOServerConfig.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  4
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.NullCommitTable.java">org/apache/omid/committable/NullCommitTable.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.Transaction.java">org/apache/omid/transaction/Transaction.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.LeaseManager.java">org/apache/omid/tso/LeaseManager.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.CellInfo.java">org/apache/omid/transaction/CellInfo.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  3
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.ForwardingTSOFuture.java">org/apache/omid/tso/client/ForwardingTSOFuture.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.examples.ParallelExecution.java">org/apache/omid/examples/ParallelExecution.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.LeaseManagement.java">org/apache/omid/tso/LeaseManagement.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.CacheEvaluation.java">org/apache/omid/tso/CacheEvaluation.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  9
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.examples.BasicExample.java">org/apache/omid/examples/BasicExample.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  15
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.AbstractTransactionManager.java">org/apache/omid/transaction/AbstractTransactionManager.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  17
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.HBaseTimestampStorageConfig.java">org/apache/omid/timestamp/storage/HBaseTimestampStorageConfig.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.Panicker.java">org/apache/omid/tso/Panicker.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.examples.RowIdGenerator.java">org/apache/omid/examples/RowIdGenerator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.statemachine.StateMachineLogParser.java">org/apache/statemachine/StateMachineLogParser.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  11
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.CodahaleMetricsConfig.java">org/apache/omid/metrics/CodahaleMetricsConfig.java</a>
                 </td>
                 <td>
@@ -508,587 +60,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.CommitTable.java">org/apache/omid/committable/CommitTable.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.TransactionFilters.java">org/apache/omid/transaction/TransactionFilters.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
                   2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.MetricsRegistry.java">org/apache/omid/metrics/MetricsRegistry.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tools.hbase.OmidTableManager.java">org/apache/omid/tools/hbase/OmidTableManager.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  8
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.VoidLeaseManagementModule.java">org/apache/omid/tso/VoidLeaseManagementModule.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  4
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.hbase.HBaseCommitTableStorageModule.java">org/apache/omid/committable/hbase/HBaseCommitTableStorageModule.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  3
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.hadoop.hbase.regionserver.ScannerContext.java">org/apache/hadoop/hbase/regionserver/ScannerContext.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.ReflectionHelper.java">org/apache/omid/ReflectionHelper.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  3
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.ZKTimestampStorageModule.java">org/apache/omid/timestamp/storage/ZKTimestampStorageModule.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.TSOClient.java">org/apache/omid/tso/client/TSOClient.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  58
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.AbstractTransaction.java">org/apache/omid/transaction/AbstractTransaction.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.Gauge.java">org/apache/omid/metrics/Gauge.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.HBaseTimestampStorageModule.java">org/apache/omid/timestamp/storage/HBaseTimestampStorageModule.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.Meter.java">org/apache/omid/metrics/Meter.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.InMemoryCommitTableStorageModule.java">org/apache/omid/tso/InMemoryCommitTableStorageModule.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.RetryProcessor.java">org/apache/omid/tso/RetryProcessor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.benchmarks.utils.ZipfianGenerator.java">org/apache/omid/benchmarks/utils/ZipfianGenerator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  58
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.benchmarks.utils.ScrambledZipfianGenerator.java">org/apache/omid/benchmarks/utils/ScrambledZipfianGenerator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  28
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.benchmarks.tso.TSOServerBenchmarkConfig.java">org/apache/omid/benchmarks/tso/TSOServerBenchmarkConfig.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.TimestampOracle.java">org/apache/omid/tso/TimestampOracle.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.LongCache.java">org/apache/omid/tso/LongCache.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  4
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.OmidClientConfiguration.java">org/apache/omid/tso/client/OmidClientConfiguration.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  3
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.benchmarks.utils.Generator.java">org/apache/omid/benchmarks/utils/Generator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  5
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.CellId.java">org/apache/omid/tso/client/CellId.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.hbase.KeyGenerator.java">org/apache/omid/committable/hbase/KeyGenerator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.hbase.KeyGeneratorImplementations.java">org/apache/omid/committable/hbase/KeyGeneratorImplementations.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  3
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.hbase.HBaseCommitTable.java">org/apache/omid/committable/hbase/HBaseCommitTable.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  34
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.HRegionCellGetterAdapter.java">org/apache/omid/transaction/HRegionCellGetterAdapter.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.benchmarks.hbase.HBaseCommitTableTester.java">org/apache/omid/benchmarks/hbase/HBaseCommitTableTester.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.AbortException.java">org/apache/omid/tso/client/AbortException.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.ReplyProcessorImpl.java">org/apache/omid/tso/ReplyProcessorImpl.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  14
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.TimestampStorage.java">org/apache/omid/timestamp/storage/TimestampStorage.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.DefaultHBaseTimestampStorageModule.java">org/apache/omid/timestamp/storage/DefaultHBaseTimestampStorageModule.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.RuntimeExceptionPanicker.java">org/apache/omid/tso/RuntimeExceptionPanicker.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.NullMetricsProvider.java">org/apache/omid/metrics/NullMetricsProvider.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  4
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.hbase.RegionSplitter.java">org/apache/omid/committable/hbase/RegionSplitter.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  10
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.DefaultZKTimestampStorageModule.java">org/apache/omid/timestamp/storage/DefaultZKTimestampStorageModule.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.statemachine.StateMachine.java">org/apache/statemachine/StateMachine.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  18
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.TransactionManagerException.java">org/apache/omid/transaction/TransactionManagerException.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.Counter.java">org/apache/omid/metrics/Counter.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  3
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.RollbackException.java">org/apache/omid/transaction/RollbackException.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.PersistenceProcessorImpl.java">org/apache/omid/tso/PersistenceProcessorImpl.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  21
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.ConnectionException.java">org/apache/omid/tso/client/ConnectionException.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
                 </td>
                 <td>
                   0
@@ -1110,35 +88,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.TimestampOracleImpl.java">org/apache/omid/tso/TimestampOracleImpl.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  7
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.InMemoryTimestampStorageModule.java">org/apache/omid/tso/InMemoryTimestampStorageModule.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.ColumnWrapper.java">org/apache/omid/transaction/ColumnWrapper.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.TransactionManager.java">org/apache/omid/transaction/TransactionManager.java</a>
                 </td>
                 <td>
                   0
@@ -1152,21 +102,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.HBaseCellId.java">org/apache/omid/transaction/HBaseCellId.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.TransactionManager.java">org/apache/omid/transaction/TransactionManager.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tools.hbase.HBaseLogin.java">org/apache/omid/tools/hbase/HBaseLogin.java</a>
                 </td>
                 <td>
                   0
@@ -1180,49 +116,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.VoidLeaseManager.java">org/apache/omid/tso/VoidLeaseManager.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.MetricsUtils.java">org/apache/omid/metrics/MetricsUtils.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.RegionWrapper.java">org/apache/omid/RegionWrapper.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  10
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.ZKTimestampStorage.java">org/apache/omid/timestamp/storage/ZKTimestampStorage.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.CommitTable.java">org/apache/omid/committable/CommitTable.java</a>
                 </td>
                 <td>
                   0
@@ -1236,147 +130,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.benchmarks.utils.IntegerGenerator.java">org/apache/omid/benchmarks/utils/IntegerGenerator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  12
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.benchmarks.utils.UniformGenerator.java">org/apache/omid/benchmarks/utils/UniformGenerator.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.CompactorUtil.java">org/apache/omid/transaction/CompactorUtil.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  11
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.ZKTimestampPaths.java">org/apache/omid/timestamp/storage/ZKTimestampPaths.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.TSOStateManager.java">org/apache/omid/tso/TSOStateManager.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  10
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.TSOStateManagerImpl.java">org/apache/omid/tso/TSOStateManagerImpl.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  5
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.CellUtils.java">org/apache/omid/transaction/CellUtils.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  8
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.MockPanicker.java">org/apache/omid/tso/MockPanicker.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.DisruptorModule.java">org/apache/omid/tso/DisruptorModule.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  13
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.PersistenceProcessor.java">org/apache/omid/tso/PersistenceProcessor.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  5
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.HALeaseManagementModule.java">org/apache/omid/tso/HALeaseManagementModule.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.LongCache.java">org/apache/omid/tso/LongCache.java</a>
                 </td>
                 <td>
                   0
@@ -1390,27 +144,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.HBaseShims.java">org/apache/omid/HBaseShims.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.ReflectionHelper.java">org/apache/omid/ReflectionHelper.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  21
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.Batch.java">org/apache/omid/tso/Batch.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  10
+                  3
                 </td>
                 <td>
                   0
@@ -1418,7 +158,49 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.OmidCompactor.java">org/apache/omid/transaction/OmidCompactor.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.util.DummyCellIdImpl.java">org/apache/omid/tso/util/DummyCellIdImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.MockTSOClient.java">org/apache/omid/tso/client/MockTSOClient.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  9
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.LowWatermarkWriterImpl.java">org/apache/omid/tso/LowWatermarkWriterImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.TSOProtocol.java">org/apache/omid/tso/client/TSOProtocol.java</a>
                 </td>
                 <td>
                   0
@@ -1432,13 +214,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.PersistenceProcessorHandler.java">org/apache/omid/tso/PersistenceProcessorHandler.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.TimestampOracle.java">org/apache/omid/tso/TimestampOracle.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  15
+                  1
                 </td>
                 <td>
                   0
@@ -1446,7 +228,35 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.TsoServerDaemon.java">org/apache/omid/tso/TsoServerDaemon.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.HTableAccessWrapper.java">org/apache/omid/transaction/HTableAccessWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.MonitoringContext.java">org/apache/omid/tso/MonitoringContext.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.zk.ZKUtils.java">org/apache/omid/zk/ZKUtils.java</a>
                 </td>
                 <td>
                   0
@@ -1460,27 +270,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.TTable.java">org/apache/omid/transaction/TTable.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.AbstractTransactionManager.java">org/apache/omid/transaction/AbstractTransactionManager.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  18
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#log4j.properties">log4j.properties</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
+                  20
                 </td>
                 <td>
                   0
@@ -1488,27 +284,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.PostCommitActions.java">org/apache/omid/transaction/PostCommitActions.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.hbase.KeyGeneratorImplementations.java">org/apache/omid/committable/hbase/KeyGeneratorImplementations.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.RetryProcessorImpl.java">org/apache/omid/tso/RetryProcessorImpl.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  18
+                  3
                 </td>
                 <td>
                   0
@@ -1516,13 +298,41 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.CompactorScanner.java">org/apache/omid/transaction/CompactorScanner.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.benchmarks.utils.ScrambledZipfianGenerator.java">org/apache/omid/benchmarks/utils/ScrambledZipfianGenerator.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  19
+                  28
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.hbase.HBaseCommitTableStorageModule.java">org/apache/omid/committable/hbase/HBaseCommitTableStorageModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.FatalExceptionHandler.java">org/apache/omid/tso/FatalExceptionHandler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
                 </td>
                 <td>
                   0
@@ -1558,27 +368,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tools.hbase.HBaseLogin.java">org/apache/omid/tools/hbase/HBaseLogin.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.LeaseManager.java">org/apache/omid/tso/LeaseManager.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  4
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.Histogram.java">org/apache/omid/metrics/Histogram.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
+                  7
                 </td>
                 <td>
                   0
@@ -1586,7 +382,35 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.HBaseConfigModule.java">org/apache/omid/HBaseConfigModule.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.HBaseTimestampStorageModule.java">org/apache/omid/timestamp/storage/HBaseTimestampStorageModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.RequestProcessor.java">org/apache/omid/tso/RequestProcessor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.TransactionVisibilityFilterBase.java">org/apache/omid/transaction/TransactionVisibilityFilterBase.java</a>
                 </td>
                 <td>
                   0
@@ -1600,7 +424,413 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.examples.SnapshotIsolationExample.java">org/apache/omid/examples/SnapshotIsolationExample.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.MetricsRegistry.java">org/apache/omid/metrics/MetricsRegistry.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.benchmarks.utils.ZipfianGenerator.java">org/apache/omid/benchmarks/utils/ZipfianGenerator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  58
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.CellInfo.java">org/apache/omid/transaction/CellInfo.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.RetryProcessorImpl.java">org/apache/omid/tso/RetryProcessorImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  19
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.Counter.java">org/apache/omid/metrics/Counter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.benchmarks.hbase.HBaseCommitTableTester.java">org/apache/omid/benchmarks/hbase/HBaseCommitTableTester.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.RetryProcessor.java">org/apache/omid/tso/RetryProcessor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.hadoop.hbase.regionserver.RegionConnectionFactory.java">org/apache/hadoop/hbase/regionserver/RegionConnectionFactory.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  25
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.OmidClientConfiguration.java">org/apache/omid/tso/client/OmidClientConfiguration.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.TSOServerConfig.java">org/apache/omid/tso/TSOServerConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.TTableCellGetterAdapter.java">org/apache/omid/transaction/TTableCellGetterAdapter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.hadoop.hbase.regionserver.RegionAccessWrapper.java">org/apache/hadoop/hbase/regionserver/RegionAccessWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.AttributeSetSnapshotFilter.java">org/apache/omid/transaction/AttributeSetSnapshotFilter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.RegionWrapper.java">org/apache/omid/RegionWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.benchmarks.tso.TSOServerBenchmarkConfig.java">org/apache/omid/benchmarks/tso/TSOServerBenchmarkConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.Batch.java">org/apache/omid/tso/Batch.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.OmidFilterBase.java">org/apache/omid/OmidFilterBase.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.CompactorUtil.java">org/apache/omid/transaction/CompactorUtil.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.CommitTimestampLocator.java">org/apache/omid/transaction/CommitTimestampLocator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.CellId.java">org/apache/omid/tso/client/CellId.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.examples.ParallelExecution.java">org/apache/omid/examples/ParallelExecution.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.HBaseTimestampStorage.java">org/apache/omid/timestamp/storage/HBaseTimestampStorage.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.WorldClockOracleImpl.java">org/apache/omid/tso/WorldClockOracleImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  15
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.OmidSnapshotFilter.java">org/apache/omid/transaction/OmidSnapshotFilter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  31
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.MonitoringContextNullImpl.java">org/apache/omid/tso/MonitoringContextNullImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#log4j.properties">log4j.properties</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.ColumnWrapper.java">org/apache/omid/transaction/ColumnWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.AbortException.java">org/apache/omid/tso/client/AbortException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.ReplyProcessor.java">org/apache/omid/tso/ReplyProcessor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.PersistenceProcessorHandler.java">org/apache/omid/tso/PersistenceProcessorHandler.java</a>
                 </td>
                 <td>
                   0
@@ -1614,13 +844,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.HBaseTransactionManager.java">org/apache/omid/transaction/HBaseTransactionManager.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.MetricsRegistryMap.java">org/apache/omid/metrics/MetricsRegistryMap.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  17
+                  8
                 </td>
                 <td>
                   0
@@ -1628,13 +858,27 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.NetworkUtils.java">org/apache/omid/NetworkUtils.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.RollbackException.java">org/apache/omid/transaction/RollbackException.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  6
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.ZKTimestampStorageModule.java">org/apache/omid/timestamp/storage/ZKTimestampStorageModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
                 </td>
                 <td>
                   0
@@ -1656,7 +900,805 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.TableAccessWrapper.java">org/apache/omid/transaction/TableAccessWrapper.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.CellUtils.java">org/apache/omid/transaction/CellUtils.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  26
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.TSOFuture.java">org/apache/omid/tso/client/TSOFuture.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.HBaseShims.java">org/apache/omid/HBaseShims.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  16
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.HBaseTransactionManager.java">org/apache/omid/transaction/HBaseTransactionManager.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  33
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.TimestampOracleImpl.java">org/apache/omid/tso/TimestampOracleImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.NetworkInterfaceUtils.java">org/apache/omid/tso/NetworkInterfaceUtils.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.LeaseManagement.java">org/apache/omid/tso/LeaseManagement.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.PersistenceProcessorImpl.java">org/apache/omid/tso/PersistenceProcessorImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  20
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.ZKModule.java">org/apache/omid/timestamp/storage/ZKModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.HBaseTimestampStorageConfig.java">org/apache/omid/timestamp/storage/HBaseTimestampStorageConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.RequestProcessorPersistCT.java">org/apache/omid/tso/RequestProcessorPersistCT.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.InMemoryTimestampStorageModule.java">org/apache/omid/tso/InMemoryTimestampStorageModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.MetricsProvider.java">org/apache/omid/metrics/MetricsProvider.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.hbase.KeyGenerator.java">org/apache/omid/committable/hbase/KeyGenerator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.ConnectionException.java">org/apache/omid/tso/client/ConnectionException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.DisruptorModule.java">org/apache/omid/tso/DisruptorModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  13
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.benchmarks.utils.UniformGenerator.java">org/apache/omid/benchmarks/utils/UniformGenerator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.Panicker.java">org/apache/omid/tso/Panicker.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.Gauge.java">org/apache/omid/metrics/Gauge.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.hbase.RegionSplitter.java">org/apache/omid/committable/hbase/RegionSplitter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.PersistenceProcessor.java">org/apache/omid/tso/PersistenceProcessor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.RequestProcessorSkipCT.java">org/apache/omid/tso/RequestProcessorSkipCT.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.hbase.HBaseCommitTable.java">org/apache/omid/committable/hbase/HBaseCommitTable.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  41
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.Timer.java">org/apache/omid/metrics/Timer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.TSOStateManager.java">org/apache/omid/tso/TSOStateManager.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.MockPanicker.java">org/apache/omid/tso/MockPanicker.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.CompactorScanner.java">org/apache/omid/transaction/CompactorScanner.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  19
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.examples.ConfigurationExample.java">org/apache/omid/examples/ConfigurationExample.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.TimestampStorage.java">org/apache/omid/timestamp/storage/TimestampStorage.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.SnapshotFilterImpl.java">org/apache/omid/transaction/SnapshotFilterImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  78
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.VoidLeaseManager.java">org/apache/omid/tso/VoidLeaseManager.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.RuntimeExceptionPanicker.java">org/apache/omid/tso/RuntimeExceptionPanicker.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.NullCommitTable.java">org/apache/omid/committable/NullCommitTable.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.MetricsUtils.java">org/apache/omid/metrics/MetricsUtils.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.benchmarks.utils.IntegerGenerator.java">org/apache/omid/benchmarks/utils/IntegerGenerator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.ZKTimestampPaths.java">org/apache/omid/timestamp/storage/ZKTimestampPaths.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.InMemoryCommitTableStorageModule.java">org/apache/omid/tso/InMemoryCommitTableStorageModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.HALeaseManagementModule.java">org/apache/omid/tso/HALeaseManagementModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.NullMetricsProvider.java">org/apache/omid/metrics/NullMetricsProvider.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.Meter.java">org/apache/omid/metrics/Meter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.Metric.java">org/apache/omid/metrics/Metric.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.ForwardingTSOFuture.java">org/apache/omid/tso/client/ForwardingTSOFuture.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.PersistEvent.java">org/apache/omid/tso/PersistEvent.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.PostCommitActions.java">org/apache/omid/transaction/PostCommitActions.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.TransactionManagerException.java">org/apache/omid/transaction/TransactionManagerException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.examples.SnapshotIsolationExample.java">org/apache/omid/examples/SnapshotIsolationExample.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  28
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.CacheEvaluation.java">org/apache/omid/tso/CacheEvaluation.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  9
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.statemachine.StateMachineLogParser.java">org/apache/statemachine/StateMachineLogParser.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  11
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.examples.RowIdGenerator.java">org/apache/omid/examples/RowIdGenerator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.Histogram.java">org/apache/omid/metrics/Histogram.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.hbase.HBaseCommitTableConfig.java">org/apache/omid/committable/hbase/HBaseCommitTableConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.InMemoryCommitTable.java">org/apache/omid/committable/InMemoryCommitTable.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.TSOChannelHandler.java">org/apache/omid/tso/TSOChannelHandler.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  21
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.ServiceUnavailableException.java">org/apache/omid/tso/client/ServiceUnavailableException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.MonitoringContextImpl.java">org/apache/omid/tso/MonitoringContextImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.TsoServerDaemon.java">org/apache/omid/tso/TsoServerDaemon.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.HBaseOmidClientConfiguration.java">org/apache/omid/transaction/HBaseOmidClientConfiguration.java</a>
                 </td>
                 <td>
                   0
@@ -1684,153 +1726,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.InMemoryCommitTable.java">org/apache/omid/committable/InMemoryCommitTable.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.MetricsProvider.java">org/apache/omid/metrics/MetricsProvider.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.TSOChannelHandler.java">org/apache/omid/tso/TSOChannelHandler.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  20
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.SystemExitPanicker.java">org/apache/omid/tso/SystemExitPanicker.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  1
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.RequestProcessorImpl.java">org/apache/omid/tso/RequestProcessorImpl.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  32
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.YAMLUtils.java">org/apache/omid/YAMLUtils.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.PersitenceProcessorNullImpl.java">org/apache/omid/tso/PersitenceProcessorNullImpl.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
                   8
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.HBaseOmidClientConfiguration.java">org/apache/omid/transaction/HBaseOmidClientConfiguration.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  4
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.NetworkInterfaceUtils.java">org/apache/omid/tso/NetworkInterfaceUtils.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  4
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.committable.hbase.HBaseCommitTableConfig.java">org/apache/omid/committable/hbase/HBaseCommitTableConfig.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  3
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.HBaseSyncPostCommitter.java">org/apache/omid/transaction/HBaseSyncPostCommitter.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  6
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.ClosingException.java">org/apache/omid/tso/client/ClosingException.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
                 </td>
                 <td>
                   0
@@ -1852,13 +1754,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.MonitoringContext.java">org/apache/omid/tso/MonitoringContext.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.statemachine.StateMachine.java">org/apache/statemachine/StateMachine.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  11
+                  18
                 </td>
                 <td>
                   0
@@ -1866,7 +1768,35 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.BatchPoolModule.java">org/apache/omid/tso/BatchPoolModule.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.CellSkipFilterBase.java">org/apache/omid/transaction/CellSkipFilterBase.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.hadoop.hbase.ipc.controller.InterRegionServerRpcController.java">org/apache/hadoop/hbase/ipc/controller/InterRegionServerRpcController.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.TSOStateManagerImpl.java">org/apache/omid/tso/TSOStateManagerImpl.java</a>
                 </td>
                 <td>
                   0
@@ -1880,13 +1810,125 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.examples.ConfigurationExample.java">org/apache/omid/examples/ConfigurationExample.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.HBaseCellId.java">org/apache/omid/transaction/HBaseCellId.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  11
+                  3
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.examples.BasicExample.java">org/apache/omid/examples/BasicExample.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.MonitoringContextFactory.java">org/apache/omid/tso/MonitoringContextFactory.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.SystemExitPanicker.java">org/apache/omid/tso/SystemExitPanicker.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.ReplyProcessorImpl.java">org/apache/omid/tso/ReplyProcessorImpl.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  17
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.benchmarks.tso.RawTxRunner.java">org/apache/omid/benchmarks/tso/RawTxRunner.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.DefaultHBaseTimestampStorageModule.java">org/apache/omid/timestamp/storage/DefaultHBaseTimestampStorageModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.benchmarks.utils.Generator.java">org/apache/omid/benchmarks/utils/Generator.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.HBaseTransaction.java">org/apache/omid/transaction/HBaseTransaction.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  7
                 </td>
                 <td>
                   0
@@ -1908,27 +1950,13 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.ZKModule.java">org/apache/omid/timestamp/storage/ZKModule.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.HRegionCellGetterAdapter.java">org/apache/omid/transaction/HRegionCellGetterAdapter.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
-                  7
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.TSOServer.java">org/apache/omid/tso/TSOServer.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  3
+                  6
                 </td>
                 <td>
                   0
@@ -1936,7 +1964,63 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.ServiceUnavailableException.java">org/apache/omid/tso/client/ServiceUnavailableException.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.TTable.java">org/apache/omid/transaction/TTable.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  63
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.HBaseTransactionClient.java">org/apache/omid/transaction/HBaseTransactionClient.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.AbstractRequestProcessor.java">org/apache/omid/tso/AbstractRequestProcessor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  46
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.VoidLeaseManagementModule.java">org/apache/omid/tso/VoidLeaseManagementModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  4
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.ClosingException.java">org/apache/omid/tso/client/ClosingException.java</a>
                 </td>
                 <td>
                   0
@@ -1950,7 +2034,91 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.MetricsRegistryMap.java">org/apache/omid/metrics/MetricsRegistryMap.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.client.TSOClient.java">org/apache/omid/tso/client/TSOClient.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  81
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.ZKTimestampStorage.java">org/apache/omid/timestamp/storage/ZKTimestampStorage.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  3
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.SnapshotFilter.java">org/apache/omid/transaction/SnapshotFilter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.TransactionException.java">org/apache/omid/transaction/TransactionException.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.hadoop.hbase.ipc.controller.InterRegionServerRpcControllerFactory.java">org/apache/hadoop/hbase/ipc/controller/InterRegionServerRpcControllerFactory.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.timestamp.storage.DefaultZKTimestampStorageModule.java">org/apache/omid/timestamp/storage/DefaultZKTimestampStorageModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.Transaction.java">org/apache/omid/transaction/Transaction.java</a>
                 </td>
                 <td>
                   0
@@ -1964,13 +2132,125 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.Timer.java">org/apache/omid/metrics/Timer.java</a>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.TSOServer.java">org/apache/omid/tso/TSOServer.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.LowWatermarkWriter.java">org/apache/omid/tso/LowWatermarkWriter.java</a>
                 </td>
                 <td>
                   0
                 </td>
                 <td>
                   1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.HBaseConfigModule.java">org/apache/omid/HBaseConfigModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  10
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.OmidCompactor.java">org/apache/omid/transaction/OmidCompactor.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  18
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.YAMLUtils.java">org/apache/omid/YAMLUtils.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  8
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.metrics.AbstractMetricsConfig.java">org/apache/omid/metrics/AbstractMetricsConfig.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  1
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tools.hbase.OmidTableManager.java">org/apache/omid/tools/hbase/OmidTableManager.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  31
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.HBaseSyncPostCommitter.java">org/apache/omid/transaction/HBaseSyncPostCommitter.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  12
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.BatchPoolModule.java">org/apache/omid/tso/BatchPoolModule.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  5
                 </td>
                 <td>
                   0
@@ -1985,6 +2265,34 @@ under the License.
                 </td>
                 <td>
                   2
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.NetworkUtils.java">org/apache/omid/NetworkUtils.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  6
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.transaction.AbstractTransaction.java">org/apache/omid/transaction/AbstractTransaction.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  24
                 </td>
                 <td>
                   0

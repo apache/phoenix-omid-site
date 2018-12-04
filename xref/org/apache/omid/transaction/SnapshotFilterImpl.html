@@ -148,426 +148,426 @@
 <a class="jxr_linenumber" name="138" href="#138">138</a> <em class="jxr_javadoccomment">     *            the timestamp locator</em>
 <a class="jxr_linenumber" name="139" href="#139">139</a> <em class="jxr_javadoccomment">     * @throws IOException</em>
 <a class="jxr_linenumber" name="140" href="#140">140</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="141" href="#141">141</a>     @Override
-<a class="jxr_linenumber" name="142" href="#142">142</a>     <strong class="jxr_keyword">public</strong> Optional&lt;CommitTimestamp&gt; readCommitTimestampFromShadowCell(<strong class="jxr_keyword">long</strong> cellStartTimestamp, <a href="../../../../org/apache/omid/transaction/CommitTimestampLocator.html">CommitTimestampLocator</a> locator)
-<a class="jxr_linenumber" name="143" href="#143">143</a>             <strong class="jxr_keyword">throws</strong> IOException
-<a class="jxr_linenumber" name="144" href="#144">144</a>     {
-<a class="jxr_linenumber" name="145" href="#145">145</a> 
-<a class="jxr_linenumber" name="146" href="#146">146</a>         Optional&lt;CommitTimestamp&gt; commitTS = Optional.absent();
-<a class="jxr_linenumber" name="147" href="#147">147</a> 
-<a class="jxr_linenumber" name="148" href="#148">148</a>         Optional&lt;Long&gt; commitTimestamp = locator.readCommitTimestampFromShadowCell(cellStartTimestamp);
-<a class="jxr_linenumber" name="149" href="#149">149</a>         <strong class="jxr_keyword">if</strong> (commitTimestamp.isPresent()) {
-<a class="jxr_linenumber" name="150" href="#150">150</a>             commitTS = Optional.of(<strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/committable/CommitTable.html">CommitTimestamp</a>(SHADOW_CELL, commitTimestamp.get(), <strong class="jxr_keyword">true</strong>)); <em class="jxr_comment">// Valid commit TS</em>
-<a class="jxr_linenumber" name="151" href="#151">151</a>         }
-<a class="jxr_linenumber" name="152" href="#152">152</a> 
-<a class="jxr_linenumber" name="153" href="#153">153</a>         <strong class="jxr_keyword">return</strong> commitTS;
-<a class="jxr_linenumber" name="154" href="#154">154</a>     }
-<a class="jxr_linenumber" name="155" href="#155">155</a> 
-<a class="jxr_linenumber" name="156" href="#156">156</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="157" href="#157">157</a> <em class="jxr_javadoccomment">     * This function returns the commit timestamp for a particular cell if the transaction was already committed in</em>
-<a class="jxr_linenumber" name="158" href="#158">158</a> <em class="jxr_javadoccomment">     * the system. In case the transaction was not committed and the cell was written by transaction initialized by a</em>
-<a class="jxr_linenumber" name="159" href="#159">159</a> <em class="jxr_javadoccomment">     * previous TSO server, an invalidation try occurs.</em>
-<a class="jxr_linenumber" name="160" href="#160">160</a> <em class="jxr_javadoccomment">     * Otherwise the function returns a value that indicates that the commit timestamp was not found.</em>
-<a class="jxr_linenumber" name="161" href="#161">161</a> <em class="jxr_javadoccomment">     * @param cellStartTimestamp</em>
-<a class="jxr_linenumber" name="162" href="#162">162</a> <em class="jxr_javadoccomment">     *          start timestamp of the cell to locate the commit timestamp for.</em>
-<a class="jxr_linenumber" name="163" href="#163">163</a> <em class="jxr_javadoccomment">     * @param epoch</em>
-<a class="jxr_linenumber" name="164" href="#164">164</a> <em class="jxr_javadoccomment">     *          the epoch of the TSO server the current tso client is working with.</em>
-<a class="jxr_linenumber" name="165" href="#165">165</a> <em class="jxr_javadoccomment">     * @param locator</em>
-<a class="jxr_linenumber" name="166" href="#166">166</a> <em class="jxr_javadoccomment">     *          a locator to find the commit timestamp in the system.</em>
-<a class="jxr_linenumber" name="167" href="#167">167</a> <em class="jxr_javadoccomment">     * @return the commit timestamp joint with the location where it was found</em>
-<a class="jxr_linenumber" name="168" href="#168">168</a> <em class="jxr_javadoccomment">     *         or an object indicating that it was not found in the system</em>
-<a class="jxr_linenumber" name="169" href="#169">169</a> <em class="jxr_javadoccomment">     * @throws IOException  in case of any I/O issues</em>
-<a class="jxr_linenumber" name="170" href="#170">170</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="171" href="#171">171</a>     @Override
-<a class="jxr_linenumber" name="172" href="#172">172</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../org/apache/omid/committable/CommitTable.html">CommitTimestamp</a> locateCellCommitTimestamp(<strong class="jxr_keyword">long</strong> cellStartTimestamp, <strong class="jxr_keyword">long</strong> epoch,
-<a class="jxr_linenumber" name="173" href="#173">173</a>                                                      <a href="../../../../org/apache/omid/transaction/CommitTimestampLocator.html">CommitTimestampLocator</a> locator) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="174" href="#174">174</a> 
-<a class="jxr_linenumber" name="175" href="#175">175</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="176" href="#176">176</a>             <em class="jxr_comment">// 1) First check the cache</em>
-<a class="jxr_linenumber" name="177" href="#177">177</a>             Optional&lt;Long&gt; commitTimestamp = locator.readCommitTimestampFromCache(cellStartTimestamp);
-<a class="jxr_linenumber" name="178" href="#178">178</a>             <strong class="jxr_keyword">if</strong> (commitTimestamp.isPresent()) { <em class="jxr_comment">// Valid commit timestamp</em>
-<a class="jxr_linenumber" name="179" href="#179">179</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/committable/CommitTable.html">CommitTimestamp</a>(CACHE, commitTimestamp.get(), <strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="180" href="#180">180</a>             }
-<a class="jxr_linenumber" name="181" href="#181">181</a> 
-<a class="jxr_linenumber" name="182" href="#182">182</a>             <em class="jxr_comment">// 2) Then check the commit table</em>
-<a class="jxr_linenumber" name="183" href="#183">183</a>             <em class="jxr_comment">// If the data was written at a previous epoch, check whether the transaction was invalidated</em>
-<a class="jxr_linenumber" name="184" href="#184">184</a>             Optional&lt;CommitTimestamp&gt; commitTimeStamp = commitTableClient.getCommitTimestamp(cellStartTimestamp).get();
-<a class="jxr_linenumber" name="185" href="#185">185</a>             <strong class="jxr_keyword">if</strong> (commitTimeStamp.isPresent()) {
-<a class="jxr_linenumber" name="186" href="#186">186</a>                 <strong class="jxr_keyword">return</strong> commitTimeStamp.get();
-<a class="jxr_linenumber" name="187" href="#187">187</a>             }
-<a class="jxr_linenumber" name="188" href="#188">188</a> 
-<a class="jxr_linenumber" name="189" href="#189">189</a>             <em class="jxr_comment">// 3) Read from shadow cell</em>
-<a class="jxr_linenumber" name="190" href="#190">190</a>             commitTimeStamp = readCommitTimestampFromShadowCell(cellStartTimestamp, locator);
-<a class="jxr_linenumber" name="191" href="#191">191</a>             <strong class="jxr_keyword">if</strong> (commitTimeStamp.isPresent()) {
-<a class="jxr_linenumber" name="192" href="#192">192</a>                 <strong class="jxr_keyword">return</strong> commitTimeStamp.get();
-<a class="jxr_linenumber" name="193" href="#193">193</a>             }
-<a class="jxr_linenumber" name="194" href="#194">194</a> 
-<a class="jxr_linenumber" name="195" href="#195">195</a>             <em class="jxr_comment">// 4) Check the epoch and invalidate the entry</em>
-<a class="jxr_linenumber" name="196" href="#196">196</a>             <em class="jxr_comment">// if the data was written by a transaction from a previous epoch (previous TSO)</em>
-<a class="jxr_linenumber" name="197" href="#197">197</a>             <strong class="jxr_keyword">if</strong> (cellStartTimestamp &lt; epoch) {
-<a class="jxr_linenumber" name="198" href="#198">198</a>                 <strong class="jxr_keyword">boolean</strong> invalidated = commitTableClient.tryInvalidateTransaction(cellStartTimestamp).get();
-<a class="jxr_linenumber" name="199" href="#199">199</a>                 <strong class="jxr_keyword">if</strong> (invalidated) { <em class="jxr_comment">// Invalid commit timestamp</em>
-<a class="jxr_linenumber" name="200" href="#200">200</a>                     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/committable/CommitTable.html">CommitTimestamp</a>(COMMIT_TABLE, CommitTable.INVALID_TRANSACTION_MARKER, false);
-<a class="jxr_linenumber" name="201" href="#201">201</a>                 }
-<a class="jxr_linenumber" name="202" href="#202">202</a>             }
-<a class="jxr_linenumber" name="203" href="#203">203</a> 
-<a class="jxr_linenumber" name="204" href="#204">204</a>             <em class="jxr_comment">// 5) We did not manage to invalidate the transactions then check the commit table</em>
-<a class="jxr_linenumber" name="205" href="#205">205</a>             commitTimeStamp = commitTableClient.getCommitTimestamp(cellStartTimestamp).get();
-<a class="jxr_linenumber" name="206" href="#206">206</a>             <strong class="jxr_keyword">if</strong> (commitTimeStamp.isPresent()) {
-<a class="jxr_linenumber" name="207" href="#207">207</a>                 <strong class="jxr_keyword">return</strong> commitTimeStamp.get();
-<a class="jxr_linenumber" name="208" href="#208">208</a>             }
-<a class="jxr_linenumber" name="209" href="#209">209</a> 
-<a class="jxr_linenumber" name="210" href="#210">210</a>             <em class="jxr_comment">// 6) Read from shadow cell</em>
-<a class="jxr_linenumber" name="211" href="#211">211</a>             commitTimeStamp = readCommitTimestampFromShadowCell(cellStartTimestamp, locator);
-<a class="jxr_linenumber" name="212" href="#212">212</a>             <strong class="jxr_keyword">if</strong> (commitTimeStamp.isPresent()) {
-<a class="jxr_linenumber" name="213" href="#213">213</a>                 <strong class="jxr_keyword">return</strong> commitTimeStamp.get();
-<a class="jxr_linenumber" name="214" href="#214">214</a>             }
-<a class="jxr_linenumber" name="215" href="#215">215</a> 
-<a class="jxr_linenumber" name="216" href="#216">216</a>             <em class="jxr_comment">// *) Otherwise return not found</em>
-<a class="jxr_linenumber" name="217" href="#217">217</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/committable/CommitTable.html">CommitTimestamp</a>(NOT_PRESENT, -1L <em class="jxr_javadoccomment">/**</em><em class="jxr_javadoccomment"> TODO Check if we should return this */</em>, <strong class="jxr_keyword">true</strong>);
-<a class="jxr_linenumber" name="218" href="#218">218</a>         } <strong class="jxr_keyword">catch</strong> (InterruptedException e) {
-<a class="jxr_linenumber" name="219" href="#219">219</a>             Thread.currentThread().interrupt();
-<a class="jxr_linenumber" name="220" href="#220">220</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IOException(<span class="jxr_string">"Interrupted while finding commit timestamp"</span>, e);
-<a class="jxr_linenumber" name="221" href="#221">221</a>         } <strong class="jxr_keyword">catch</strong> (ExecutionException e) {
-<a class="jxr_linenumber" name="222" href="#222">222</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IOException(<span class="jxr_string">"Problem finding commit timestamp"</span>, e);
-<a class="jxr_linenumber" name="223" href="#223">223</a>         }
-<a class="jxr_linenumber" name="224" href="#224">224</a> 
-<a class="jxr_linenumber" name="225" href="#225">225</a>     }
-<a class="jxr_linenumber" name="226" href="#226">226</a> 
-<a class="jxr_linenumber" name="227" href="#227">227</a>     <strong class="jxr_keyword">public</strong> Optional&lt;Long&gt; tryToLocateCellCommitTimestamp(<strong class="jxr_keyword">long</strong> epoch,
-<a class="jxr_linenumber" name="228" href="#228">228</a>             Cell cell,
-<a class="jxr_linenumber" name="229" href="#229">229</a>             Map&lt;Long, Long&gt; commitCache)
-<a class="jxr_linenumber" name="230" href="#230">230</a>                     <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="231" href="#231">231</a> 
-<a class="jxr_linenumber" name="232" href="#232">232</a>         <a href="../../../../org/apache/omid/committable/CommitTable.html">CommitTimestamp</a> tentativeCommitTimestamp =
-<a class="jxr_linenumber" name="233" href="#233">233</a>                 locateCellCommitTimestamp(
-<a class="jxr_linenumber" name="234" href="#234">234</a>                         cell.getTimestamp(),
-<a class="jxr_linenumber" name="235" href="#235">235</a>                         epoch,
-<a class="jxr_linenumber" name="236" href="#236">236</a>                         <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/HBaseTransactionManager.html">CommitTimestampLocatorImpl</a>(
-<a class="jxr_linenumber" name="237" href="#237">237</a>                                 <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/HBaseCellId.html">HBaseCellId</a>(<strong class="jxr_keyword">null</strong>,
-<a class="jxr_linenumber" name="238" href="#238">238</a>                                         CellUtil.cloneRow(cell),
-<a class="jxr_linenumber" name="239" href="#239">239</a>                                         CellUtil.cloneFamily(cell),
-<a class="jxr_linenumber" name="240" href="#240">240</a>                                         CellUtil.cloneQualifier(cell),
-<a class="jxr_linenumber" name="241" href="#241">241</a>                                         cell.getTimestamp()),
-<a class="jxr_linenumber" name="242" href="#242">242</a>                                         commitCache,
-<a class="jxr_linenumber" name="243" href="#243">243</a>                                         tableAccessWrapper));
+<a class="jxr_linenumber" name="141" href="#141">141</a>     <strong class="jxr_keyword">public</strong> Optional&lt;CommitTimestamp&gt; readCommitTimestampFromShadowCell(<strong class="jxr_keyword">long</strong> cellStartTimestamp, <a href="../../../../org/apache/omid/transaction/CommitTimestampLocator.html">CommitTimestampLocator</a> locator)
+<a class="jxr_linenumber" name="142" href="#142">142</a>             <strong class="jxr_keyword">throws</strong> IOException
+<a class="jxr_linenumber" name="143" href="#143">143</a>     {
+<a class="jxr_linenumber" name="144" href="#144">144</a> 
+<a class="jxr_linenumber" name="145" href="#145">145</a>         Optional&lt;CommitTimestamp&gt; commitTS = Optional.absent();
+<a class="jxr_linenumber" name="146" href="#146">146</a> 
+<a class="jxr_linenumber" name="147" href="#147">147</a>         Optional&lt;Long&gt; commitTimestamp = locator.readCommitTimestampFromShadowCell(cellStartTimestamp);
+<a class="jxr_linenumber" name="148" href="#148">148</a>         <strong class="jxr_keyword">if</strong> (commitTimestamp.isPresent()) {
+<a class="jxr_linenumber" name="149" href="#149">149</a>             commitTS = Optional.of(<strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/committable/CommitTable.html">CommitTimestamp</a>(SHADOW_CELL, commitTimestamp.get(), <strong class="jxr_keyword">true</strong>)); <em class="jxr_comment">// Valid commit TS</em>
+<a class="jxr_linenumber" name="150" href="#150">150</a>         }
+<a class="jxr_linenumber" name="151" href="#151">151</a> 
+<a class="jxr_linenumber" name="152" href="#152">152</a>         <strong class="jxr_keyword">return</strong> commitTS;
+<a class="jxr_linenumber" name="153" href="#153">153</a>     }
+<a class="jxr_linenumber" name="154" href="#154">154</a> 
+<a class="jxr_linenumber" name="155" href="#155">155</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="156" href="#156">156</a> <em class="jxr_javadoccomment">     * This function returns the commit timestamp for a particular cell if the transaction was already committed in</em>
+<a class="jxr_linenumber" name="157" href="#157">157</a> <em class="jxr_javadoccomment">     * the system. In case the transaction was not committed and the cell was written by transaction initialized by a</em>
+<a class="jxr_linenumber" name="158" href="#158">158</a> <em class="jxr_javadoccomment">     * previous TSO server, an invalidation try occurs.</em>
+<a class="jxr_linenumber" name="159" href="#159">159</a> <em class="jxr_javadoccomment">     * Otherwise the function returns a value that indicates that the commit timestamp was not found.</em>
+<a class="jxr_linenumber" name="160" href="#160">160</a> <em class="jxr_javadoccomment">     * @param cellStartTimestamp</em>
+<a class="jxr_linenumber" name="161" href="#161">161</a> <em class="jxr_javadoccomment">     *          start timestamp of the cell to locate the commit timestamp for.</em>
+<a class="jxr_linenumber" name="162" href="#162">162</a> <em class="jxr_javadoccomment">     * @param epoch</em>
+<a class="jxr_linenumber" name="163" href="#163">163</a> <em class="jxr_javadoccomment">     *          the epoch of the TSO server the current tso client is working with.</em>
+<a class="jxr_linenumber" name="164" href="#164">164</a> <em class="jxr_javadoccomment">     * @param locator</em>
+<a class="jxr_linenumber" name="165" href="#165">165</a> <em class="jxr_javadoccomment">     *          a locator to find the commit timestamp in the system.</em>
+<a class="jxr_linenumber" name="166" href="#166">166</a> <em class="jxr_javadoccomment">     * @return the commit timestamp joint with the location where it was found</em>
+<a class="jxr_linenumber" name="167" href="#167">167</a> <em class="jxr_javadoccomment">     *         or an object indicating that it was not found in the system</em>
+<a class="jxr_linenumber" name="168" href="#168">168</a> <em class="jxr_javadoccomment">     * @throws IOException  in case of any I/O issues</em>
+<a class="jxr_linenumber" name="169" href="#169">169</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="170" href="#170">170</a>     <strong class="jxr_keyword">public</strong> <a href="../../../../org/apache/omid/committable/CommitTable.html">CommitTimestamp</a> locateCellCommitTimestamp(<strong class="jxr_keyword">long</strong> cellStartTimestamp, <strong class="jxr_keyword">long</strong> epoch,
+<a class="jxr_linenumber" name="171" href="#171">171</a>                                                      <a href="../../../../org/apache/omid/transaction/CommitTimestampLocator.html">CommitTimestampLocator</a> locator, <strong class="jxr_keyword">boolean</strong> isLowLatency) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="172" href="#172">172</a> 
+<a class="jxr_linenumber" name="173" href="#173">173</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="174" href="#174">174</a>             <em class="jxr_comment">// 1) First check the cache</em>
+<a class="jxr_linenumber" name="175" href="#175">175</a>             Optional&lt;Long&gt; commitTimestamp = locator.readCommitTimestampFromCache(cellStartTimestamp);
+<a class="jxr_linenumber" name="176" href="#176">176</a>             <strong class="jxr_keyword">if</strong> (commitTimestamp.isPresent()) { <em class="jxr_comment">// Valid commit timestamp</em>
+<a class="jxr_linenumber" name="177" href="#177">177</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/committable/CommitTable.html">CommitTimestamp</a>(CACHE, commitTimestamp.get(), <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="178" href="#178">178</a>             }
+<a class="jxr_linenumber" name="179" href="#179">179</a> 
+<a class="jxr_linenumber" name="180" href="#180">180</a>             <em class="jxr_comment">// 2) Then check the commit table</em>
+<a class="jxr_linenumber" name="181" href="#181">181</a>             <em class="jxr_comment">// If the data was written at a previous epoch, check whether the transaction was invalidated</em>
+<a class="jxr_linenumber" name="182" href="#182">182</a>             <strong class="jxr_keyword">boolean</strong> invalidatedByOther = false;
+<a class="jxr_linenumber" name="183" href="#183">183</a>             Optional&lt;CommitTimestamp&gt; commitTimestampFromCT = commitTableClient.getCommitTimestamp(cellStartTimestamp).get();
+<a class="jxr_linenumber" name="184" href="#184">184</a>             <strong class="jxr_keyword">if</strong> (commitTimestampFromCT.isPresent()) {
+<a class="jxr_linenumber" name="185" href="#185">185</a>                 <strong class="jxr_keyword">if</strong> (isLowLatency &amp;&amp; !commitTimestampFromCT.get().isValid())
+<a class="jxr_linenumber" name="186" href="#186">186</a>                     invalidatedByOther = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="187" href="#187">187</a>                 <strong class="jxr_keyword">else</strong>
+<a class="jxr_linenumber" name="188" href="#188">188</a>                     <strong class="jxr_keyword">return</strong> commitTimestampFromCT.get();
+<a class="jxr_linenumber" name="189" href="#189">189</a>             }
+<a class="jxr_linenumber" name="190" href="#190">190</a> 
+<a class="jxr_linenumber" name="191" href="#191">191</a>             <em class="jxr_comment">// 3) Read from shadow cell</em>
+<a class="jxr_linenumber" name="192" href="#192">192</a>             Optional&lt;CommitTimestamp&gt; commitTimeStamp = readCommitTimestampFromShadowCell(cellStartTimestamp, locator);
+<a class="jxr_linenumber" name="193" href="#193">193</a>             <strong class="jxr_keyword">if</strong> (commitTimeStamp.isPresent()) {
+<a class="jxr_linenumber" name="194" href="#194">194</a>                 <strong class="jxr_keyword">return</strong> commitTimeStamp.get();
+<a class="jxr_linenumber" name="195" href="#195">195</a>             }
+<a class="jxr_linenumber" name="196" href="#196">196</a> 
+<a class="jxr_linenumber" name="197" href="#197">197</a>             <em class="jxr_comment">// In case of LL, if found invalid ct cell, still must check sc in stage 3 then return</em>
+<a class="jxr_linenumber" name="198" href="#198">198</a>             <strong class="jxr_keyword">if</strong> (invalidatedByOther) {
+<a class="jxr_linenumber" name="199" href="#199">199</a>                 assert(!commitTimestampFromCT.get().isValid());
+<a class="jxr_linenumber" name="200" href="#200">200</a>                 <strong class="jxr_keyword">return</strong> commitTimestampFromCT.get();
+<a class="jxr_linenumber" name="201" href="#201">201</a>             }
+<a class="jxr_linenumber" name="202" href="#202">202</a> 
+<a class="jxr_linenumber" name="203" href="#203">203</a>             <em class="jxr_comment">// 4) Check the epoch and invalidate the entry</em>
+<a class="jxr_linenumber" name="204" href="#204">204</a>             <em class="jxr_comment">// if the data was written by a transaction from a previous epoch (previous TSO)</em>
+<a class="jxr_linenumber" name="205" href="#205">205</a>             <strong class="jxr_keyword">if</strong> (cellStartTimestamp &lt; epoch || isLowLatency) {
+<a class="jxr_linenumber" name="206" href="#206">206</a>                 <strong class="jxr_keyword">boolean</strong> invalidated = commitTableClient.tryInvalidateTransaction(cellStartTimestamp).get();
+<a class="jxr_linenumber" name="207" href="#207">207</a>                 <strong class="jxr_keyword">if</strong> (invalidated) { <em class="jxr_comment">// Invalid commit timestamp</em>
+<a class="jxr_linenumber" name="208" href="#208">208</a> 
+<a class="jxr_linenumber" name="209" href="#209">209</a>                     <em class="jxr_comment">// If we are running lowLatency Omid, we could have manged to invalidate a ct entry,</em>
+<a class="jxr_linenumber" name="210" href="#210">210</a>                     <em class="jxr_comment">// but the committing client already wrote to shadow cells:</em>
+<a class="jxr_linenumber" name="211" href="#211">211</a>                     <strong class="jxr_keyword">if</strong> (isLowLatency) {
+<a class="jxr_linenumber" name="212" href="#212">212</a>                         commitTimeStamp = readCommitTimestampFromShadowCell(cellStartTimestamp, locator);
+<a class="jxr_linenumber" name="213" href="#213">213</a>                         <strong class="jxr_keyword">if</strong> (commitTimeStamp.isPresent()) {
+<a class="jxr_linenumber" name="214" href="#214">214</a>                             <em class="jxr_comment">// Remove false invalidation from commit table</em>
+<a class="jxr_linenumber" name="215" href="#215">215</a>                             commitTableClient.completeTransaction(cellStartTimestamp);
+<a class="jxr_linenumber" name="216" href="#216">216</a>                             <strong class="jxr_keyword">return</strong> commitTimeStamp.get();
+<a class="jxr_linenumber" name="217" href="#217">217</a>                         }
+<a class="jxr_linenumber" name="218" href="#218">218</a>                     }
+<a class="jxr_linenumber" name="219" href="#219">219</a> 
+<a class="jxr_linenumber" name="220" href="#220">220</a>                     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/committable/CommitTable.html">CommitTimestamp</a>(COMMIT_TABLE, CommitTable.INVALID_TRANSACTION_MARKER, false);
+<a class="jxr_linenumber" name="221" href="#221">221</a>                 }
+<a class="jxr_linenumber" name="222" href="#222">222</a>             }
+<a class="jxr_linenumber" name="223" href="#223">223</a> 
+<a class="jxr_linenumber" name="224" href="#224">224</a>             <em class="jxr_comment">// 5) We did not manage to invalidate the transactions then check the commit table</em>
+<a class="jxr_linenumber" name="225" href="#225">225</a>             commitTimeStamp = commitTableClient.getCommitTimestamp(cellStartTimestamp).get();
+<a class="jxr_linenumber" name="226" href="#226">226</a>             <strong class="jxr_keyword">if</strong> (commitTimeStamp.isPresent()) {
+<a class="jxr_linenumber" name="227" href="#227">227</a>                 <strong class="jxr_keyword">return</strong> commitTimeStamp.get();
+<a class="jxr_linenumber" name="228" href="#228">228</a>             }
+<a class="jxr_linenumber" name="229" href="#229">229</a> 
+<a class="jxr_linenumber" name="230" href="#230">230</a>             <em class="jxr_comment">// 6) Read from shadow cell</em>
+<a class="jxr_linenumber" name="231" href="#231">231</a>             commitTimeStamp = readCommitTimestampFromShadowCell(cellStartTimestamp, locator);
+<a class="jxr_linenumber" name="232" href="#232">232</a>             <strong class="jxr_keyword">if</strong> (commitTimeStamp.isPresent()) {
+<a class="jxr_linenumber" name="233" href="#233">233</a>                 <strong class="jxr_keyword">return</strong> commitTimeStamp.get();
+<a class="jxr_linenumber" name="234" href="#234">234</a>             }
+<a class="jxr_linenumber" name="235" href="#235">235</a> 
+<a class="jxr_linenumber" name="236" href="#236">236</a>             <em class="jxr_comment">// *) Otherwise return not found</em>
+<a class="jxr_linenumber" name="237" href="#237">237</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/committable/CommitTable.html">CommitTimestamp</a>(NOT_PRESENT, -1L <em class="jxr_javadoccomment">/**</em><em class="jxr_javadoccomment"> TODO Check if we should return this */</em>, <strong class="jxr_keyword">true</strong>);
+<a class="jxr_linenumber" name="238" href="#238">238</a>         } <strong class="jxr_keyword">catch</strong> (InterruptedException e) {
+<a class="jxr_linenumber" name="239" href="#239">239</a>             Thread.currentThread().interrupt();
+<a class="jxr_linenumber" name="240" href="#240">240</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IOException(<span class="jxr_string">"Interrupted while finding commit timestamp"</span>, e);
+<a class="jxr_linenumber" name="241" href="#241">241</a>         } <strong class="jxr_keyword">catch</strong> (ExecutionException e) {
+<a class="jxr_linenumber" name="242" href="#242">242</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> IOException(<span class="jxr_string">"Problem finding commit timestamp"</span>, e);
+<a class="jxr_linenumber" name="243" href="#243">243</a>         }
 <a class="jxr_linenumber" name="244" href="#244">244</a> 
-<a class="jxr_linenumber" name="245" href="#245">245</a>         <em class="jxr_comment">// If transaction that added the cell was invalidated</em>
-<a class="jxr_linenumber" name="246" href="#246">246</a>         <strong class="jxr_keyword">if</strong> (!tentativeCommitTimestamp.isValid()) {
-<a class="jxr_linenumber" name="247" href="#247">247</a>             <strong class="jxr_keyword">return</strong> Optional.absent();
-<a class="jxr_linenumber" name="248" href="#248">248</a>         }
-<a class="jxr_linenumber" name="249" href="#249">249</a> 
-<a class="jxr_linenumber" name="250" href="#250">250</a>         <strong class="jxr_keyword">switch</strong> (tentativeCommitTimestamp.getLocation()) {
-<a class="jxr_linenumber" name="251" href="#251">251</a>         <strong class="jxr_keyword">case</strong> COMMIT_TABLE:
-<a class="jxr_linenumber" name="252" href="#252">252</a>             <em class="jxr_comment">// If the commit timestamp is found in the persisted commit table,</em>
-<a class="jxr_linenumber" name="253" href="#253">253</a>             <em class="jxr_comment">// that means the writing process of the shadow cell in the post</em>
-<a class="jxr_linenumber" name="254" href="#254">254</a>             <em class="jxr_comment">// commit phase of the client probably failed, so we heal the shadow</em>
-<a class="jxr_linenumber" name="255" href="#255">255</a>             <em class="jxr_comment">// cell with the right commit timestamp for avoiding further reads to</em>
-<a class="jxr_linenumber" name="256" href="#256">256</a>             <em class="jxr_comment">// hit the storage</em>
-<a class="jxr_linenumber" name="257" href="#257">257</a>             healShadowCell(cell, tentativeCommitTimestamp.getValue());
-<a class="jxr_linenumber" name="258" href="#258">258</a>             <strong class="jxr_keyword">return</strong> Optional.of(tentativeCommitTimestamp.getValue());
-<a class="jxr_linenumber" name="259" href="#259">259</a>         <strong class="jxr_keyword">case</strong> CACHE:
-<a class="jxr_linenumber" name="260" href="#260">260</a>         <strong class="jxr_keyword">case</strong> SHADOW_CELL:
-<a class="jxr_linenumber" name="261" href="#261">261</a>             <strong class="jxr_keyword">return</strong> Optional.of(tentativeCommitTimestamp.getValue());
-<a class="jxr_linenumber" name="262" href="#262">262</a>         <strong class="jxr_keyword">case</strong> NOT_PRESENT:
-<a class="jxr_linenumber" name="263" href="#263">263</a>             <strong class="jxr_keyword">return</strong> Optional.absent();
-<a class="jxr_linenumber" name="264" href="#264">264</a>         <strong class="jxr_keyword">default</strong>:
-<a class="jxr_linenumber" name="265" href="#265">265</a>             assert (false);
-<a class="jxr_linenumber" name="266" href="#266">266</a>             <strong class="jxr_keyword">return</strong> Optional.absent();
-<a class="jxr_linenumber" name="267" href="#267">267</a>         }
-<a class="jxr_linenumber" name="268" href="#268">268</a>     }
-<a class="jxr_linenumber" name="269" href="#269">269</a>     
-<a class="jxr_linenumber" name="270" href="#270">270</a>     
-<a class="jxr_linenumber" name="271" href="#271">271</a>     <strong class="jxr_keyword">private</strong> Optional&lt;Long&gt; getCommitTimestamp(Cell kv, <a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> transaction, Map&lt;Long, Long&gt; commitCache)
-<a class="jxr_linenumber" name="272" href="#272">272</a>             <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="273" href="#273">273</a> 
-<a class="jxr_linenumber" name="274" href="#274">274</a>         <strong class="jxr_keyword">long</strong> startTimestamp = transaction.getStartTimestamp();
-<a class="jxr_linenumber" name="275" href="#275">275</a> 
-<a class="jxr_linenumber" name="276" href="#276">276</a>         <strong class="jxr_keyword">if</strong> (kv.getTimestamp() == startTimestamp) {
-<a class="jxr_linenumber" name="277" href="#277">277</a>             <strong class="jxr_keyword">return</strong> Optional.of(startTimestamp);
-<a class="jxr_linenumber" name="278" href="#278">278</a>         }
-<a class="jxr_linenumber" name="279" href="#279">279</a> 
-<a class="jxr_linenumber" name="280" href="#280">280</a>         <strong class="jxr_keyword">if</strong> (commitTableClient == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="281" href="#281">281</a>             assert (transaction.getTransactionManager() != <strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="282" href="#282">282</a>             commitTableClient = transaction.getTransactionManager().getCommitTableClient();
-<a class="jxr_linenumber" name="283" href="#283">283</a>         }
-<a class="jxr_linenumber" name="284" href="#284">284</a> 
-<a class="jxr_linenumber" name="285" href="#285">285</a>         <strong class="jxr_keyword">return</strong> tryToLocateCellCommitTimestamp(transaction.getEpoch(), kv,
-<a class="jxr_linenumber" name="286" href="#286">286</a>                 commitCache);
-<a class="jxr_linenumber" name="287" href="#287">287</a>     }
-<a class="jxr_linenumber" name="288" href="#288">288</a>     
-<a class="jxr_linenumber" name="289" href="#289">289</a>     <strong class="jxr_keyword">private</strong> Map&lt;Long, Long&gt; buildCommitCache(List&lt;Cell&gt; rawCells) {
-<a class="jxr_linenumber" name="290" href="#290">290</a> 
-<a class="jxr_linenumber" name="291" href="#291">291</a>         Map&lt;Long, Long&gt; commitCache = <strong class="jxr_keyword">new</strong> HashMap&lt;&gt;();
+<a class="jxr_linenumber" name="245" href="#245">245</a>     }
+<a class="jxr_linenumber" name="246" href="#246">246</a> 
+<a class="jxr_linenumber" name="247" href="#247">247</a>     <strong class="jxr_keyword">public</strong> Optional&lt;Long&gt; tryToLocateCellCommitTimestamp(<strong class="jxr_keyword">long</strong> epoch,
+<a class="jxr_linenumber" name="248" href="#248">248</a>                                                          Cell cell,
+<a class="jxr_linenumber" name="249" href="#249">249</a>                                                          Map&lt;Long, Long&gt; commitCache,
+<a class="jxr_linenumber" name="250" href="#250">250</a>                                                          <strong class="jxr_keyword">boolean</strong> isLowLatency)
+<a class="jxr_linenumber" name="251" href="#251">251</a>                     <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="252" href="#252">252</a> 
+<a class="jxr_linenumber" name="253" href="#253">253</a>         <a href="../../../../org/apache/omid/committable/CommitTable.html">CommitTimestamp</a> tentativeCommitTimestamp =
+<a class="jxr_linenumber" name="254" href="#254">254</a>                 locateCellCommitTimestamp(
+<a class="jxr_linenumber" name="255" href="#255">255</a>                         cell.getTimestamp(),
+<a class="jxr_linenumber" name="256" href="#256">256</a>                         epoch,
+<a class="jxr_linenumber" name="257" href="#257">257</a>                         <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/HBaseTransactionManager.html">CommitTimestampLocatorImpl</a>(
+<a class="jxr_linenumber" name="258" href="#258">258</a>                                 <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/HBaseCellId.html">HBaseCellId</a>(<strong class="jxr_keyword">null</strong>,
+<a class="jxr_linenumber" name="259" href="#259">259</a>                                         CellUtil.cloneRow(cell),
+<a class="jxr_linenumber" name="260" href="#260">260</a>                                         CellUtil.cloneFamily(cell),
+<a class="jxr_linenumber" name="261" href="#261">261</a>                                         CellUtil.cloneQualifier(cell),
+<a class="jxr_linenumber" name="262" href="#262">262</a>                                         cell.getTimestamp()),
+<a class="jxr_linenumber" name="263" href="#263">263</a>                                         commitCache,
+<a class="jxr_linenumber" name="264" href="#264">264</a>                                         tableAccessWrapper),
+<a class="jxr_linenumber" name="265" href="#265">265</a>                         isLowLatency);
+<a class="jxr_linenumber" name="266" href="#266">266</a> 
+<a class="jxr_linenumber" name="267" href="#267">267</a>         <em class="jxr_comment">// If transaction that added the cell was invalidated</em>
+<a class="jxr_linenumber" name="268" href="#268">268</a>         <strong class="jxr_keyword">if</strong> (!tentativeCommitTimestamp.isValid()) {
+<a class="jxr_linenumber" name="269" href="#269">269</a>             <strong class="jxr_keyword">return</strong> Optional.absent();
+<a class="jxr_linenumber" name="270" href="#270">270</a>         }
+<a class="jxr_linenumber" name="271" href="#271">271</a> 
+<a class="jxr_linenumber" name="272" href="#272">272</a>         <strong class="jxr_keyword">switch</strong> (tentativeCommitTimestamp.getLocation()) {
+<a class="jxr_linenumber" name="273" href="#273">273</a>         <strong class="jxr_keyword">case</strong> COMMIT_TABLE:
+<a class="jxr_linenumber" name="274" href="#274">274</a>             <em class="jxr_comment">// If the commit timestamp is found in the persisted commit table,</em>
+<a class="jxr_linenumber" name="275" href="#275">275</a>             <em class="jxr_comment">// that means the writing process of the shadow cell in the post</em>
+<a class="jxr_linenumber" name="276" href="#276">276</a>             <em class="jxr_comment">// commit phase of the client probably failed, so we heal the shadow</em>
+<a class="jxr_linenumber" name="277" href="#277">277</a>             <em class="jxr_comment">// cell with the right commit timestamp for avoiding further reads to</em>
+<a class="jxr_linenumber" name="278" href="#278">278</a>             <em class="jxr_comment">// hit the storage</em>
+<a class="jxr_linenumber" name="279" href="#279">279</a>             healShadowCell(cell, tentativeCommitTimestamp.getValue());
+<a class="jxr_linenumber" name="280" href="#280">280</a>             <strong class="jxr_keyword">return</strong> Optional.of(tentativeCommitTimestamp.getValue());
+<a class="jxr_linenumber" name="281" href="#281">281</a>         <strong class="jxr_keyword">case</strong> CACHE:
+<a class="jxr_linenumber" name="282" href="#282">282</a>         <strong class="jxr_keyword">case</strong> SHADOW_CELL:
+<a class="jxr_linenumber" name="283" href="#283">283</a>             <strong class="jxr_keyword">return</strong> Optional.of(tentativeCommitTimestamp.getValue());
+<a class="jxr_linenumber" name="284" href="#284">284</a>         <strong class="jxr_keyword">case</strong> NOT_PRESENT:
+<a class="jxr_linenumber" name="285" href="#285">285</a>             <strong class="jxr_keyword">return</strong> Optional.absent();
+<a class="jxr_linenumber" name="286" href="#286">286</a>         <strong class="jxr_keyword">default</strong>:
+<a class="jxr_linenumber" name="287" href="#287">287</a>             assert (false);
+<a class="jxr_linenumber" name="288" href="#288">288</a>             <strong class="jxr_keyword">return</strong> Optional.absent();
+<a class="jxr_linenumber" name="289" href="#289">289</a>         }
+<a class="jxr_linenumber" name="290" href="#290">290</a>     }
+<a class="jxr_linenumber" name="291" href="#291">291</a> 
 <a class="jxr_linenumber" name="292" href="#292">292</a> 
-<a class="jxr_linenumber" name="293" href="#293">293</a>         <strong class="jxr_keyword">for</strong> (Cell cell : rawCells) {
-<a class="jxr_linenumber" name="294" href="#294">294</a>             <strong class="jxr_keyword">if</strong> (CellUtils.isShadowCell(cell)) {
-<a class="jxr_linenumber" name="295" href="#295">295</a>                 commitCache.put(cell.getTimestamp(), Bytes.toLong(CellUtil.cloneValue(cell)));
-<a class="jxr_linenumber" name="296" href="#296">296</a>             }
-<a class="jxr_linenumber" name="297" href="#297">297</a>         }
-<a class="jxr_linenumber" name="298" href="#298">298</a> 
-<a class="jxr_linenumber" name="299" href="#299">299</a>         <strong class="jxr_keyword">return</strong> commitCache;
-<a class="jxr_linenumber" name="300" href="#300">300</a>     }
+<a class="jxr_linenumber" name="293" href="#293">293</a>     <strong class="jxr_keyword">private</strong> Optional&lt;Long&gt; getCommitTimestamp(Cell kv, <a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> transaction, Map&lt;Long, Long&gt; commitCache)
+<a class="jxr_linenumber" name="294" href="#294">294</a>             <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="295" href="#295">295</a> 
+<a class="jxr_linenumber" name="296" href="#296">296</a>         <strong class="jxr_keyword">long</strong> startTimestamp = transaction.getStartTimestamp();
+<a class="jxr_linenumber" name="297" href="#297">297</a> 
+<a class="jxr_linenumber" name="298" href="#298">298</a>         <strong class="jxr_keyword">if</strong> (kv.getTimestamp() == startTimestamp) {
+<a class="jxr_linenumber" name="299" href="#299">299</a>             <strong class="jxr_keyword">return</strong> Optional.of(startTimestamp);
+<a class="jxr_linenumber" name="300" href="#300">300</a>         }
 <a class="jxr_linenumber" name="301" href="#301">301</a> 
-<a class="jxr_linenumber" name="302" href="#302">302</a> 
-<a class="jxr_linenumber" name="303" href="#303">303</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> buildFamilyDeletionCache(<a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> transaction, List&lt;Cell&gt; rawCells, Map&lt;String, Long&gt; familyDeletionCache, Map&lt;Long, Long&gt; commitCache, Map&lt;String,byte[]&gt; attributeMap) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="304" href="#304">304</a>         <strong class="jxr_keyword">for</strong> (Cell cell : rawCells) {
-<a class="jxr_linenumber" name="305" href="#305">305</a>             <strong class="jxr_keyword">if</strong> (CellUtils.isFamilyDeleteCell(cell)) {
-<a class="jxr_linenumber" name="306" href="#306">306</a>                 String key = getRowFamilyString(cell);
-<a class="jxr_linenumber" name="307" href="#307">307</a> 
-<a class="jxr_linenumber" name="308" href="#308">308</a>                 <strong class="jxr_keyword">if</strong> (familyDeletionCache.containsKey(key))
-<a class="jxr_linenumber" name="309" href="#309">309</a>                     <strong class="jxr_keyword">return</strong>;
-<a class="jxr_linenumber" name="310" href="#310">310</a> 
-<a class="jxr_linenumber" name="311" href="#311">311</a>                 Optional&lt;Long&gt; commitTimeStamp = getTSIfInTransaction(cell, transaction);
+<a class="jxr_linenumber" name="302" href="#302">302</a>         <strong class="jxr_keyword">if</strong> (commitTableClient == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="303" href="#303">303</a>             assert (transaction.getTransactionManager() != <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="304" href="#304">304</a>             commitTableClient = transaction.getTransactionManager().getCommitTableClient();
+<a class="jxr_linenumber" name="305" href="#305">305</a>         }
+<a class="jxr_linenumber" name="306" href="#306">306</a> 
+<a class="jxr_linenumber" name="307" href="#307">307</a>         <strong class="jxr_keyword">return</strong> tryToLocateCellCommitTimestamp(transaction.getEpoch(), kv,
+<a class="jxr_linenumber" name="308" href="#308">308</a>                 commitCache, transaction.isLowLatency());
+<a class="jxr_linenumber" name="309" href="#309">309</a>     }
+<a class="jxr_linenumber" name="310" href="#310">310</a>     
+<a class="jxr_linenumber" name="311" href="#311">311</a>     <strong class="jxr_keyword">private</strong> Map&lt;Long, Long&gt; buildCommitCache(List&lt;Cell&gt; rawCells) {
 <a class="jxr_linenumber" name="312" href="#312">312</a> 
-<a class="jxr_linenumber" name="313" href="#313">313</a>                 <strong class="jxr_keyword">if</strong> (!commitTimeStamp.isPresent()) {
-<a class="jxr_linenumber" name="314" href="#314">314</a>                     commitTimeStamp = getTSIfInSnapshot(cell, transaction, commitCache);
-<a class="jxr_linenumber" name="315" href="#315">315</a>                 }
-<a class="jxr_linenumber" name="316" href="#316">316</a> 
-<a class="jxr_linenumber" name="317" href="#317">317</a>                 <strong class="jxr_keyword">if</strong> (commitTimeStamp.isPresent()) {
-<a class="jxr_linenumber" name="318" href="#318">318</a>                     familyDeletionCache.put(key, commitTimeStamp.get());
-<a class="jxr_linenumber" name="319" href="#319">319</a>                 } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="320" href="#320">320</a>                     Cell lastCell = cell;
-<a class="jxr_linenumber" name="321" href="#321">321</a>                     Map&lt;Long, Long&gt; cmtCache;
-<a class="jxr_linenumber" name="322" href="#322">322</a>                     <strong class="jxr_keyword">boolean</strong> foundCommittedFamilyDeletion = false;
-<a class="jxr_linenumber" name="323" href="#323">323</a>                     <strong class="jxr_keyword">while</strong> (!foundCommittedFamilyDeletion) {
+<a class="jxr_linenumber" name="313" href="#313">313</a>         Map&lt;Long, Long&gt; commitCache = <strong class="jxr_keyword">new</strong> HashMap&lt;&gt;();
+<a class="jxr_linenumber" name="314" href="#314">314</a> 
+<a class="jxr_linenumber" name="315" href="#315">315</a>         <strong class="jxr_keyword">for</strong> (Cell cell : rawCells) {
+<a class="jxr_linenumber" name="316" href="#316">316</a>             <strong class="jxr_keyword">if</strong> (CellUtils.isShadowCell(cell)) {
+<a class="jxr_linenumber" name="317" href="#317">317</a>                 commitCache.put(cell.getTimestamp(), Bytes.toLong(CellUtil.cloneValue(cell)));
+<a class="jxr_linenumber" name="318" href="#318">318</a>             }
+<a class="jxr_linenumber" name="319" href="#319">319</a>         }
+<a class="jxr_linenumber" name="320" href="#320">320</a> 
+<a class="jxr_linenumber" name="321" href="#321">321</a>         <strong class="jxr_keyword">return</strong> commitCache;
+<a class="jxr_linenumber" name="322" href="#322">322</a>     }
+<a class="jxr_linenumber" name="323" href="#323">323</a> 
 <a class="jxr_linenumber" name="324" href="#324">324</a> 
-<a class="jxr_linenumber" name="325" href="#325">325</a>                         Get g = createPendingGet(lastCell, 3);
-<a class="jxr_linenumber" name="326" href="#326">326</a> 
-<a class="jxr_linenumber" name="327" href="#327">327</a>                         Result result = tableAccessWrapper.get(g);
-<a class="jxr_linenumber" name="328" href="#328">328</a>                         List&lt;Cell&gt; resultCells = result.listCells();
-<a class="jxr_linenumber" name="329" href="#329">329</a>                         <strong class="jxr_keyword">if</strong> (resultCells == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="330" href="#330">330</a>                             <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="331" href="#331">331</a>                         }
+<a class="jxr_linenumber" name="325" href="#325">325</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> buildFamilyDeletionCache(<a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> transaction, List&lt;Cell&gt; rawCells, Map&lt;String, Long&gt; familyDeletionCache, Map&lt;Long, Long&gt; commitCache, Map&lt;String,byte[]&gt; attributeMap) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="326" href="#326">326</a>         <strong class="jxr_keyword">for</strong> (Cell cell : rawCells) {
+<a class="jxr_linenumber" name="327" href="#327">327</a>             <strong class="jxr_keyword">if</strong> (CellUtils.isFamilyDeleteCell(cell)) {
+<a class="jxr_linenumber" name="328" href="#328">328</a>                 String key = getRowFamilyString(cell);
+<a class="jxr_linenumber" name="329" href="#329">329</a> 
+<a class="jxr_linenumber" name="330" href="#330">330</a>                 <strong class="jxr_keyword">if</strong> (familyDeletionCache.containsKey(key))
+<a class="jxr_linenumber" name="331" href="#331">331</a>                     <strong class="jxr_keyword">return</strong>;
 <a class="jxr_linenumber" name="332" href="#332">332</a> 
-<a class="jxr_linenumber" name="333" href="#333">333</a>                         cmtCache = buildCommitCache(resultCells);
-<a class="jxr_linenumber" name="334" href="#334">334</a>                         <strong class="jxr_keyword">for</strong> (Cell c : resultCells) {
-<a class="jxr_linenumber" name="335" href="#335">335</a>                             <strong class="jxr_keyword">if</strong> (CellUtils.isFamilyDeleteCell(c)) {
-<a class="jxr_linenumber" name="336" href="#336">336</a>                                     commitTimeStamp = getTSIfInSnapshot(c, transaction, cmtCache);
-<a class="jxr_linenumber" name="337" href="#337">337</a>                                     <strong class="jxr_keyword">if</strong> (commitTimeStamp.isPresent()) {
-<a class="jxr_linenumber" name="338" href="#338">338</a>                                         familyDeletionCache.put(key, commitTimeStamp.get());
-<a class="jxr_linenumber" name="339" href="#339">339</a>                                         foundCommittedFamilyDeletion = <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="340" href="#340">340</a>                                         <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="341" href="#341">341</a>                                     }
-<a class="jxr_linenumber" name="342" href="#342">342</a>                                     lastCell = c;
-<a class="jxr_linenumber" name="343" href="#343">343</a>                             }
-<a class="jxr_linenumber" name="344" href="#344">344</a>                         }
-<a class="jxr_linenumber" name="345" href="#345">345</a>                     }
-<a class="jxr_linenumber" name="346" href="#346">346</a>                 }
-<a class="jxr_linenumber" name="347" href="#347">347</a>             }
-<a class="jxr_linenumber" name="348" href="#348">348</a>         }
-<a class="jxr_linenumber" name="349" href="#349">349</a>     }
-<a class="jxr_linenumber" name="350" href="#350">350</a> 
-<a class="jxr_linenumber" name="351" href="#351">351</a> 
-<a class="jxr_linenumber" name="352" href="#352">352</a>     <strong class="jxr_keyword">public</strong> Optional&lt;Long&gt; getTSIfInTransaction(Cell kv, <a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> transaction) {
-<a class="jxr_linenumber" name="353" href="#353">353</a>         <strong class="jxr_keyword">long</strong> startTimestamp = transaction.getStartTimestamp();
-<a class="jxr_linenumber" name="354" href="#354">354</a>         <strong class="jxr_keyword">long</strong> readTimestamp = transaction.getReadTimestamp();
-<a class="jxr_linenumber" name="355" href="#355">355</a> 
-<a class="jxr_linenumber" name="356" href="#356">356</a>         <em class="jxr_comment">// A cell was written by a transaction if its timestamp is larger than its startTimestamp and smaller or equal to its readTimestamp.</em>
-<a class="jxr_linenumber" name="357" href="#357">357</a>         <em class="jxr_comment">// There also might be a case where the cell was written by the transaction and its timestamp equals to its writeTimestamp, however,</em>
-<a class="jxr_linenumber" name="358" href="#358">358</a>         <em class="jxr_comment">// this case occurs after checkpoint and in this case we do not want to read this data.</em>
-<a class="jxr_linenumber" name="359" href="#359">359</a>         <strong class="jxr_keyword">if</strong> (kv.getTimestamp() &gt;= startTimestamp &amp;&amp; kv.getTimestamp() &lt;= readTimestamp) {
-<a class="jxr_linenumber" name="360" href="#360">360</a>             <strong class="jxr_keyword">return</strong> Optional.of(kv.getTimestamp());
-<a class="jxr_linenumber" name="361" href="#361">361</a>         }
-<a class="jxr_linenumber" name="362" href="#362">362</a> 
-<a class="jxr_linenumber" name="363" href="#363">363</a>         <strong class="jxr_keyword">return</strong> Optional.absent();
-<a class="jxr_linenumber" name="364" href="#364">364</a>     }
-<a class="jxr_linenumber" name="365" href="#365">365</a> 
-<a class="jxr_linenumber" name="366" href="#366">366</a> 
-<a class="jxr_linenumber" name="367" href="#367">367</a>     <strong class="jxr_keyword">public</strong> Optional&lt;Long&gt; getTSIfInSnapshot(Cell kv, <a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> transaction, Map&lt;Long, Long&gt; commitCache)
-<a class="jxr_linenumber" name="368" href="#368">368</a>         <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="369" href="#369">369</a> 
-<a class="jxr_linenumber" name="370" href="#370">370</a>         Optional&lt;Long&gt; commitTimestamp = getCommitTimestamp(kv, transaction, commitCache);
-<a class="jxr_linenumber" name="371" href="#371">371</a> 
-<a class="jxr_linenumber" name="372" href="#372">372</a>         <strong class="jxr_keyword">if</strong> (commitTimestamp.isPresent() &amp;&amp; commitTimestamp.get() &lt; transaction.getStartTimestamp())
-<a class="jxr_linenumber" name="373" href="#373">373</a>             <strong class="jxr_keyword">return</strong> commitTimestamp;
-<a class="jxr_linenumber" name="374" href="#374">374</a> 
-<a class="jxr_linenumber" name="375" href="#375">375</a>         <strong class="jxr_keyword">return</strong> Optional.absent();
-<a class="jxr_linenumber" name="376" href="#376">376</a>     }
+<a class="jxr_linenumber" name="333" href="#333">333</a>                 Optional&lt;Long&gt; commitTimeStamp = getTSIfInTransaction(cell, transaction);
+<a class="jxr_linenumber" name="334" href="#334">334</a> 
+<a class="jxr_linenumber" name="335" href="#335">335</a>                 <strong class="jxr_keyword">if</strong> (!commitTimeStamp.isPresent()) {
+<a class="jxr_linenumber" name="336" href="#336">336</a>                     commitTimeStamp = getTSIfInSnapshot(cell, transaction, commitCache);
+<a class="jxr_linenumber" name="337" href="#337">337</a>                 }
+<a class="jxr_linenumber" name="338" href="#338">338</a> 
+<a class="jxr_linenumber" name="339" href="#339">339</a>                 <strong class="jxr_keyword">if</strong> (commitTimeStamp.isPresent()) {
+<a class="jxr_linenumber" name="340" href="#340">340</a>                     familyDeletionCache.put(key, commitTimeStamp.get());
+<a class="jxr_linenumber" name="341" href="#341">341</a>                 } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="342" href="#342">342</a>                     Cell lastCell = cell;
+<a class="jxr_linenumber" name="343" href="#343">343</a>                     Map&lt;Long, Long&gt; cmtCache;
+<a class="jxr_linenumber" name="344" href="#344">344</a>                     <strong class="jxr_keyword">boolean</strong> foundCommittedFamilyDeletion = false;
+<a class="jxr_linenumber" name="345" href="#345">345</a>                     <strong class="jxr_keyword">while</strong> (!foundCommittedFamilyDeletion) {
+<a class="jxr_linenumber" name="346" href="#346">346</a> 
+<a class="jxr_linenumber" name="347" href="#347">347</a>                         Get g = createPendingGet(lastCell, 3);
+<a class="jxr_linenumber" name="348" href="#348">348</a> 
+<a class="jxr_linenumber" name="349" href="#349">349</a>                         Result result = tableAccessWrapper.get(g);
+<a class="jxr_linenumber" name="350" href="#350">350</a>                         List&lt;Cell&gt; resultCells = result.listCells();
+<a class="jxr_linenumber" name="351" href="#351">351</a>                         <strong class="jxr_keyword">if</strong> (resultCells == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="352" href="#352">352</a>                             <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="353" href="#353">353</a>                         }
+<a class="jxr_linenumber" name="354" href="#354">354</a> 
+<a class="jxr_linenumber" name="355" href="#355">355</a>                         cmtCache = buildCommitCache(resultCells);
+<a class="jxr_linenumber" name="356" href="#356">356</a>                         <strong class="jxr_keyword">for</strong> (Cell c : resultCells) {
+<a class="jxr_linenumber" name="357" href="#357">357</a>                             <strong class="jxr_keyword">if</strong> (CellUtils.isFamilyDeleteCell(c)) {
+<a class="jxr_linenumber" name="358" href="#358">358</a>                                     commitTimeStamp = getTSIfInSnapshot(c, transaction, cmtCache);
+<a class="jxr_linenumber" name="359" href="#359">359</a>                                     <strong class="jxr_keyword">if</strong> (commitTimeStamp.isPresent()) {
+<a class="jxr_linenumber" name="360" href="#360">360</a>                                         familyDeletionCache.put(key, commitTimeStamp.get());
+<a class="jxr_linenumber" name="361" href="#361">361</a>                                         foundCommittedFamilyDeletion = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="362" href="#362">362</a>                                         <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="363" href="#363">363</a>                                     }
+<a class="jxr_linenumber" name="364" href="#364">364</a>                                     lastCell = c;
+<a class="jxr_linenumber" name="365" href="#365">365</a>                             }
+<a class="jxr_linenumber" name="366" href="#366">366</a>                         }
+<a class="jxr_linenumber" name="367" href="#367">367</a>                     }
+<a class="jxr_linenumber" name="368" href="#368">368</a>                 }
+<a class="jxr_linenumber" name="369" href="#369">369</a>             }
+<a class="jxr_linenumber" name="370" href="#370">370</a>         }
+<a class="jxr_linenumber" name="371" href="#371">371</a>     }
+<a class="jxr_linenumber" name="372" href="#372">372</a> 
+<a class="jxr_linenumber" name="373" href="#373">373</a> 
+<a class="jxr_linenumber" name="374" href="#374">374</a>     <strong class="jxr_keyword">public</strong> Optional&lt;Long&gt; getTSIfInTransaction(Cell kv, <a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> transaction) {
+<a class="jxr_linenumber" name="375" href="#375">375</a>         <strong class="jxr_keyword">long</strong> startTimestamp = transaction.getStartTimestamp();
+<a class="jxr_linenumber" name="376" href="#376">376</a>         <strong class="jxr_keyword">long</strong> readTimestamp = transaction.getReadTimestamp();
 <a class="jxr_linenumber" name="377" href="#377">377</a> 
-<a class="jxr_linenumber" name="378" href="#378">378</a>     <strong class="jxr_keyword">private</strong> Get createPendingGet(Cell cell, <strong class="jxr_keyword">int</strong> versionCount) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="379" href="#379">379</a> 
-<a class="jxr_linenumber" name="380" href="#380">380</a>         Get pendingGet = <strong class="jxr_keyword">new</strong> Get(CellUtil.cloneRow(cell));
-<a class="jxr_linenumber" name="381" href="#381">381</a>         pendingGet.addColumn(CellUtil.cloneFamily(cell), CellUtil.cloneQualifier(cell));
-<a class="jxr_linenumber" name="382" href="#382">382</a>         pendingGet.addColumn(CellUtil.cloneFamily(cell), CellUtils.addShadowCellSuffixPrefix(cell.getQualifierArray(),
-<a class="jxr_linenumber" name="383" href="#383">383</a>                                                                                        cell.getQualifierOffset(),
-<a class="jxr_linenumber" name="384" href="#384">384</a>                                                                                        cell.getQualifierLength()));
-<a class="jxr_linenumber" name="385" href="#385">385</a>         pendingGet.setMaxVersions(versionCount);
-<a class="jxr_linenumber" name="386" href="#386">386</a>         pendingGet.setTimeRange(0, cell.getTimestamp());
+<a class="jxr_linenumber" name="378" href="#378">378</a>         <em class="jxr_comment">// A cell was written by a transaction if its timestamp is larger than its startTimestamp and smaller or equal to its readTimestamp.</em>
+<a class="jxr_linenumber" name="379" href="#379">379</a>         <em class="jxr_comment">// There also might be a case where the cell was written by the transaction and its timestamp equals to its writeTimestamp, however,</em>
+<a class="jxr_linenumber" name="380" href="#380">380</a>         <em class="jxr_comment">// this case occurs after checkpoint and in this case we do not want to read this data.</em>
+<a class="jxr_linenumber" name="381" href="#381">381</a>         <strong class="jxr_keyword">if</strong> (kv.getTimestamp() &gt;= startTimestamp &amp;&amp; kv.getTimestamp() &lt;= readTimestamp) {
+<a class="jxr_linenumber" name="382" href="#382">382</a>             <strong class="jxr_keyword">return</strong> Optional.of(kv.getTimestamp());
+<a class="jxr_linenumber" name="383" href="#383">383</a>         }
+<a class="jxr_linenumber" name="384" href="#384">384</a> 
+<a class="jxr_linenumber" name="385" href="#385">385</a>         <strong class="jxr_keyword">return</strong> Optional.absent();
+<a class="jxr_linenumber" name="386" href="#386">386</a>     }
 <a class="jxr_linenumber" name="387" href="#387">387</a> 
-<a class="jxr_linenumber" name="388" href="#388">388</a>         <strong class="jxr_keyword">return</strong> pendingGet;
-<a class="jxr_linenumber" name="389" href="#389">389</a>     }
-<a class="jxr_linenumber" name="390" href="#390">390</a> 
-<a class="jxr_linenumber" name="391" href="#391">391</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="392" href="#392">392</a> <em class="jxr_javadoccomment">     * Filters the raw results returned from HBase and returns only those belonging to the current snapshot, as defined</em>
-<a class="jxr_linenumber" name="393" href="#393">393</a> <em class="jxr_javadoccomment">     * by the transaction object. If the raw results don't contain enough information for a particular qualifier, it</em>
-<a class="jxr_linenumber" name="394" href="#394">394</a> <em class="jxr_javadoccomment">     * will request more versions from HBase.</em>
-<a class="jxr_linenumber" name="395" href="#395">395</a> <em class="jxr_javadoccomment">     *</em>
-<a class="jxr_linenumber" name="396" href="#396">396</a> <em class="jxr_javadoccomment">     * @param rawCells          Raw cells that we are going to filter</em>
-<a class="jxr_linenumber" name="397" href="#397">397</a> <em class="jxr_javadoccomment">     * @param transaction       Defines the current snapshot</em>
-<a class="jxr_linenumber" name="398" href="#398">398</a> <em class="jxr_javadoccomment">     * @param versionsToRequest Number of versions requested from hbase</em>
-<a class="jxr_linenumber" name="399" href="#399">399</a> <em class="jxr_javadoccomment">     * @param familyDeletionCache Accumulates the family deletion markers to identify cells that deleted with a higher version</em>
-<a class="jxr_linenumber" name="400" href="#400">400</a> <em class="jxr_javadoccomment">     * @return Filtered KVs belonging to the transaction snapshot</em>
-<a class="jxr_linenumber" name="401" href="#401">401</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="402" href="#402">402</a>     @Override
-<a class="jxr_linenumber" name="403" href="#403">403</a>     <strong class="jxr_keyword">public</strong> List&lt;Cell&gt; filterCellsForSnapshot(List&lt;Cell&gt; rawCells, <a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> transaction,
-<a class="jxr_linenumber" name="404" href="#404">404</a>                                       <strong class="jxr_keyword">int</strong> versionsToRequest, Map&lt;String, Long&gt; familyDeletionCache, Map&lt;String,byte[]&gt; attributeMap) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="405" href="#405">405</a> 
-<a class="jxr_linenumber" name="406" href="#406">406</a>         assert (rawCells != <strong class="jxr_keyword">null</strong> &amp;&amp; transaction != <strong class="jxr_keyword">null</strong> &amp;&amp; versionsToRequest &gt;= 1);
-<a class="jxr_linenumber" name="407" href="#407">407</a> 
-<a class="jxr_linenumber" name="408" href="#408">408</a>         List&lt;Cell&gt; keyValuesInSnapshot = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
-<a class="jxr_linenumber" name="409" href="#409">409</a>         List&lt;Get&gt; pendingGetsList = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
-<a class="jxr_linenumber" name="410" href="#410">410</a> 
-<a class="jxr_linenumber" name="411" href="#411">411</a>         <strong class="jxr_keyword">int</strong> numberOfVersionsToFetch = versionsToRequest * 2;
-<a class="jxr_linenumber" name="412" href="#412">412</a>         <strong class="jxr_keyword">if</strong> (numberOfVersionsToFetch &lt; 1) {
-<a class="jxr_linenumber" name="413" href="#413">413</a>             numberOfVersionsToFetch = versionsToRequest;
-<a class="jxr_linenumber" name="414" href="#414">414</a>         }
-<a class="jxr_linenumber" name="415" href="#415">415</a> 
-<a class="jxr_linenumber" name="416" href="#416">416</a>         Map&lt;Long, Long&gt; commitCache = buildCommitCache(rawCells);
-<a class="jxr_linenumber" name="417" href="#417">417</a>         buildFamilyDeletionCache(transaction, rawCells, familyDeletionCache, commitCache, attributeMap);
-<a class="jxr_linenumber" name="418" href="#418">418</a> 
-<a class="jxr_linenumber" name="419" href="#419">419</a>         ImmutableList&lt;Collection&lt;Cell&gt;&gt; filteredCells;
-<a class="jxr_linenumber" name="420" href="#420">420</a>         <strong class="jxr_keyword">if</strong> (transaction.getVisibilityLevel() == VisibilityLevel.SNAPSHOT_ALL) {
-<a class="jxr_linenumber" name="421" href="#421">421</a>             filteredCells = groupCellsByColumnFilteringShadowCells(rawCells);
-<a class="jxr_linenumber" name="422" href="#422">422</a>         } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="423" href="#423">423</a>             filteredCells = groupCellsByColumnFilteringShadowCellsAndFamilyDeletion(rawCells);
-<a class="jxr_linenumber" name="424" href="#424">424</a>         }
-<a class="jxr_linenumber" name="425" href="#425">425</a> 
-<a class="jxr_linenumber" name="426" href="#426">426</a>         <strong class="jxr_keyword">for</strong> (Collection&lt;Cell&gt; columnCells : filteredCells) {
-<a class="jxr_linenumber" name="427" href="#427">427</a>             <strong class="jxr_keyword">boolean</strong> snapshotValueFound = false;
-<a class="jxr_linenumber" name="428" href="#428">428</a>             Cell oldestCell = <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="429" href="#429">429</a>             <strong class="jxr_keyword">for</strong> (Cell cell : columnCells) {
-<a class="jxr_linenumber" name="430" href="#430">430</a>                 oldestCell = cell;
-<a class="jxr_linenumber" name="431" href="#431">431</a>                 <strong class="jxr_keyword">if</strong> (getTSIfInTransaction(cell, transaction).isPresent() ||
-<a class="jxr_linenumber" name="432" href="#432">432</a>                         getTSIfInSnapshot(cell, transaction, commitCache).isPresent()) {
-<a class="jxr_linenumber" name="433" href="#433">433</a> 
-<a class="jxr_linenumber" name="434" href="#434">434</a>                     <strong class="jxr_keyword">if</strong> (transaction.getVisibilityLevel() == VisibilityLevel.SNAPSHOT_ALL) {
-<a class="jxr_linenumber" name="435" href="#435">435</a>                         keyValuesInSnapshot.add(cell);
-<a class="jxr_linenumber" name="436" href="#436">436</a>                         <strong class="jxr_keyword">if</strong> (getTSIfInTransaction(cell, transaction).isPresent()) {
-<a class="jxr_linenumber" name="437" href="#437">437</a>                             snapshotValueFound = false;
-<a class="jxr_linenumber" name="438" href="#438">438</a>                             <strong class="jxr_keyword">continue</strong>;
-<a class="jxr_linenumber" name="439" href="#439">439</a>                         } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="440" href="#440">440</a>                             snapshotValueFound = <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="441" href="#441">441</a>                             <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="442" href="#442">442</a>                         }
-<a class="jxr_linenumber" name="443" href="#443">443</a>                     } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="444" href="#444">444</a>                         <strong class="jxr_keyword">if</strong> (!checkFamilyDeletionCache(cell, transaction, familyDeletionCache, commitCache) &amp;&amp;
-<a class="jxr_linenumber" name="445" href="#445">445</a>                                 !CellUtils.isTombstone(cell)) {
-<a class="jxr_linenumber" name="446" href="#446">446</a>                             keyValuesInSnapshot.add(cell);
-<a class="jxr_linenumber" name="447" href="#447">447</a>                         }
-<a class="jxr_linenumber" name="448" href="#448">448</a>                         snapshotValueFound = <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="449" href="#449">449</a>                         <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="450" href="#450">450</a> 
-<a class="jxr_linenumber" name="451" href="#451">451</a>                     }
-<a class="jxr_linenumber" name="452" href="#452">452</a>                 }
-<a class="jxr_linenumber" name="453" href="#453">453</a>             }
-<a class="jxr_linenumber" name="454" href="#454">454</a>             <strong class="jxr_keyword">if</strong> (!snapshotValueFound) {
-<a class="jxr_linenumber" name="455" href="#455">455</a>                 assert (oldestCell != <strong class="jxr_keyword">null</strong>);
-<a class="jxr_linenumber" name="456" href="#456">456</a>                 Get pendingGet = createPendingGet(oldestCell, numberOfVersionsToFetch);
-<a class="jxr_linenumber" name="457" href="#457">457</a>                 <strong class="jxr_keyword">for</strong> (Map.Entry&lt;String,byte[]&gt; entry : attributeMap.entrySet()) {
-<a class="jxr_linenumber" name="458" href="#458">458</a>                     pendingGet.setAttribute(entry.getKey(), entry.getValue());
-<a class="jxr_linenumber" name="459" href="#459">459</a>                 }
-<a class="jxr_linenumber" name="460" href="#460">460</a>                 pendingGetsList.add(pendingGet);
-<a class="jxr_linenumber" name="461" href="#461">461</a>             }
-<a class="jxr_linenumber" name="462" href="#462">462</a>         }
-<a class="jxr_linenumber" name="463" href="#463">463</a> 
-<a class="jxr_linenumber" name="464" href="#464">464</a>         <strong class="jxr_keyword">if</strong> (!pendingGetsList.isEmpty()) {
-<a class="jxr_linenumber" name="465" href="#465">465</a>             Result[] pendingGetsResults = tableAccessWrapper.get(pendingGetsList);
-<a class="jxr_linenumber" name="466" href="#466">466</a>             <strong class="jxr_keyword">for</strong> (Result pendingGetResult : pendingGetsResults) {
-<a class="jxr_linenumber" name="467" href="#467">467</a>                 <strong class="jxr_keyword">if</strong> (!pendingGetResult.isEmpty()) {
-<a class="jxr_linenumber" name="468" href="#468">468</a>                     keyValuesInSnapshot.addAll(
-<a class="jxr_linenumber" name="469" href="#469">469</a>                         filterCellsForSnapshot(pendingGetResult.listCells(), transaction, numberOfVersionsToFetch, familyDeletionCache, attributeMap));
-<a class="jxr_linenumber" name="470" href="#470">470</a>                 }
-<a class="jxr_linenumber" name="471" href="#471">471</a>             }
-<a class="jxr_linenumber" name="472" href="#472">472</a>         }
-<a class="jxr_linenumber" name="473" href="#473">473</a> 
-<a class="jxr_linenumber" name="474" href="#474">474</a>         Collections.sort(keyValuesInSnapshot, KeyValue.COMPARATOR);
-<a class="jxr_linenumber" name="475" href="#475">475</a> 
-<a class="jxr_linenumber" name="476" href="#476">476</a>         <strong class="jxr_keyword">return</strong> keyValuesInSnapshot;
-<a class="jxr_linenumber" name="477" href="#477">477</a>     }
-<a class="jxr_linenumber" name="478" href="#478">478</a> 
-<a class="jxr_linenumber" name="479" href="#479">479</a>     @Override
-<a class="jxr_linenumber" name="480" href="#480">480</a>     <strong class="jxr_keyword">public</strong> Result get(Get get, <a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> transaction) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="481" href="#481">481</a>         Result result = tableAccessWrapper.get(get);
-<a class="jxr_linenumber" name="482" href="#482">482</a> 
-<a class="jxr_linenumber" name="483" href="#483">483</a>         List&lt;Cell&gt; filteredKeyValues = Collections.emptyList();
-<a class="jxr_linenumber" name="484" href="#484">484</a>         <strong class="jxr_keyword">if</strong> (!result.isEmpty()) {
-<a class="jxr_linenumber" name="485" href="#485">485</a>             filteredKeyValues = filterCellsForSnapshot(result.listCells(), transaction, get.getMaxVersions(), <strong class="jxr_keyword">new</strong> HashMap&lt;String, Long&gt;(), get.getAttributesMap());
-<a class="jxr_linenumber" name="486" href="#486">486</a>         }
-<a class="jxr_linenumber" name="487" href="#487">487</a> 
-<a class="jxr_linenumber" name="488" href="#488">488</a>         <strong class="jxr_keyword">return</strong> Result.create(filteredKeyValues);
-<a class="jxr_linenumber" name="489" href="#489">489</a>     }
-<a class="jxr_linenumber" name="490" href="#490">490</a> 
-<a class="jxr_linenumber" name="491" href="#491">491</a>     @Override
-<a class="jxr_linenumber" name="492" href="#492">492</a>     <strong class="jxr_keyword">public</strong> ResultScanner getScanner(Scan scan, <a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> transaction) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="493" href="#493">493</a> 
-<a class="jxr_linenumber" name="494" href="#494">494</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/SnapshotFilterImpl.html">TransactionalClientScanner</a>(transaction, scan, 1);
-<a class="jxr_linenumber" name="495" href="#495">495</a> 
-<a class="jxr_linenumber" name="496" href="#496">496</a>     }
-<a class="jxr_linenumber" name="497" href="#497">497</a> 
-<a class="jxr_linenumber" name="498" href="#498">498</a>     @Override
-<a class="jxr_linenumber" name="499" href="#499">499</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isCommitted(<a href="../../../../org/apache/omid/transaction/HBaseCellId.html">HBaseCellId</a> hBaseCellId, <strong class="jxr_keyword">long</strong> epoch) <strong class="jxr_keyword">throws</strong> TransactionException {
-<a class="jxr_linenumber" name="500" href="#500">500</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="501" href="#501">501</a>             <strong class="jxr_keyword">long</strong> timestamp = hBaseCellId.getTimestamp() - (hBaseCellId.getTimestamp() % AbstractTransactionManager.MAX_CHECKPOINTS_PER_TXN);
-<a class="jxr_linenumber" name="502" href="#502">502</a>             <a href="../../../../org/apache/omid/committable/CommitTable.html">CommitTimestamp</a> tentativeCommitTimestamp =
-<a class="jxr_linenumber" name="503" href="#503">503</a>                     locateCellCommitTimestamp(timestamp, epoch,
-<a class="jxr_linenumber" name="504" href="#504">504</a>                                               <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/HBaseTransactionManager.html">CommitTimestampLocatorImpl</a>(hBaseCellId, Maps.&lt;Long, Long&gt;newHashMap(), tableAccessWrapper));
-<a class="jxr_linenumber" name="505" href="#505">505</a> 
-<a class="jxr_linenumber" name="506" href="#506">506</a>             <em class="jxr_comment">// If transaction that added the cell was invalidated</em>
-<a class="jxr_linenumber" name="507" href="#507">507</a>             <strong class="jxr_keyword">if</strong> (!tentativeCommitTimestamp.isValid()) {
-<a class="jxr_linenumber" name="508" href="#508">508</a>                 <strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="509" href="#509">509</a>             }
-<a class="jxr_linenumber" name="510" href="#510">510</a> 
-<a class="jxr_linenumber" name="511" href="#511">511</a>             <strong class="jxr_keyword">switch</strong> (tentativeCommitTimestamp.getLocation()) {
-<a class="jxr_linenumber" name="512" href="#512">512</a>                 <strong class="jxr_keyword">case</strong> COMMIT_TABLE:
-<a class="jxr_linenumber" name="513" href="#513">513</a>                 <strong class="jxr_keyword">case</strong> SHADOW_CELL:
-<a class="jxr_linenumber" name="514" href="#514">514</a>                     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
-<a class="jxr_linenumber" name="515" href="#515">515</a>                 <strong class="jxr_keyword">case</strong> NOT_PRESENT:
-<a class="jxr_linenumber" name="516" href="#516">516</a>                     <strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="517" href="#517">517</a>                 <strong class="jxr_keyword">case</strong> CACHE: <em class="jxr_comment">// cache was empty</em>
-<a class="jxr_linenumber" name="518" href="#518">518</a>                 <strong class="jxr_keyword">default</strong>:
-<a class="jxr_linenumber" name="519" href="#519">519</a>                     <strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="520" href="#520">520</a>             }
-<a class="jxr_linenumber" name="521" href="#521">521</a>         } <strong class="jxr_keyword">catch</strong> (IOException e) {
-<a class="jxr_linenumber" name="522" href="#522">522</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/TransactionException.html">TransactionException</a>(<span class="jxr_string">"Failure while checking if a transaction was committed"</span>, e);
-<a class="jxr_linenumber" name="523" href="#523">523</a>         }
-<a class="jxr_linenumber" name="524" href="#524">524</a>     }
-<a class="jxr_linenumber" name="525" href="#525">525</a> 
-<a class="jxr_linenumber" name="526" href="#526">526</a>     <strong class="jxr_keyword">static</strong> ImmutableList&lt;Collection&lt;Cell&gt;&gt; groupCellsByColumnFilteringShadowCellsAndFamilyDeletion(List&lt;Cell&gt; rawCells) {
-<a class="jxr_linenumber" name="527" href="#527">527</a> 
-<a class="jxr_linenumber" name="528" href="#528">528</a>         Predicate&lt;Cell&gt; shadowCellAndFamilyDeletionFilter = <strong class="jxr_keyword">new</strong> Predicate&lt;Cell&gt;() {
+<a class="jxr_linenumber" name="388" href="#388">388</a> 
+<a class="jxr_linenumber" name="389" href="#389">389</a>     <strong class="jxr_keyword">public</strong> Optional&lt;Long&gt; getTSIfInSnapshot(Cell kv, <a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> transaction, Map&lt;Long, Long&gt; commitCache)
+<a class="jxr_linenumber" name="390" href="#390">390</a>         <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="391" href="#391">391</a> 
+<a class="jxr_linenumber" name="392" href="#392">392</a>         Optional&lt;Long&gt; commitTimestamp = getCommitTimestamp(kv, transaction, commitCache);
+<a class="jxr_linenumber" name="393" href="#393">393</a> 
+<a class="jxr_linenumber" name="394" href="#394">394</a>         <strong class="jxr_keyword">if</strong> (commitTimestamp.isPresent() &amp;&amp; commitTimestamp.get() &lt; transaction.getStartTimestamp())
+<a class="jxr_linenumber" name="395" href="#395">395</a>             <strong class="jxr_keyword">return</strong> commitTimestamp;
+<a class="jxr_linenumber" name="396" href="#396">396</a> 
+<a class="jxr_linenumber" name="397" href="#397">397</a>         <strong class="jxr_keyword">return</strong> Optional.absent();
+<a class="jxr_linenumber" name="398" href="#398">398</a>     }
+<a class="jxr_linenumber" name="399" href="#399">399</a> 
+<a class="jxr_linenumber" name="400" href="#400">400</a>     <strong class="jxr_keyword">private</strong> Get createPendingGet(Cell cell, <strong class="jxr_keyword">int</strong> versionCount) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="401" href="#401">401</a> 
+<a class="jxr_linenumber" name="402" href="#402">402</a>         Get pendingGet = <strong class="jxr_keyword">new</strong> Get(CellUtil.cloneRow(cell));
+<a class="jxr_linenumber" name="403" href="#403">403</a>         pendingGet.addColumn(CellUtil.cloneFamily(cell), CellUtil.cloneQualifier(cell));
+<a class="jxr_linenumber" name="404" href="#404">404</a>         pendingGet.addColumn(CellUtil.cloneFamily(cell), CellUtils.addShadowCellSuffixPrefix(cell.getQualifierArray(),
+<a class="jxr_linenumber" name="405" href="#405">405</a>                                                                                        cell.getQualifierOffset(),
+<a class="jxr_linenumber" name="406" href="#406">406</a>                                                                                        cell.getQualifierLength()));
+<a class="jxr_linenumber" name="407" href="#407">407</a>         pendingGet.setMaxVersions(versionCount);
+<a class="jxr_linenumber" name="408" href="#408">408</a>         pendingGet.setTimeRange(0, cell.getTimestamp());
+<a class="jxr_linenumber" name="409" href="#409">409</a> 
+<a class="jxr_linenumber" name="410" href="#410">410</a>         <strong class="jxr_keyword">return</strong> pendingGet;
+<a class="jxr_linenumber" name="411" href="#411">411</a>     }
+<a class="jxr_linenumber" name="412" href="#412">412</a> 
+<a class="jxr_linenumber" name="413" href="#413">413</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="414" href="#414">414</a> <em class="jxr_javadoccomment">     * Filters the raw results returned from HBase and returns only those belonging to the current snapshot, as defined</em>
+<a class="jxr_linenumber" name="415" href="#415">415</a> <em class="jxr_javadoccomment">     * by the transaction object. If the raw results don't contain enough information for a particular qualifier, it</em>
+<a class="jxr_linenumber" name="416" href="#416">416</a> <em class="jxr_javadoccomment">     * will request more versions from HBase.</em>
+<a class="jxr_linenumber" name="417" href="#417">417</a> <em class="jxr_javadoccomment">     *</em>
+<a class="jxr_linenumber" name="418" href="#418">418</a> <em class="jxr_javadoccomment">     * @param rawCells          Raw cells that we are going to filter</em>
+<a class="jxr_linenumber" name="419" href="#419">419</a> <em class="jxr_javadoccomment">     * @param transaction       Defines the current snapshot</em>
+<a class="jxr_linenumber" name="420" href="#420">420</a> <em class="jxr_javadoccomment">     * @param versionsToRequest Number of versions requested from hbase</em>
+<a class="jxr_linenumber" name="421" href="#421">421</a> <em class="jxr_javadoccomment">     * @param familyDeletionCache Accumulates the family deletion markers to identify cells that deleted with a higher version</em>
+<a class="jxr_linenumber" name="422" href="#422">422</a> <em class="jxr_javadoccomment">     * @return Filtered KVs belonging to the transaction snapshot</em>
+<a class="jxr_linenumber" name="423" href="#423">423</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="424" href="#424">424</a>     <strong class="jxr_keyword">public</strong> List&lt;Cell&gt; filterCellsForSnapshot(List&lt;Cell&gt; rawCells, <a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> transaction,
+<a class="jxr_linenumber" name="425" href="#425">425</a>                                       <strong class="jxr_keyword">int</strong> versionsToRequest, Map&lt;String, Long&gt; familyDeletionCache, Map&lt;String,byte[]&gt; attributeMap) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="426" href="#426">426</a> 
+<a class="jxr_linenumber" name="427" href="#427">427</a>         assert (rawCells != <strong class="jxr_keyword">null</strong> &amp;&amp; transaction != <strong class="jxr_keyword">null</strong> &amp;&amp; versionsToRequest &gt;= 1);
+<a class="jxr_linenumber" name="428" href="#428">428</a> 
+<a class="jxr_linenumber" name="429" href="#429">429</a>         List&lt;Cell&gt; keyValuesInSnapshot = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="430" href="#430">430</a>         List&lt;Get&gt; pendingGetsList = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;();
+<a class="jxr_linenumber" name="431" href="#431">431</a> 
+<a class="jxr_linenumber" name="432" href="#432">432</a>         <strong class="jxr_keyword">int</strong> numberOfVersionsToFetch = versionsToRequest * 2;
+<a class="jxr_linenumber" name="433" href="#433">433</a>         <strong class="jxr_keyword">if</strong> (numberOfVersionsToFetch &lt; 1) {
+<a class="jxr_linenumber" name="434" href="#434">434</a>             numberOfVersionsToFetch = versionsToRequest;
+<a class="jxr_linenumber" name="435" href="#435">435</a>         }
+<a class="jxr_linenumber" name="436" href="#436">436</a> 
+<a class="jxr_linenumber" name="437" href="#437">437</a>         Map&lt;Long, Long&gt; commitCache = buildCommitCache(rawCells);
+<a class="jxr_linenumber" name="438" href="#438">438</a>         buildFamilyDeletionCache(transaction, rawCells, familyDeletionCache, commitCache, attributeMap);
+<a class="jxr_linenumber" name="439" href="#439">439</a> 
+<a class="jxr_linenumber" name="440" href="#440">440</a>         ImmutableList&lt;Collection&lt;Cell&gt;&gt; filteredCells;
+<a class="jxr_linenumber" name="441" href="#441">441</a>         <strong class="jxr_keyword">if</strong> (transaction.getVisibilityLevel() == VisibilityLevel.SNAPSHOT_ALL) {
+<a class="jxr_linenumber" name="442" href="#442">442</a>             filteredCells = groupCellsByColumnFilteringShadowCells(rawCells);
+<a class="jxr_linenumber" name="443" href="#443">443</a>         } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="444" href="#444">444</a>             filteredCells = groupCellsByColumnFilteringShadowCellsAndFamilyDeletion(rawCells);
+<a class="jxr_linenumber" name="445" href="#445">445</a>         }
+<a class="jxr_linenumber" name="446" href="#446">446</a> 
+<a class="jxr_linenumber" name="447" href="#447">447</a>         <strong class="jxr_keyword">for</strong> (Collection&lt;Cell&gt; columnCells : filteredCells) {
+<a class="jxr_linenumber" name="448" href="#448">448</a>             <strong class="jxr_keyword">boolean</strong> snapshotValueFound = false;
+<a class="jxr_linenumber" name="449" href="#449">449</a>             Cell oldestCell = <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="450" href="#450">450</a>             <strong class="jxr_keyword">for</strong> (Cell cell : columnCells) {
+<a class="jxr_linenumber" name="451" href="#451">451</a>                 oldestCell = cell;
+<a class="jxr_linenumber" name="452" href="#452">452</a>                 <strong class="jxr_keyword">if</strong> (getTSIfInTransaction(cell, transaction).isPresent() ||
+<a class="jxr_linenumber" name="453" href="#453">453</a>                         getTSIfInSnapshot(cell, transaction, commitCache).isPresent()) {
+<a class="jxr_linenumber" name="454" href="#454">454</a> 
+<a class="jxr_linenumber" name="455" href="#455">455</a>                     <strong class="jxr_keyword">if</strong> (transaction.getVisibilityLevel() == VisibilityLevel.SNAPSHOT_ALL) {
+<a class="jxr_linenumber" name="456" href="#456">456</a>                         keyValuesInSnapshot.add(cell);
+<a class="jxr_linenumber" name="457" href="#457">457</a>                         <strong class="jxr_keyword">if</strong> (getTSIfInTransaction(cell, transaction).isPresent()) {
+<a class="jxr_linenumber" name="458" href="#458">458</a>                             snapshotValueFound = false;
+<a class="jxr_linenumber" name="459" href="#459">459</a>                             <strong class="jxr_keyword">continue</strong>;
+<a class="jxr_linenumber" name="460" href="#460">460</a>                         } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="461" href="#461">461</a>                             snapshotValueFound = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="462" href="#462">462</a>                             <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="463" href="#463">463</a>                         }
+<a class="jxr_linenumber" name="464" href="#464">464</a>                     } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="465" href="#465">465</a>                         <strong class="jxr_keyword">if</strong> (!checkFamilyDeletionCache(cell, transaction, familyDeletionCache, commitCache) &amp;&amp;
+<a class="jxr_linenumber" name="466" href="#466">466</a>                                 !CellUtils.isTombstone(cell)) {
+<a class="jxr_linenumber" name="467" href="#467">467</a>                             keyValuesInSnapshot.add(cell);
+<a class="jxr_linenumber" name="468" href="#468">468</a>                         }
+<a class="jxr_linenumber" name="469" href="#469">469</a>                         snapshotValueFound = <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="470" href="#470">470</a>                         <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="471" href="#471">471</a> 
+<a class="jxr_linenumber" name="472" href="#472">472</a>                     }
+<a class="jxr_linenumber" name="473" href="#473">473</a>                 }
+<a class="jxr_linenumber" name="474" href="#474">474</a>             }
+<a class="jxr_linenumber" name="475" href="#475">475</a>             <strong class="jxr_keyword">if</strong> (!snapshotValueFound) {
+<a class="jxr_linenumber" name="476" href="#476">476</a>                 assert (oldestCell != <strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="477" href="#477">477</a>                 Get pendingGet = createPendingGet(oldestCell, numberOfVersionsToFetch);
+<a class="jxr_linenumber" name="478" href="#478">478</a>                 <strong class="jxr_keyword">for</strong> (Map.Entry&lt;String,byte[]&gt; entry : attributeMap.entrySet()) {
+<a class="jxr_linenumber" name="479" href="#479">479</a>                     pendingGet.setAttribute(entry.getKey(), entry.getValue());
+<a class="jxr_linenumber" name="480" href="#480">480</a>                 }
+<a class="jxr_linenumber" name="481" href="#481">481</a>                 pendingGetsList.add(pendingGet);
+<a class="jxr_linenumber" name="482" href="#482">482</a>             }
+<a class="jxr_linenumber" name="483" href="#483">483</a>         }
+<a class="jxr_linenumber" name="484" href="#484">484</a> 
+<a class="jxr_linenumber" name="485" href="#485">485</a>         <strong class="jxr_keyword">if</strong> (!pendingGetsList.isEmpty()) {
+<a class="jxr_linenumber" name="486" href="#486">486</a>             Result[] pendingGetsResults = tableAccessWrapper.get(pendingGetsList);
+<a class="jxr_linenumber" name="487" href="#487">487</a>             <strong class="jxr_keyword">for</strong> (Result pendingGetResult : pendingGetsResults) {
+<a class="jxr_linenumber" name="488" href="#488">488</a>                 <strong class="jxr_keyword">if</strong> (!pendingGetResult.isEmpty()) {
+<a class="jxr_linenumber" name="489" href="#489">489</a>                     keyValuesInSnapshot.addAll(
+<a class="jxr_linenumber" name="490" href="#490">490</a>                         filterCellsForSnapshot(pendingGetResult.listCells(), transaction, numberOfVersionsToFetch, familyDeletionCache, attributeMap));
+<a class="jxr_linenumber" name="491" href="#491">491</a>                 }
+<a class="jxr_linenumber" name="492" href="#492">492</a>             }
+<a class="jxr_linenumber" name="493" href="#493">493</a>         }
+<a class="jxr_linenumber" name="494" href="#494">494</a> 
+<a class="jxr_linenumber" name="495" href="#495">495</a>         Collections.sort(keyValuesInSnapshot, KeyValue.COMPARATOR);
+<a class="jxr_linenumber" name="496" href="#496">496</a> 
+<a class="jxr_linenumber" name="497" href="#497">497</a>         <strong class="jxr_keyword">return</strong> keyValuesInSnapshot;
+<a class="jxr_linenumber" name="498" href="#498">498</a>     }
+<a class="jxr_linenumber" name="499" href="#499">499</a> 
+<a class="jxr_linenumber" name="500" href="#500">500</a>     @Override
+<a class="jxr_linenumber" name="501" href="#501">501</a>     <strong class="jxr_keyword">public</strong> Result get(Get get, <a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> transaction) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="502" href="#502">502</a>         Result result = tableAccessWrapper.get(get);
+<a class="jxr_linenumber" name="503" href="#503">503</a> 
+<a class="jxr_linenumber" name="504" href="#504">504</a>         List&lt;Cell&gt; filteredKeyValues = Collections.emptyList();
+<a class="jxr_linenumber" name="505" href="#505">505</a>         <strong class="jxr_keyword">if</strong> (!result.isEmpty()) {
+<a class="jxr_linenumber" name="506" href="#506">506</a>             filteredKeyValues = filterCellsForSnapshot(result.listCells(), transaction, get.getMaxVersions(), <strong class="jxr_keyword">new</strong> HashMap&lt;String, Long&gt;(), get.getAttributesMap());
+<a class="jxr_linenumber" name="507" href="#507">507</a>         }
+<a class="jxr_linenumber" name="508" href="#508">508</a> 
+<a class="jxr_linenumber" name="509" href="#509">509</a>         <strong class="jxr_keyword">return</strong> Result.create(filteredKeyValues);
+<a class="jxr_linenumber" name="510" href="#510">510</a>     }
+<a class="jxr_linenumber" name="511" href="#511">511</a> 
+<a class="jxr_linenumber" name="512" href="#512">512</a>     @Override
+<a class="jxr_linenumber" name="513" href="#513">513</a>     <strong class="jxr_keyword">public</strong> ResultScanner getScanner(Scan scan, <a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> transaction) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="514" href="#514">514</a> 
+<a class="jxr_linenumber" name="515" href="#515">515</a>         <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/SnapshotFilterImpl.html">TransactionalClientScanner</a>(transaction, scan, 1);
+<a class="jxr_linenumber" name="516" href="#516">516</a> 
+<a class="jxr_linenumber" name="517" href="#517">517</a>     }
+<a class="jxr_linenumber" name="518" href="#518">518</a> 
+<a class="jxr_linenumber" name="519" href="#519">519</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> isCommitted(<a href="../../../../org/apache/omid/transaction/HBaseCellId.html">HBaseCellId</a> hBaseCellId, <strong class="jxr_keyword">long</strong> epoch, <strong class="jxr_keyword">boolean</strong> isLowLatency) <strong class="jxr_keyword">throws</strong> TransactionException {
+<a class="jxr_linenumber" name="520" href="#520">520</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="521" href="#521">521</a>             <strong class="jxr_keyword">long</strong> timestamp = hBaseCellId.getTimestamp() - (hBaseCellId.getTimestamp() % AbstractTransactionManager.MAX_CHECKPOINTS_PER_TXN);
+<a class="jxr_linenumber" name="522" href="#522">522</a>             <a href="../../../../org/apache/omid/committable/CommitTable.html">CommitTimestamp</a> tentativeCommitTimestamp =
+<a class="jxr_linenumber" name="523" href="#523">523</a>                     locateCellCommitTimestamp(timestamp,
+<a class="jxr_linenumber" name="524" href="#524">524</a>                             epoch,
+<a class="jxr_linenumber" name="525" href="#525">525</a>                             <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/HBaseTransactionManager.html">CommitTimestampLocatorImpl</a>(hBaseCellId,
+<a class="jxr_linenumber" name="526" href="#526">526</a>                                     Maps.&lt;Long, Long&gt;newHashMap(),
+<a class="jxr_linenumber" name="527" href="#527">527</a>                                     tableAccessWrapper),
+<a class="jxr_linenumber" name="528" href="#528">528</a>                             isLowLatency);
 <a class="jxr_linenumber" name="529" href="#529">529</a> 
-<a class="jxr_linenumber" name="530" href="#530">530</a>             @Override
-<a class="jxr_linenumber" name="531" href="#531">531</a>             <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> apply(Cell cell) {
-<a class="jxr_linenumber" name="532" href="#532">532</a>                 <strong class="jxr_keyword">boolean</strong> familyDeletionMarkerCondition = CellUtils.isFamilyDeleteCell(cell);
-<a class="jxr_linenumber" name="533" href="#533">533</a> 
-<a class="jxr_linenumber" name="534" href="#534">534</a>                 <strong class="jxr_keyword">return</strong> cell != <strong class="jxr_keyword">null</strong> &amp;&amp; !CellUtils.isShadowCell(cell) &amp;&amp; !familyDeletionMarkerCondition;
-<a class="jxr_linenumber" name="535" href="#535">535</a>             }
-<a class="jxr_linenumber" name="536" href="#536">536</a> 
-<a class="jxr_linenumber" name="537" href="#537">537</a>         };
-<a class="jxr_linenumber" name="538" href="#538">538</a> 
-<a class="jxr_linenumber" name="539" href="#539">539</a>         Function&lt;Cell, ColumnWrapper&gt; cellToColumnWrapper = <strong class="jxr_keyword">new</strong> Function&lt;Cell, ColumnWrapper&gt;() {
-<a class="jxr_linenumber" name="540" href="#540">540</a> 
-<a class="jxr_linenumber" name="541" href="#541">541</a>             @Override
-<a class="jxr_linenumber" name="542" href="#542">542</a>             <strong class="jxr_keyword">public</strong> <a href="../../../../org/apache/omid/transaction/ColumnWrapper.html">ColumnWrapper</a> apply(Cell cell) {
-<a class="jxr_linenumber" name="543" href="#543">543</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/ColumnWrapper.html">ColumnWrapper</a>(CellUtil.cloneFamily(cell), CellUtil.cloneQualifier(cell));
+<a class="jxr_linenumber" name="530" href="#530">530</a>             <em class="jxr_comment">// If transaction that added the cell was invalidated</em>
+<a class="jxr_linenumber" name="531" href="#531">531</a>             <strong class="jxr_keyword">if</strong> (!tentativeCommitTimestamp.isValid()) {
+<a class="jxr_linenumber" name="532" href="#532">532</a>                 <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="533" href="#533">533</a>             }
+<a class="jxr_linenumber" name="534" href="#534">534</a> 
+<a class="jxr_linenumber" name="535" href="#535">535</a>             <strong class="jxr_keyword">switch</strong> (tentativeCommitTimestamp.getLocation()) {
+<a class="jxr_linenumber" name="536" href="#536">536</a>                 <strong class="jxr_keyword">case</strong> COMMIT_TABLE:
+<a class="jxr_linenumber" name="537" href="#537">537</a>                 <strong class="jxr_keyword">case</strong> SHADOW_CELL:
+<a class="jxr_linenumber" name="538" href="#538">538</a>                     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">true</strong>;
+<a class="jxr_linenumber" name="539" href="#539">539</a>                 <strong class="jxr_keyword">case</strong> NOT_PRESENT:
+<a class="jxr_linenumber" name="540" href="#540">540</a>                     <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="541" href="#541">541</a>                 <strong class="jxr_keyword">case</strong> CACHE: <em class="jxr_comment">// cache was empty</em>
+<a class="jxr_linenumber" name="542" href="#542">542</a>                 <strong class="jxr_keyword">default</strong>:
+<a class="jxr_linenumber" name="543" href="#543">543</a>                     <strong class="jxr_keyword">return</strong> false;
 <a class="jxr_linenumber" name="544" href="#544">544</a>             }
-<a class="jxr_linenumber" name="545" href="#545">545</a> 
-<a class="jxr_linenumber" name="546" href="#546">546</a>         };
-<a class="jxr_linenumber" name="547" href="#547">547</a> 
-<a class="jxr_linenumber" name="548" href="#548">548</a>         <strong class="jxr_keyword">return</strong> Multimaps.index(Iterables.filter(rawCells, shadowCellAndFamilyDeletionFilter), cellToColumnWrapper)
-<a class="jxr_linenumber" name="549" href="#549">549</a>             .asMap().values()
-<a class="jxr_linenumber" name="550" href="#550">550</a>             .asList();
-<a class="jxr_linenumber" name="551" href="#551">551</a>     }
-<a class="jxr_linenumber" name="552" href="#552">552</a> 
+<a class="jxr_linenumber" name="545" href="#545">545</a>         } <strong class="jxr_keyword">catch</strong> (IOException e) {
+<a class="jxr_linenumber" name="546" href="#546">546</a>             <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/TransactionException.html">TransactionException</a>(<span class="jxr_string">"Failure while checking if a transaction was committed"</span>, e);
+<a class="jxr_linenumber" name="547" href="#547">547</a>         }
+<a class="jxr_linenumber" name="548" href="#548">548</a>     }
+<a class="jxr_linenumber" name="549" href="#549">549</a> 
+<a class="jxr_linenumber" name="550" href="#550">550</a>     <strong class="jxr_keyword">static</strong> ImmutableList&lt;Collection&lt;Cell&gt;&gt; groupCellsByColumnFilteringShadowCellsAndFamilyDeletion(List&lt;Cell&gt; rawCells) {
+<a class="jxr_linenumber" name="551" href="#551">551</a> 
+<a class="jxr_linenumber" name="552" href="#552">552</a>         Predicate&lt;Cell&gt; shadowCellAndFamilyDeletionFilter = <strong class="jxr_keyword">new</strong> Predicate&lt;Cell&gt;() {
 <a class="jxr_linenumber" name="553" href="#553">553</a> 
-<a class="jxr_linenumber" name="554" href="#554">554</a>     <strong class="jxr_keyword">static</strong> ImmutableList&lt;Collection&lt;Cell&gt;&gt; groupCellsByColumnFilteringShadowCells(List&lt;Cell&gt; rawCells) {
-<a class="jxr_linenumber" name="555" href="#555">555</a> 
-<a class="jxr_linenumber" name="556" href="#556">556</a>         Predicate&lt;Cell&gt; shadowCellFilter = <strong class="jxr_keyword">new</strong> Predicate&lt;Cell&gt;() {
-<a class="jxr_linenumber" name="557" href="#557">557</a>             @Override
-<a class="jxr_linenumber" name="558" href="#558">558</a>             <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> apply(Cell cell) {
-<a class="jxr_linenumber" name="559" href="#559">559</a>                 <strong class="jxr_keyword">return</strong> cell != <strong class="jxr_keyword">null</strong> &amp;&amp; !CellUtils.isShadowCell(cell);
-<a class="jxr_linenumber" name="560" href="#560">560</a>             }
+<a class="jxr_linenumber" name="554" href="#554">554</a>             @Override
+<a class="jxr_linenumber" name="555" href="#555">555</a>             <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> apply(Cell cell) {
+<a class="jxr_linenumber" name="556" href="#556">556</a>                 <strong class="jxr_keyword">boolean</strong> familyDeletionMarkerCondition = CellUtils.isFamilyDeleteCell(cell);
+<a class="jxr_linenumber" name="557" href="#557">557</a> 
+<a class="jxr_linenumber" name="558" href="#558">558</a>                 <strong class="jxr_keyword">return</strong> cell != <strong class="jxr_keyword">null</strong> &amp;&amp; !CellUtils.isShadowCell(cell) &amp;&amp; !familyDeletionMarkerCondition;
+<a class="jxr_linenumber" name="559" href="#559">559</a>             }
+<a class="jxr_linenumber" name="560" href="#560">560</a> 
 <a class="jxr_linenumber" name="561" href="#561">561</a>         };
 <a class="jxr_linenumber" name="562" href="#562">562</a> 
 <a class="jxr_linenumber" name="563" href="#563">563</a>         Function&lt;Cell, ColumnWrapper&gt; cellToColumnWrapper = <strong class="jxr_keyword">new</strong> Function&lt;Cell, ColumnWrapper&gt;() {
@@ -579,133 +579,157 @@
 <a class="jxr_linenumber" name="569" href="#569">569</a> 
 <a class="jxr_linenumber" name="570" href="#570">570</a>         };
 <a class="jxr_linenumber" name="571" href="#571">571</a> 
-<a class="jxr_linenumber" name="572" href="#572">572</a>         <strong class="jxr_keyword">return</strong> Multimaps.index(Iterables.filter(rawCells, shadowCellFilter), cellToColumnWrapper)
-<a class="jxr_linenumber" name="573" href="#573">573</a>                 .asMap().values()
-<a class="jxr_linenumber" name="574" href="#574">574</a>                 .asList();
+<a class="jxr_linenumber" name="572" href="#572">572</a>         <strong class="jxr_keyword">return</strong> Multimaps.index(Iterables.filter(rawCells, shadowCellAndFamilyDeletionFilter), cellToColumnWrapper)
+<a class="jxr_linenumber" name="573" href="#573">573</a>             .asMap().values()
+<a class="jxr_linenumber" name="574" href="#574">574</a>             .asList();
 <a class="jxr_linenumber" name="575" href="#575">575</a>     }
 <a class="jxr_linenumber" name="576" href="#576">576</a> 
 <a class="jxr_linenumber" name="577" href="#577">577</a> 
-<a class="jxr_linenumber" name="578" href="#578">578</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/apache/omid/transaction/SnapshotFilterImpl.html">TransactionalClientScanner</a> <strong class="jxr_keyword">implements</strong> ResultScanner {
+<a class="jxr_linenumber" name="578" href="#578">578</a>     <strong class="jxr_keyword">static</strong> ImmutableList&lt;Collection&lt;Cell&gt;&gt; groupCellsByColumnFilteringShadowCells(List&lt;Cell&gt; rawCells) {
 <a class="jxr_linenumber" name="579" href="#579">579</a> 
-<a class="jxr_linenumber" name="580" href="#580">580</a>         <strong class="jxr_keyword">private</strong> <a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> state;
-<a class="jxr_linenumber" name="581" href="#581">581</a>         <strong class="jxr_keyword">private</strong> ResultScanner innerScanner;
-<a class="jxr_linenumber" name="582" href="#582">582</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> maxVersions;
-<a class="jxr_linenumber" name="583" href="#583">583</a>         Map&lt;String, Long&gt; familyDeletionCache;
-<a class="jxr_linenumber" name="584" href="#584">584</a>         <strong class="jxr_keyword">private</strong> Map&lt;String,byte[]&gt; attributeMap;
-<a class="jxr_linenumber" name="585" href="#585">585</a> 
-<a class="jxr_linenumber" name="586" href="#586">586</a>         <a href="../../../../org/apache/omid/transaction/SnapshotFilterImpl.html">TransactionalClientScanner</a>(<a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> state, Scan scan, <strong class="jxr_keyword">int</strong> maxVersions)
-<a class="jxr_linenumber" name="587" href="#587">587</a>                 <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="588" href="#588">588</a>             <strong class="jxr_keyword">if</strong> (scan.hasFilter()) {
-<a class="jxr_linenumber" name="589" href="#589">589</a>                 LOG.warn(<span class="jxr_string">"Client scanner with filter will return un expected results. Use Coprocessor scanning"</span>);
-<a class="jxr_linenumber" name="590" href="#590">590</a>             }
-<a class="jxr_linenumber" name="591" href="#591">591</a>             <strong class="jxr_keyword">this</strong>.state = state;
-<a class="jxr_linenumber" name="592" href="#592">592</a>             <strong class="jxr_keyword">this</strong>.innerScanner = tableAccessWrapper.getScanner(scan);
-<a class="jxr_linenumber" name="593" href="#593">593</a>             <strong class="jxr_keyword">this</strong>.maxVersions = maxVersions;
-<a class="jxr_linenumber" name="594" href="#594">594</a>             <strong class="jxr_keyword">this</strong>.familyDeletionCache = <strong class="jxr_keyword">new</strong> HashMap&lt;String, Long&gt;();
-<a class="jxr_linenumber" name="595" href="#595">595</a>             <strong class="jxr_keyword">this</strong>.attributeMap = scan.getAttributesMap();
-<a class="jxr_linenumber" name="596" href="#596">596</a>         }
-<a class="jxr_linenumber" name="597" href="#597">597</a> 
-<a class="jxr_linenumber" name="598" href="#598">598</a> 
-<a class="jxr_linenumber" name="599" href="#599">599</a>         @Override
-<a class="jxr_linenumber" name="600" href="#600">600</a>         <strong class="jxr_keyword">public</strong> Result next() <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="601" href="#601">601</a>             List&lt;Cell&gt; filteredResult = Collections.emptyList();
-<a class="jxr_linenumber" name="602" href="#602">602</a>             <strong class="jxr_keyword">while</strong> (filteredResult.isEmpty()) {
-<a class="jxr_linenumber" name="603" href="#603">603</a>                 Result result = innerScanner.next();
-<a class="jxr_linenumber" name="604" href="#604">604</a>                 <strong class="jxr_keyword">if</strong> (result == <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="605" href="#605">605</a>                     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="606" href="#606">606</a>                 }
-<a class="jxr_linenumber" name="607" href="#607">607</a>                 <strong class="jxr_keyword">if</strong> (!result.isEmpty()) {
-<a class="jxr_linenumber" name="608" href="#608">608</a>                     filteredResult = filterCellsForSnapshot(result.listCells(), state, maxVersions, familyDeletionCache, attributeMap);
-<a class="jxr_linenumber" name="609" href="#609">609</a>                 }
-<a class="jxr_linenumber" name="610" href="#610">610</a>             }
-<a class="jxr_linenumber" name="611" href="#611">611</a>             <strong class="jxr_keyword">return</strong> Result.create(filteredResult);
-<a class="jxr_linenumber" name="612" href="#612">612</a>         }
-<a class="jxr_linenumber" name="613" href="#613">613</a> 
-<a class="jxr_linenumber" name="614" href="#614">614</a>         <em class="jxr_comment">// In principle no need to override, copied from super.next(int) to make</em>
-<a class="jxr_linenumber" name="615" href="#615">615</a>         <em class="jxr_comment">// sure it works even if super.next(int)</em>
-<a class="jxr_linenumber" name="616" href="#616">616</a>         <em class="jxr_comment">// changes its implementation</em>
-<a class="jxr_linenumber" name="617" href="#617">617</a>         @Override
-<a class="jxr_linenumber" name="618" href="#618">618</a>         <strong class="jxr_keyword">public</strong> Result[] next(<strong class="jxr_keyword">int</strong> nbRows) <strong class="jxr_keyword">throws</strong> IOException {
-<a class="jxr_linenumber" name="619" href="#619">619</a>             <em class="jxr_comment">// Collect values to be returned here</em>
-<a class="jxr_linenumber" name="620" href="#620">620</a>             ArrayList&lt;Result&gt; resultSets = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;(nbRows);
-<a class="jxr_linenumber" name="621" href="#621">621</a>             <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; nbRows; i++) {
-<a class="jxr_linenumber" name="622" href="#622">622</a>                 Result next = next();
-<a class="jxr_linenumber" name="623" href="#623">623</a>                 <strong class="jxr_keyword">if</strong> (next != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="624" href="#624">624</a>                     resultSets.add(next);
-<a class="jxr_linenumber" name="625" href="#625">625</a>                 } <strong class="jxr_keyword">else</strong> {
-<a class="jxr_linenumber" name="626" href="#626">626</a>                     <strong class="jxr_keyword">break</strong>;
-<a class="jxr_linenumber" name="627" href="#627">627</a>                 }
-<a class="jxr_linenumber" name="628" href="#628">628</a>             }
-<a class="jxr_linenumber" name="629" href="#629">629</a>             <strong class="jxr_keyword">return</strong> resultSets.toArray(<strong class="jxr_keyword">new</strong> Result[resultSets.size()]);
-<a class="jxr_linenumber" name="630" href="#630">630</a>         }
-<a class="jxr_linenumber" name="631" href="#631">631</a> 
-<a class="jxr_linenumber" name="632" href="#632">632</a>         @Override
-<a class="jxr_linenumber" name="633" href="#633">633</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> close() {
-<a class="jxr_linenumber" name="634" href="#634">634</a>             innerScanner.close();
-<a class="jxr_linenumber" name="635" href="#635">635</a>         }
-<a class="jxr_linenumber" name="636" href="#636">636</a>         
-<a class="jxr_linenumber" name="637" href="#637">637</a>         <em class="jxr_comment">// So that Omid works with both HBase 1.3 and 1.4 without needing</em>
-<a class="jxr_linenumber" name="638" href="#638">638</a>         <em class="jxr_comment">// a new profile. Since this doesn't existing in 1.3, we don't</em>
-<a class="jxr_linenumber" name="639" href="#639">639</a>         <em class="jxr_comment">// add an @Override for it.</em>
-<a class="jxr_linenumber" name="640" href="#640">640</a>         <strong class="jxr_keyword">public</strong> ScanMetrics getScanMetrics() {
-<a class="jxr_linenumber" name="641" href="#641">641</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
-<a class="jxr_linenumber" name="642" href="#642">642</a>         }
-<a class="jxr_linenumber" name="643" href="#643">643</a>         
-<a class="jxr_linenumber" name="644" href="#644">644</a>         <em class="jxr_comment">// Same as above</em>
-<a class="jxr_linenumber" name="645" href="#645">645</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> renewLease() {
-<a class="jxr_linenumber" name="646" href="#646">646</a>             <strong class="jxr_keyword">return</strong> false;
-<a class="jxr_linenumber" name="647" href="#647">647</a>         }
-<a class="jxr_linenumber" name="648" href="#648">648</a> 
-<a class="jxr_linenumber" name="649" href="#649">649</a>         @Override
-<a class="jxr_linenumber" name="650" href="#650">650</a>         <strong class="jxr_keyword">public</strong> Iterator&lt;Result&gt; iterator() {
-<a class="jxr_linenumber" name="651" href="#651">651</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/SnapshotFilterImpl.html">ResultIterator</a>(<strong class="jxr_keyword">this</strong>);
-<a class="jxr_linenumber" name="652" href="#652">652</a>         }
-<a class="jxr_linenumber" name="653" href="#653">653</a> 
-<a class="jxr_linenumber" name="654" href="#654">654</a>         <em class="jxr_comment">// ------------------------------------------------------------------------------------------------------------</em>
-<a class="jxr_linenumber" name="655" href="#655">655</a>         <em class="jxr_comment">// --------------------------------- Helper class for TransactionalClientScanner ------------------------------</em>
-<a class="jxr_linenumber" name="656" href="#656">656</a>         <em class="jxr_comment">// ------------------------------------------------------------------------------------------------------------</em>
-<a class="jxr_linenumber" name="657" href="#657">657</a> 
-<a class="jxr_linenumber" name="658" href="#658">658</a>         <strong class="jxr_keyword">class</strong> <a href="../../../../org/apache/omid/transaction/SnapshotFilterImpl.html">ResultIterator</a> <strong class="jxr_keyword">implements</strong> Iterator&lt;Result&gt; {
-<a class="jxr_linenumber" name="659" href="#659">659</a> 
-<a class="jxr_linenumber" name="660" href="#660">660</a>             <a href="../../../../org/apache/omid/transaction/SnapshotFilterImpl.html">TransactionalClientScanner</a> scanner;
-<a class="jxr_linenumber" name="661" href="#661">661</a>             Result currentResult;
-<a class="jxr_linenumber" name="662" href="#662">662</a> 
-<a class="jxr_linenumber" name="663" href="#663">663</a>             <a href="../../../../org/apache/omid/transaction/SnapshotFilterImpl.html">ResultIterator</a>(<a href="../../../../org/apache/omid/transaction/SnapshotFilterImpl.html">TransactionalClientScanner</a> scanner) {
-<a class="jxr_linenumber" name="664" href="#664">664</a>                 <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="665" href="#665">665</a>                     <strong class="jxr_keyword">this</strong>.scanner = scanner;
-<a class="jxr_linenumber" name="666" href="#666">666</a>                     currentResult = scanner.next();
-<a class="jxr_linenumber" name="667" href="#667">667</a>                 } <strong class="jxr_keyword">catch</strong> (IOException e) {
-<a class="jxr_linenumber" name="668" href="#668">668</a>                     <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> RuntimeException(e);
-<a class="jxr_linenumber" name="669" href="#669">669</a>                 }
-<a class="jxr_linenumber" name="670" href="#670">670</a>             }
-<a class="jxr_linenumber" name="671" href="#671">671</a> 
-<a class="jxr_linenumber" name="672" href="#672">672</a>             @Override
-<a class="jxr_linenumber" name="673" href="#673">673</a>             <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hasNext() {
-<a class="jxr_linenumber" name="674" href="#674">674</a>                 <strong class="jxr_keyword">return</strong> currentResult != <strong class="jxr_keyword">null</strong> &amp;&amp; !currentResult.isEmpty();
-<a class="jxr_linenumber" name="675" href="#675">675</a>             }
-<a class="jxr_linenumber" name="676" href="#676">676</a> 
-<a class="jxr_linenumber" name="677" href="#677">677</a>             @Override
-<a class="jxr_linenumber" name="678" href="#678">678</a>             <strong class="jxr_keyword">public</strong> Result next() {
-<a class="jxr_linenumber" name="679" href="#679">679</a>                 <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="680" href="#680">680</a>                     Result result = currentResult;
-<a class="jxr_linenumber" name="681" href="#681">681</a>                     currentResult = scanner.next();
-<a class="jxr_linenumber" name="682" href="#682">682</a>                     <strong class="jxr_keyword">return</strong> result;
-<a class="jxr_linenumber" name="683" href="#683">683</a>                 } <strong class="jxr_keyword">catch</strong> (IOException e) {
-<a class="jxr_linenumber" name="684" href="#684">684</a>                     <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> RuntimeException(e);
-<a class="jxr_linenumber" name="685" href="#685">685</a>                 }
-<a class="jxr_linenumber" name="686" href="#686">686</a>             }
-<a class="jxr_linenumber" name="687" href="#687">687</a> 
-<a class="jxr_linenumber" name="688" href="#688">688</a>             @Override
-<a class="jxr_linenumber" name="689" href="#689">689</a>             <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> remove() {
-<a class="jxr_linenumber" name="690" href="#690">690</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> RuntimeException(<span class="jxr_string">"Not implemented"</span>);
-<a class="jxr_linenumber" name="691" href="#691">691</a>             }
-<a class="jxr_linenumber" name="692" href="#692">692</a> 
-<a class="jxr_linenumber" name="693" href="#693">693</a>         }
-<a class="jxr_linenumber" name="694" href="#694">694</a> 
-<a class="jxr_linenumber" name="695" href="#695">695</a>     }
-<a class="jxr_linenumber" name="696" href="#696">696</a> 
-<a class="jxr_linenumber" name="697" href="#697">697</a> 
-<a class="jxr_linenumber" name="698" href="#698">698</a> }
+<a class="jxr_linenumber" name="580" href="#580">580</a>         Predicate&lt;Cell&gt; shadowCellFilter = <strong class="jxr_keyword">new</strong> Predicate&lt;Cell&gt;() {
+<a class="jxr_linenumber" name="581" href="#581">581</a>             @Override
+<a class="jxr_linenumber" name="582" href="#582">582</a>             <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> apply(Cell cell) {
+<a class="jxr_linenumber" name="583" href="#583">583</a>                 <strong class="jxr_keyword">return</strong> cell != <strong class="jxr_keyword">null</strong> &amp;&amp; !CellUtils.isShadowCell(cell);
+<a class="jxr_linenumber" name="584" href="#584">584</a>             }
+<a class="jxr_linenumber" name="585" href="#585">585</a>         };
+<a class="jxr_linenumber" name="586" href="#586">586</a> 
+<a class="jxr_linenumber" name="587" href="#587">587</a>         Function&lt;Cell, ColumnWrapper&gt; cellToColumnWrapper = <strong class="jxr_keyword">new</strong> Function&lt;Cell, ColumnWrapper&gt;() {
+<a class="jxr_linenumber" name="588" href="#588">588</a> 
+<a class="jxr_linenumber" name="589" href="#589">589</a>             @Override
+<a class="jxr_linenumber" name="590" href="#590">590</a>             <strong class="jxr_keyword">public</strong> <a href="../../../../org/apache/omid/transaction/ColumnWrapper.html">ColumnWrapper</a> apply(Cell cell) {
+<a class="jxr_linenumber" name="591" href="#591">591</a>                 <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/ColumnWrapper.html">ColumnWrapper</a>(CellUtil.cloneFamily(cell), CellUtil.cloneQualifier(cell));
+<a class="jxr_linenumber" name="592" href="#592">592</a>             }
+<a class="jxr_linenumber" name="593" href="#593">593</a> 
+<a class="jxr_linenumber" name="594" href="#594">594</a>         };
+<a class="jxr_linenumber" name="595" href="#595">595</a> 
+<a class="jxr_linenumber" name="596" href="#596">596</a>         <strong class="jxr_keyword">return</strong> Multimaps.index(Iterables.filter(rawCells, shadowCellFilter), cellToColumnWrapper)
+<a class="jxr_linenumber" name="597" href="#597">597</a>                 .asMap().values()
+<a class="jxr_linenumber" name="598" href="#598">598</a>                 .asList();
+<a class="jxr_linenumber" name="599" href="#599">599</a>     }
+<a class="jxr_linenumber" name="600" href="#600">600</a> 
+<a class="jxr_linenumber" name="601" href="#601">601</a> 
+<a class="jxr_linenumber" name="602" href="#602">602</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/apache/omid/transaction/SnapshotFilterImpl.html">TransactionalClientScanner</a> <strong class="jxr_keyword">implements</strong> ResultScanner {
+<a class="jxr_linenumber" name="603" href="#603">603</a> 
+<a class="jxr_linenumber" name="604" href="#604">604</a>         <strong class="jxr_keyword">private</strong> <a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> state;
+<a class="jxr_linenumber" name="605" href="#605">605</a>         <strong class="jxr_keyword">private</strong> ResultScanner innerScanner;
+<a class="jxr_linenumber" name="606" href="#606">606</a>         <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">int</strong> maxVersions;
+<a class="jxr_linenumber" name="607" href="#607">607</a>         Map&lt;String, Long&gt; familyDeletionCache;
+<a class="jxr_linenumber" name="608" href="#608">608</a>         <strong class="jxr_keyword">private</strong> Map&lt;String,byte[]&gt; attributeMap;
+<a class="jxr_linenumber" name="609" href="#609">609</a> 
+<a class="jxr_linenumber" name="610" href="#610">610</a>         <a href="../../../../org/apache/omid/transaction/SnapshotFilterImpl.html">TransactionalClientScanner</a>(<a href="../../../../org/apache/omid/transaction/HBaseTransaction.html">HBaseTransaction</a> state, Scan scan, <strong class="jxr_keyword">int</strong> maxVersions)
+<a class="jxr_linenumber" name="611" href="#611">611</a>                 <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="612" href="#612">612</a>             <strong class="jxr_keyword">if</strong> (scan.hasFilter()) {
+<a class="jxr_linenumber" name="613" href="#613">613</a>                 LOG.warn(<span class="jxr_string">"Client scanner with filter will return un expected results. Use Coprocessor scanning"</span>);
+<a class="jxr_linenumber" name="614" href="#614">614</a>             }
+<a class="jxr_linenumber" name="615" href="#615">615</a>             <strong class="jxr_keyword">this</strong>.state = state;
+<a class="jxr_linenumber" name="616" href="#616">616</a>             <strong class="jxr_keyword">this</strong>.innerScanner = tableAccessWrapper.getScanner(scan);
+<a class="jxr_linenumber" name="617" href="#617">617</a>             <strong class="jxr_keyword">this</strong>.maxVersions = maxVersions;
+<a class="jxr_linenumber" name="618" href="#618">618</a>             <strong class="jxr_keyword">this</strong>.familyDeletionCache = <strong class="jxr_keyword">new</strong> HashMap&lt;String, Long&gt;();
+<a class="jxr_linenumber" name="619" href="#619">619</a>             <strong class="jxr_keyword">this</strong>.attributeMap = scan.getAttributesMap();
+<a class="jxr_linenumber" name="620" href="#620">620</a>         }
+<a class="jxr_linenumber" name="621" href="#621">621</a> 
+<a class="jxr_linenumber" name="622" href="#622">622</a> 
+<a class="jxr_linenumber" name="623" href="#623">623</a>         @Override
+<a class="jxr_linenumber" name="624" href="#624">624</a>         <strong class="jxr_keyword">public</strong> Result next() <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="625" href="#625">625</a>             List&lt;Cell&gt; filteredResult = Collections.emptyList();
+<a class="jxr_linenumber" name="626" href="#626">626</a>             <strong class="jxr_keyword">while</strong> (filteredResult.isEmpty()) {
+<a class="jxr_linenumber" name="627" href="#627">627</a>                 Result result = innerScanner.next();
+<a class="jxr_linenumber" name="628" href="#628">628</a>                 <strong class="jxr_keyword">if</strong> (result == <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="629" href="#629">629</a>                     <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="630" href="#630">630</a>                 }
+<a class="jxr_linenumber" name="631" href="#631">631</a>                 <strong class="jxr_keyword">if</strong> (!result.isEmpty()) {
+<a class="jxr_linenumber" name="632" href="#632">632</a>                     filteredResult = filterCellsForSnapshot(result.listCells(), state, maxVersions, familyDeletionCache, attributeMap);
+<a class="jxr_linenumber" name="633" href="#633">633</a>                 }
+<a class="jxr_linenumber" name="634" href="#634">634</a>             }
+<a class="jxr_linenumber" name="635" href="#635">635</a>             <strong class="jxr_keyword">return</strong> Result.create(filteredResult);
+<a class="jxr_linenumber" name="636" href="#636">636</a>         }
+<a class="jxr_linenumber" name="637" href="#637">637</a> 
+<a class="jxr_linenumber" name="638" href="#638">638</a>         <em class="jxr_comment">// In principle no need to override, copied from super.next(int) to make</em>
+<a class="jxr_linenumber" name="639" href="#639">639</a>         <em class="jxr_comment">// sure it works even if super.next(int)</em>
+<a class="jxr_linenumber" name="640" href="#640">640</a>         <em class="jxr_comment">// changes its implementation</em>
+<a class="jxr_linenumber" name="641" href="#641">641</a>         @Override
+<a class="jxr_linenumber" name="642" href="#642">642</a>         <strong class="jxr_keyword">public</strong> Result[] next(<strong class="jxr_keyword">int</strong> nbRows) <strong class="jxr_keyword">throws</strong> IOException {
+<a class="jxr_linenumber" name="643" href="#643">643</a>             <em class="jxr_comment">// Collect values to be returned here</em>
+<a class="jxr_linenumber" name="644" href="#644">644</a>             ArrayList&lt;Result&gt; resultSets = <strong class="jxr_keyword">new</strong> ArrayList&lt;&gt;(nbRows);
+<a class="jxr_linenumber" name="645" href="#645">645</a>             <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; nbRows; i++) {
+<a class="jxr_linenumber" name="646" href="#646">646</a>                 Result next = next();
+<a class="jxr_linenumber" name="647" href="#647">647</a>                 <strong class="jxr_keyword">if</strong> (next != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="648" href="#648">648</a>                     resultSets.add(next);
+<a class="jxr_linenumber" name="649" href="#649">649</a>                 } <strong class="jxr_keyword">else</strong> {
+<a class="jxr_linenumber" name="650" href="#650">650</a>                     <strong class="jxr_keyword">break</strong>;
+<a class="jxr_linenumber" name="651" href="#651">651</a>                 }
+<a class="jxr_linenumber" name="652" href="#652">652</a>             }
+<a class="jxr_linenumber" name="653" href="#653">653</a>             <strong class="jxr_keyword">return</strong> resultSets.toArray(<strong class="jxr_keyword">new</strong> Result[resultSets.size()]);
+<a class="jxr_linenumber" name="654" href="#654">654</a>         }
+<a class="jxr_linenumber" name="655" href="#655">655</a> 
+<a class="jxr_linenumber" name="656" href="#656">656</a>         @Override
+<a class="jxr_linenumber" name="657" href="#657">657</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> close() {
+<a class="jxr_linenumber" name="658" href="#658">658</a>             innerScanner.close();
+<a class="jxr_linenumber" name="659" href="#659">659</a>         }
+<a class="jxr_linenumber" name="660" href="#660">660</a>         
+<a class="jxr_linenumber" name="661" href="#661">661</a>         <em class="jxr_comment">// So that Omid works with both HBase 1.3 and 1.4 without needing</em>
+<a class="jxr_linenumber" name="662" href="#662">662</a>         <em class="jxr_comment">// a new profile. Since this doesn't existing in 1.3, we don't</em>
+<a class="jxr_linenumber" name="663" href="#663">663</a>         <em class="jxr_comment">// add an @Override for it.</em>
+<a class="jxr_linenumber" name="664" href="#664">664</a>         <strong class="jxr_keyword">public</strong> ScanMetrics getScanMetrics() {
+<a class="jxr_linenumber" name="665" href="#665">665</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">null</strong>;
+<a class="jxr_linenumber" name="666" href="#666">666</a>         }
+<a class="jxr_linenumber" name="667" href="#667">667</a>         
+<a class="jxr_linenumber" name="668" href="#668">668</a>         <em class="jxr_comment">// Same as above</em>
+<a class="jxr_linenumber" name="669" href="#669">669</a>         <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> renewLease() {
+<a class="jxr_linenumber" name="670" href="#670">670</a>             <strong class="jxr_keyword">return</strong> false;
+<a class="jxr_linenumber" name="671" href="#671">671</a>         }
+<a class="jxr_linenumber" name="672" href="#672">672</a> 
+<a class="jxr_linenumber" name="673" href="#673">673</a>         @Override
+<a class="jxr_linenumber" name="674" href="#674">674</a>         <strong class="jxr_keyword">public</strong> Iterator&lt;Result&gt; iterator() {
+<a class="jxr_linenumber" name="675" href="#675">675</a>             <strong class="jxr_keyword">return</strong> <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/SnapshotFilterImpl.html">ResultIterator</a>(<strong class="jxr_keyword">this</strong>);
+<a class="jxr_linenumber" name="676" href="#676">676</a>         }
+<a class="jxr_linenumber" name="677" href="#677">677</a> 
+<a class="jxr_linenumber" name="678" href="#678">678</a>         <em class="jxr_comment">// ------------------------------------------------------------------------------------------------------------</em>
+<a class="jxr_linenumber" name="679" href="#679">679</a>         <em class="jxr_comment">// --------------------------------- Helper class for TransactionalClientScanner ------------------------------</em>
+<a class="jxr_linenumber" name="680" href="#680">680</a>         <em class="jxr_comment">// ------------------------------------------------------------------------------------------------------------</em>
+<a class="jxr_linenumber" name="681" href="#681">681</a> 
+<a class="jxr_linenumber" name="682" href="#682">682</a>         <strong class="jxr_keyword">class</strong> <a href="../../../../org/apache/omid/transaction/SnapshotFilterImpl.html">ResultIterator</a> <strong class="jxr_keyword">implements</strong> Iterator&lt;Result&gt; {
+<a class="jxr_linenumber" name="683" href="#683">683</a> 
+<a class="jxr_linenumber" name="684" href="#684">684</a>             <a href="../../../../org/apache/omid/transaction/SnapshotFilterImpl.html">TransactionalClientScanner</a> scanner;
+<a class="jxr_linenumber" name="685" href="#685">685</a>             Result currentResult;
+<a class="jxr_linenumber" name="686" href="#686">686</a> 
+<a class="jxr_linenumber" name="687" href="#687">687</a>             <a href="../../../../org/apache/omid/transaction/SnapshotFilterImpl.html">ResultIterator</a>(<a href="../../../../org/apache/omid/transaction/SnapshotFilterImpl.html">TransactionalClientScanner</a> scanner) {
+<a class="jxr_linenumber" name="688" href="#688">688</a>                 <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="689" href="#689">689</a>                     <strong class="jxr_keyword">this</strong>.scanner = scanner;
+<a class="jxr_linenumber" name="690" href="#690">690</a>                     currentResult = scanner.next();
+<a class="jxr_linenumber" name="691" href="#691">691</a>                 } <strong class="jxr_keyword">catch</strong> (IOException e) {
+<a class="jxr_linenumber" name="692" href="#692">692</a>                     <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> RuntimeException(e);
+<a class="jxr_linenumber" name="693" href="#693">693</a>                 }
+<a class="jxr_linenumber" name="694" href="#694">694</a>             }
+<a class="jxr_linenumber" name="695" href="#695">695</a> 
+<a class="jxr_linenumber" name="696" href="#696">696</a>             @Override
+<a class="jxr_linenumber" name="697" href="#697">697</a>             <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">boolean</strong> hasNext() {
+<a class="jxr_linenumber" name="698" href="#698">698</a>                 <strong class="jxr_keyword">return</strong> currentResult != <strong class="jxr_keyword">null</strong> &amp;&amp; !currentResult.isEmpty();
+<a class="jxr_linenumber" name="699" href="#699">699</a>             }
+<a class="jxr_linenumber" name="700" href="#700">700</a> 
+<a class="jxr_linenumber" name="701" href="#701">701</a>             @Override
+<a class="jxr_linenumber" name="702" href="#702">702</a>             <strong class="jxr_keyword">public</strong> Result next() {
+<a class="jxr_linenumber" name="703" href="#703">703</a>                 <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="704" href="#704">704</a>                     Result result = currentResult;
+<a class="jxr_linenumber" name="705" href="#705">705</a>                     currentResult = scanner.next();
+<a class="jxr_linenumber" name="706" href="#706">706</a>                     <strong class="jxr_keyword">return</strong> result;
+<a class="jxr_linenumber" name="707" href="#707">707</a>                 } <strong class="jxr_keyword">catch</strong> (IOException e) {
+<a class="jxr_linenumber" name="708" href="#708">708</a>                     <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> RuntimeException(e);
+<a class="jxr_linenumber" name="709" href="#709">709</a>                 }
+<a class="jxr_linenumber" name="710" href="#710">710</a>             }
+<a class="jxr_linenumber" name="711" href="#711">711</a> 
+<a class="jxr_linenumber" name="712" href="#712">712</a>             @Override
+<a class="jxr_linenumber" name="713" href="#713">713</a>             <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> remove() {
+<a class="jxr_linenumber" name="714" href="#714">714</a>                 <strong class="jxr_keyword">throw</strong> <strong class="jxr_keyword">new</strong> RuntimeException(<span class="jxr_string">"Not implemented"</span>);
+<a class="jxr_linenumber" name="715" href="#715">715</a>             }
+<a class="jxr_linenumber" name="716" href="#716">716</a> 
+<a class="jxr_linenumber" name="717" href="#717">717</a>         }
+<a class="jxr_linenumber" name="718" href="#718">718</a> 
+<a class="jxr_linenumber" name="719" href="#719">719</a>     }
+<a class="jxr_linenumber" name="720" href="#720">720</a> 
+<a class="jxr_linenumber" name="721" href="#721">721</a> 
+<a class="jxr_linenumber" name="722" href="#722">722</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

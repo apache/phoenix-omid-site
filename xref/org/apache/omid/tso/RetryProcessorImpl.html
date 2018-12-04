@@ -143,16 +143,16 @@
 <a class="jxr_linenumber" name="133" href="#133">133</a>             <strong class="jxr_keyword">if</strong> (commitTimestamp.isPresent()) {
 <a class="jxr_linenumber" name="134" href="#134">134</a>                 <strong class="jxr_keyword">if</strong> (commitTimestamp.get().isValid()) {
 <a class="jxr_linenumber" name="135" href="#135">135</a>                     LOG.trace(<span class="jxr_string">"Tx {}: Valid commit TS found in Commit Table. Sending Commit to client."</span>, startTimestamp);
-<a class="jxr_linenumber" name="136" href="#136">136</a>                     replyProc.sendCommitResponse(startTimestamp, commitTimestamp.get().getValue(), event.getChannel());
+<a class="jxr_linenumber" name="136" href="#136">136</a>                     replyProc.sendCommitResponse(startTimestamp, commitTimestamp.get().getValue(), event.getChannel(), event.getMonCtx());
 <a class="jxr_linenumber" name="137" href="#137">137</a>                     txAlreadyCommittedMeter.mark();
 <a class="jxr_linenumber" name="138" href="#138">138</a>                 } <strong class="jxr_keyword">else</strong> {
 <a class="jxr_linenumber" name="139" href="#139">139</a>                     LOG.trace(<span class="jxr_string">"Tx {}: Invalid tx marker found. Sending Abort to client."</span>, startTimestamp);
-<a class="jxr_linenumber" name="140" href="#140">140</a>                     replyProc.sendAbortResponse(startTimestamp, event.getChannel());
+<a class="jxr_linenumber" name="140" href="#140">140</a>                     replyProc.sendAbortResponse(startTimestamp, event.getChannel(), event.getMonCtx());
 <a class="jxr_linenumber" name="141" href="#141">141</a>                     invalidTxMeter.mark();
 <a class="jxr_linenumber" name="142" href="#142">142</a>                 }
 <a class="jxr_linenumber" name="143" href="#143">143</a>             } <strong class="jxr_keyword">else</strong> {
 <a class="jxr_linenumber" name="144" href="#144">144</a>                 LOG.trace(<span class="jxr_string">"Tx {}: No Commit TS found in Commit Table. Sending Abort to client."</span>, startTimestamp);
-<a class="jxr_linenumber" name="145" href="#145">145</a>                 replyProc.sendAbortResponse(startTimestamp, event.getChannel());
+<a class="jxr_linenumber" name="145" href="#145">145</a>                 replyProc.sendAbortResponse(startTimestamp, event.getChannel(), event.getMonCtx());
 <a class="jxr_linenumber" name="146" href="#146">146</a>                 noCTFoundMeter.mark();
 <a class="jxr_linenumber" name="147" href="#147">147</a>             }
 <a class="jxr_linenumber" name="148" href="#148">148</a>         } <strong class="jxr_keyword">catch</strong> (InterruptedException e) {

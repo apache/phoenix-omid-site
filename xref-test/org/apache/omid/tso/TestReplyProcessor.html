@@ -80,7 +80,7 @@
 <a class="jxr_linenumber" name="70" href="#70">70</a>      <strong class="jxr_keyword">private</strong> Panicker panicker;
 <a class="jxr_linenumber" name="71" href="#71">71</a>  
 <a class="jxr_linenumber" name="72" href="#72">72</a>      @Mock
-<a class="jxr_linenumber" name="73" href="#73">73</a>      <strong class="jxr_keyword">private</strong> MonitoringContext monCtx;
+<a class="jxr_linenumber" name="73" href="#73">73</a>      <strong class="jxr_keyword">private</strong> MonitoringContextImpl monCtx;
 <a class="jxr_linenumber" name="74" href="#74">74</a>  
 <a class="jxr_linenumber" name="75" href="#75">75</a>      <strong class="jxr_keyword">private</strong> MetricsRegistry metrics;
 <a class="jxr_linenumber" name="76" href="#76">76</a>  
@@ -257,11 +257,11 @@
 <a class="jxr_linenumber" name="247" href="#247">247</a>         inOrderReplyBatchEvents.verify(replyProcessor, times(1)).handleReplyBatchEvent(eq(thirdBatchEvent));
 <a class="jxr_linenumber" name="248" href="#248">248</a> 
 <a class="jxr_linenumber" name="249" href="#249">249</a>         InOrder inOrderReplies = inOrder(replyProcessor, replyProcessor, replyProcessor, replyProcessor, replyProcessor);
-<a class="jxr_linenumber" name="250" href="#250">250</a>         inOrderReplies.verify(replyProcessor, times(1)).sendAbortResponse(eq(FIFTH_ST), any(Channel.<strong class="jxr_keyword">class</strong>));
-<a class="jxr_linenumber" name="251" href="#251">251</a>         inOrderReplies.verify(replyProcessor, times(1)).sendTimestampResponse(eq(THIRD_ST), any(Channel.<strong class="jxr_keyword">class</strong>));
-<a class="jxr_linenumber" name="252" href="#252">252</a>         inOrderReplies.verify(replyProcessor, times(1)).sendCommitResponse(eq(FOURTH_ST), eq(FOURTH_CT), any(Channel.<strong class="jxr_keyword">class</strong>));
-<a class="jxr_linenumber" name="253" href="#253">253</a>         inOrderReplies.verify(replyProcessor, times(1)).sendTimestampResponse(eq(FIRST_ST), any(Channel.<strong class="jxr_keyword">class</strong>));
-<a class="jxr_linenumber" name="254" href="#254">254</a>         inOrderReplies.verify(replyProcessor, times(1)).sendCommitResponse(eq(SECOND_ST), eq(SECOND_CT), any(Channel.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="250" href="#250">250</a>         inOrderReplies.verify(replyProcessor, times(1)).sendAbortResponse(eq(FIFTH_ST), any(Channel.<strong class="jxr_keyword">class</strong>), eq(monCtx));
+<a class="jxr_linenumber" name="251" href="#251">251</a>         inOrderReplies.verify(replyProcessor, times(1)).sendTimestampResponse(eq(THIRD_ST), any(Channel.<strong class="jxr_keyword">class</strong>), eq(monCtx));
+<a class="jxr_linenumber" name="252" href="#252">252</a>         inOrderReplies.verify(replyProcessor, times(1)).sendCommitResponse(eq(FOURTH_ST), eq(FOURTH_CT), any(Channel.<strong class="jxr_keyword">class</strong>), eq(monCtx));
+<a class="jxr_linenumber" name="253" href="#253">253</a>         inOrderReplies.verify(replyProcessor, times(1)).sendTimestampResponse(eq(FIRST_ST), any(Channel.<strong class="jxr_keyword">class</strong>), eq(monCtx));
+<a class="jxr_linenumber" name="254" href="#254">254</a>         inOrderReplies.verify(replyProcessor, times(1)).sendCommitResponse(eq(SECOND_ST), eq(SECOND_CT), any(Channel.<strong class="jxr_keyword">class</strong>), eq(monCtx));
 <a class="jxr_linenumber" name="255" href="#255">255</a> 
 <a class="jxr_linenumber" name="256" href="#256">256</a>     }
 <a class="jxr_linenumber" name="257" href="#257">257</a> 

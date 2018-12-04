@@ -65,7 +65,7 @@
 <a class="jxr_linenumber" name="55" href="#55">55</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> setUpClass() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="56" href="#56">56</a>          <em class="jxr_comment">// HBase setup</em>
 <a class="jxr_linenumber" name="57" href="#57">57</a>          hbaseConf = HBaseConfiguration.create();
-<a class="jxr_linenumber" name="58" href="#58">58</a>  
+<a class="jxr_linenumber" name="58" href="#58">58</a>          hbaseConf.setBoolean(<span class="jxr_string">"hbase.localcluster.assign.random.ports"</span>,<strong class="jxr_keyword">true</strong>);
 <a class="jxr_linenumber" name="59" href="#59">59</a>          LOG.info(<span class="jxr_string">"Create hbase"</span>);
 <a class="jxr_linenumber" name="60" href="#60">60</a>          testutil = <strong class="jxr_keyword">new</strong> HBaseTestingUtility(hbaseConf);
 <a class="jxr_linenumber" name="61" href="#61">61</a>          hbasecluster = testutil.startMiniCluster(1);
@@ -83,7 +83,7 @@
 <a class="jxr_linenumber" name="73" href="#73">73</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setUp() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="74" href="#74">74</a>          HBaseAdmin admin = testutil.getHBaseAdmin();
 <a class="jxr_linenumber" name="75" href="#75">75</a>  
-<a class="jxr_linenumber" name="76" href="#76">76</a>          <strong class="jxr_keyword">if</strong> (!admin.tableExists(DEFAULT_TIMESTAMP_STORAGE_TABLE_NAME)) {
+<a class="jxr_linenumber" name="76" href="#76">76</a>          <strong class="jxr_keyword">if</strong> (!admin.tableExists(TableName.valueOf(DEFAULT_TIMESTAMP_STORAGE_TABLE_NAME))) {
 <a class="jxr_linenumber" name="77" href="#77">77</a>              HTableDescriptor desc = <strong class="jxr_keyword">new</strong> HTableDescriptor(TABLE_NAME);
 <a class="jxr_linenumber" name="78" href="#78">78</a>              HColumnDescriptor datafam = <strong class="jxr_keyword">new</strong> HColumnDescriptor(DEFAULT_TIMESTAMP_STORAGE_CF_NAME);
 <a class="jxr_linenumber" name="79" href="#79">79</a>              datafam.setMaxVersions(Integer.MAX_VALUE);
@@ -92,8 +92,8 @@
 <a class="jxr_linenumber" name="82" href="#82">82</a>              admin.createTable(desc);
 <a class="jxr_linenumber" name="83" href="#83">83</a>          }
 <a class="jxr_linenumber" name="84" href="#84">84</a>  
-<a class="jxr_linenumber" name="85" href="#85">85</a>          <strong class="jxr_keyword">if</strong> (admin.isTableDisabled(DEFAULT_TIMESTAMP_STORAGE_TABLE_NAME)) {
-<a class="jxr_linenumber" name="86" href="#86">86</a>              admin.enableTable(DEFAULT_TIMESTAMP_STORAGE_TABLE_NAME);
+<a class="jxr_linenumber" name="85" href="#85">85</a>          <strong class="jxr_keyword">if</strong> (admin.isTableDisabled(TableName.valueOf(DEFAULT_TIMESTAMP_STORAGE_TABLE_NAME))) {
+<a class="jxr_linenumber" name="86" href="#86">86</a>              admin.enableTable(TableName.valueOf(DEFAULT_TIMESTAMP_STORAGE_TABLE_NAME));
 <a class="jxr_linenumber" name="87" href="#87">87</a>          }
 <a class="jxr_linenumber" name="88" href="#88">88</a>          HTableDescriptor[] tables = admin.listTables();
 <a class="jxr_linenumber" name="89" href="#89">89</a>          <strong class="jxr_keyword">for</strong> (HTableDescriptor t : tables) {
@@ -106,10 +106,10 @@
 <a class="jxr_linenumber" name="96" href="#96">96</a>          <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="97" href="#97">97</a>              LOG.info(<span class="jxr_string">"tearing Down"</span>);
 <a class="jxr_linenumber" name="98" href="#98">98</a>              HBaseAdmin admin = testutil.getHBaseAdmin();
-<a class="jxr_linenumber" name="99" href="#99">99</a>              admin.disableTable(DEFAULT_TIMESTAMP_STORAGE_TABLE_NAME);
-<a class="jxr_linenumber" name="100" href="#100">100</a>             admin.deleteTable(DEFAULT_TIMESTAMP_STORAGE_TABLE_NAME);
+<a class="jxr_linenumber" name="99" href="#99">99</a>              admin.disableTable(TableName.valueOf(DEFAULT_TIMESTAMP_STORAGE_TABLE_NAME));
+<a class="jxr_linenumber" name="100" href="#100">100</a>             admin.deleteTable(TableName.valueOf(DEFAULT_TIMESTAMP_STORAGE_TABLE_NAME));
 <a class="jxr_linenumber" name="101" href="#101">101</a> 
-<a class="jxr_linenumber" name="102" href="#102">102</a>         } <strong class="jxr_keyword">catch</strong> (Exception e) {
+<a class="jxr_linenumber" name="102" href="#102">102</a>         } <strong class="jxr_keyword">catch</strong> (IOException e) {
 <a class="jxr_linenumber" name="103" href="#103">103</a>             LOG.error(<span class="jxr_string">"Error tearing down"</span>, e);
 <a class="jxr_linenumber" name="104" href="#104">104</a>         }
 <a class="jxr_linenumber" name="105" href="#105">105</a>     }
