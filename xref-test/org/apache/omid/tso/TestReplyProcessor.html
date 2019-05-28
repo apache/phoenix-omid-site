@@ -27,245 +27,281 @@
 <a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">package</strong> org.apache.omid.tso;
 <a class="jxr_linenumber" name="19" href="#19">19</a>  
-<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.pool2.ObjectPool;
-<a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.metrics.MetricsRegistry;
-<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.metrics.NullMetricsProvider;
-<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.tso.ReplyProcessorImpl.ReplyBatchEvent;
-<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.jboss.netty.channel.Channel;
-<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> org.mockito.InOrder;
-<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> org.mockito.Mock;
-<a class="jxr_linenumber" name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> org.mockito.MockitoAnnotations;
-<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
-<a class="jxr_linenumber" name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
-<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.AfterMethod;
-<a class="jxr_linenumber" name="31" href="#31">31</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.BeforeMethod;
-<a class="jxr_linenumber" name="32" href="#32">32</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.Test;
-<a class="jxr_linenumber" name="33" href="#33">33</a>  
-<a class="jxr_linenumber" name="34" href="#34">34</a>  <strong class="jxr_keyword">import</strong> com.lmax.disruptor.BlockingWaitStrategy;
+<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> com.google.common.base.Optional;
+<a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> com.google.common.util.concurrent.SettableFuture;
+<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.pool2.ObjectPool;
+<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.metrics.MetricsRegistry;
+<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.metrics.NullMetricsProvider;
+<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.tso.ReplyProcessorImpl.ReplyBatchEvent;
+<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> org.jboss.netty.channel.Channel;
+<a class="jxr_linenumber" name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> org.mockito.InOrder;
+<a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> org.mockito.Mock;
+<a class="jxr_linenumber" name="29" href="#29">29</a>  <strong class="jxr_keyword">import</strong> org.mockito.MockitoAnnotations;
+<a class="jxr_linenumber" name="30" href="#30">30</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
+<a class="jxr_linenumber" name="31" href="#31">31</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
+<a class="jxr_linenumber" name="32" href="#32">32</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.AfterMethod;
+<a class="jxr_linenumber" name="33" href="#33">33</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.BeforeMethod;
+<a class="jxr_linenumber" name="34" href="#34">34</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.Test;
 <a class="jxr_linenumber" name="35" href="#35">35</a>  
-<a class="jxr_linenumber" name="36" href="#36">36</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Matchers.any;
-<a class="jxr_linenumber" name="37" href="#37">37</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Matchers.eq;
-<a class="jxr_linenumber" name="38" href="#38">38</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.inOrder;
-<a class="jxr_linenumber" name="39" href="#39">39</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.mock;
-<a class="jxr_linenumber" name="40" href="#40">40</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.never;
-<a class="jxr_linenumber" name="41" href="#41">41</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.spy;
-<a class="jxr_linenumber" name="42" href="#42">42</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.times;
-<a class="jxr_linenumber" name="43" href="#43">43</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.verify;
-<a class="jxr_linenumber" name="44" href="#44">44</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertEquals;
-<a class="jxr_linenumber" name="45" href="#45">45</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertFalse;
-<a class="jxr_linenumber" name="46" href="#46">46</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertTrue;
-<a class="jxr_linenumber" name="47" href="#47">47</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.fail;
-<a class="jxr_linenumber" name="48" href="#48">48</a>  
-<a class="jxr_linenumber" name="49" href="#49">49</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/apache/omid/tso/TestReplyProcessor.html">TestReplyProcessor</a> {
-<a class="jxr_linenumber" name="50" href="#50">50</a>  
-<a class="jxr_linenumber" name="51" href="#51">51</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger LOG = LoggerFactory.getLogger(TestReplyProcessor.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="52" href="#52">52</a>  
-<a class="jxr_linenumber" name="53" href="#53">53</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> ANY_DISRUPTOR_SEQUENCE = 1234L;
-<a class="jxr_linenumber" name="54" href="#54">54</a>  
-<a class="jxr_linenumber" name="55" href="#55">55</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> BATCH_POOL_SIZE = 3;
-<a class="jxr_linenumber" name="56" href="#56">56</a>  
-<a class="jxr_linenumber" name="57" href="#57">57</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> FIRST_ST = 0L;
-<a class="jxr_linenumber" name="58" href="#58">58</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> FIRST_CT = 1L;
-<a class="jxr_linenumber" name="59" href="#59">59</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> SECOND_ST = 2L;
-<a class="jxr_linenumber" name="60" href="#60">60</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> SECOND_CT = 3L;
-<a class="jxr_linenumber" name="61" href="#61">61</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> THIRD_ST = 4L;
-<a class="jxr_linenumber" name="62" href="#62">62</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> THIRD_CT = 5L;
-<a class="jxr_linenumber" name="63" href="#63">63</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> FOURTH_ST = 6L;
-<a class="jxr_linenumber" name="64" href="#64">64</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> FOURTH_CT = 7L;
-<a class="jxr_linenumber" name="65" href="#65">65</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> FIFTH_ST = 8L;
-<a class="jxr_linenumber" name="66" href="#66">66</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> FIFTH_CT = 9L;
-<a class="jxr_linenumber" name="67" href="#67">67</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> SIXTH_ST = 10L;
-<a class="jxr_linenumber" name="68" href="#68">68</a>  
-<a class="jxr_linenumber" name="69" href="#69">69</a>      @Mock
-<a class="jxr_linenumber" name="70" href="#70">70</a>      <strong class="jxr_keyword">private</strong> Panicker panicker;
-<a class="jxr_linenumber" name="71" href="#71">71</a>  
-<a class="jxr_linenumber" name="72" href="#72">72</a>      @Mock
-<a class="jxr_linenumber" name="73" href="#73">73</a>      <strong class="jxr_keyword">private</strong> MonitoringContextImpl monCtx;
+<a class="jxr_linenumber" name="36" href="#36">36</a>  <strong class="jxr_keyword">import</strong> com.lmax.disruptor.BlockingWaitStrategy;
+<a class="jxr_linenumber" name="37" href="#37">37</a>  
+<a class="jxr_linenumber" name="38" href="#38">38</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Matchers.any;
+<a class="jxr_linenumber" name="39" href="#39">39</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Matchers.eq;
+<a class="jxr_linenumber" name="40" href="#40">40</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.mockito.Mockito.*;
+<a class="jxr_linenumber" name="41" href="#41">41</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertEquals;
+<a class="jxr_linenumber" name="42" href="#42">42</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertFalse;
+<a class="jxr_linenumber" name="43" href="#43">43</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.assertTrue;
+<a class="jxr_linenumber" name="44" href="#44">44</a>  <strong class="jxr_keyword">import</strong> <strong class="jxr_keyword">static</strong> org.testng.Assert.fail;
+<a class="jxr_linenumber" name="45" href="#45">45</a>  
+<a class="jxr_linenumber" name="46" href="#46">46</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../org/apache/omid/tso/TestReplyProcessor.html">TestReplyProcessor</a> {
+<a class="jxr_linenumber" name="47" href="#47">47</a>  
+<a class="jxr_linenumber" name="48" href="#48">48</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> Logger LOG = LoggerFactory.getLogger(TestReplyProcessor.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="49" href="#49">49</a>  
+<a class="jxr_linenumber" name="50" href="#50">50</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> ANY_DISRUPTOR_SEQUENCE = 1234L;
+<a class="jxr_linenumber" name="51" href="#51">51</a>  
+<a class="jxr_linenumber" name="52" href="#52">52</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">int</strong> BATCH_POOL_SIZE = 3;
+<a class="jxr_linenumber" name="53" href="#53">53</a>  
+<a class="jxr_linenumber" name="54" href="#54">54</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> FIRST_ST = 0L;
+<a class="jxr_linenumber" name="55" href="#55">55</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> FIRST_CT = 1L;
+<a class="jxr_linenumber" name="56" href="#56">56</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> SECOND_ST = 2L;
+<a class="jxr_linenumber" name="57" href="#57">57</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> SECOND_CT = 3L;
+<a class="jxr_linenumber" name="58" href="#58">58</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> THIRD_ST = 4L;
+<a class="jxr_linenumber" name="59" href="#59">59</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> THIRD_CT = 5L;
+<a class="jxr_linenumber" name="60" href="#60">60</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> FOURTH_ST = 6L;
+<a class="jxr_linenumber" name="61" href="#61">61</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> FOURTH_CT = 7L;
+<a class="jxr_linenumber" name="62" href="#62">62</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> FIFTH_ST = 8L;
+<a class="jxr_linenumber" name="63" href="#63">63</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> FIFTH_CT = 9L;
+<a class="jxr_linenumber" name="64" href="#64">64</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> SIXTH_ST = 10L;
+<a class="jxr_linenumber" name="65" href="#65">65</a>      <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> SIXTH_CT = 11L;
+<a class="jxr_linenumber" name="66" href="#66">66</a>  
+<a class="jxr_linenumber" name="67" href="#67">67</a>      @Mock
+<a class="jxr_linenumber" name="68" href="#68">68</a>      <strong class="jxr_keyword">private</strong> Panicker panicker;
+<a class="jxr_linenumber" name="69" href="#69">69</a>  
+<a class="jxr_linenumber" name="70" href="#70">70</a>      @Mock
+<a class="jxr_linenumber" name="71" href="#71">71</a>      <strong class="jxr_keyword">private</strong> MonitoringContextImpl monCtx;
+<a class="jxr_linenumber" name="72" href="#72">72</a>  
+<a class="jxr_linenumber" name="73" href="#73">73</a>      <strong class="jxr_keyword">private</strong> MetricsRegistry metrics;
 <a class="jxr_linenumber" name="74" href="#74">74</a>  
-<a class="jxr_linenumber" name="75" href="#75">75</a>      <strong class="jxr_keyword">private</strong> MetricsRegistry metrics;
+<a class="jxr_linenumber" name="75" href="#75">75</a>      <strong class="jxr_keyword">private</strong> ObjectPool&lt;Batch&gt; batchPool;
 <a class="jxr_linenumber" name="76" href="#76">76</a>  
-<a class="jxr_linenumber" name="77" href="#77">77</a>      <strong class="jxr_keyword">private</strong> ObjectPool&lt;Batch&gt; batchPool;
-<a class="jxr_linenumber" name="78" href="#78">78</a>  
-<a class="jxr_linenumber" name="79" href="#79">79</a>      <em class="jxr_comment">// Component under test</em>
-<a class="jxr_linenumber" name="80" href="#80">80</a>      <strong class="jxr_keyword">private</strong> ReplyProcessorImpl replyProcessor;
-<a class="jxr_linenumber" name="81" href="#81">81</a>  
-<a class="jxr_linenumber" name="82" href="#82">82</a>      @BeforeMethod(alwaysRun = <strong class="jxr_keyword">true</strong>, timeOut = 30_000)
-<a class="jxr_linenumber" name="83" href="#83">83</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> initMocksAndComponents() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="84" href="#84">84</a>  
-<a class="jxr_linenumber" name="85" href="#85">85</a>          MockitoAnnotations.initMocks(<strong class="jxr_keyword">this</strong>);
-<a class="jxr_linenumber" name="86" href="#86">86</a>  
-<a class="jxr_linenumber" name="87" href="#87">87</a>          TSOServerConfig tsoConfig = <strong class="jxr_keyword">new</strong> TSOServerConfig();
-<a class="jxr_linenumber" name="88" href="#88">88</a>          tsoConfig.setNumConcurrentCTWriters(BATCH_POOL_SIZE);
-<a class="jxr_linenumber" name="89" href="#89">89</a>  
-<a class="jxr_linenumber" name="90" href="#90">90</a>          <em class="jxr_comment">// Configure null metrics provider</em>
-<a class="jxr_linenumber" name="91" href="#91">91</a>          metrics = <strong class="jxr_keyword">new</strong> NullMetricsProvider();
-<a class="jxr_linenumber" name="92" href="#92">92</a>  
-<a class="jxr_linenumber" name="93" href="#93">93</a>          batchPool = spy(<strong class="jxr_keyword">new</strong> BatchPoolModule(tsoConfig).getBatchPool());
+<a class="jxr_linenumber" name="77" href="#77">77</a>      <em class="jxr_comment">// Component under test</em>
+<a class="jxr_linenumber" name="78" href="#78">78</a>      <strong class="jxr_keyword">private</strong> ReplyProcessorImpl replyProcessor;
+<a class="jxr_linenumber" name="79" href="#79">79</a>      <strong class="jxr_keyword">private</strong> LowWatermarkWriter lowWatermarkWriter;
+<a class="jxr_linenumber" name="80" href="#80">80</a>  
+<a class="jxr_linenumber" name="81" href="#81">81</a>      @BeforeMethod(alwaysRun = <strong class="jxr_keyword">true</strong>, timeOut = 30_000)
+<a class="jxr_linenumber" name="82" href="#82">82</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> initMocksAndComponents() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="83" href="#83">83</a>  
+<a class="jxr_linenumber" name="84" href="#84">84</a>          MockitoAnnotations.initMocks(<strong class="jxr_keyword">this</strong>);
+<a class="jxr_linenumber" name="85" href="#85">85</a>  
+<a class="jxr_linenumber" name="86" href="#86">86</a>          TSOServerConfig tsoConfig = <strong class="jxr_keyword">new</strong> TSOServerConfig();
+<a class="jxr_linenumber" name="87" href="#87">87</a>          tsoConfig.setNumConcurrentCTWriters(BATCH_POOL_SIZE);
+<a class="jxr_linenumber" name="88" href="#88">88</a>  
+<a class="jxr_linenumber" name="89" href="#89">89</a>          <em class="jxr_comment">// Configure null metrics provider</em>
+<a class="jxr_linenumber" name="90" href="#90">90</a>          metrics = <strong class="jxr_keyword">new</strong> NullMetricsProvider();
+<a class="jxr_linenumber" name="91" href="#91">91</a>  
+<a class="jxr_linenumber" name="92" href="#92">92</a>          batchPool = spy(<strong class="jxr_keyword">new</strong> BatchPoolModule(tsoConfig).getBatchPool());
+<a class="jxr_linenumber" name="93" href="#93">93</a>  
 <a class="jxr_linenumber" name="94" href="#94">94</a>  
-<a class="jxr_linenumber" name="95" href="#95">95</a>          replyProcessor = spy(<strong class="jxr_keyword">new</strong> ReplyProcessorImpl(<strong class="jxr_keyword">new</strong> BlockingWaitStrategy(), metrics, panicker, batchPool));
-<a class="jxr_linenumber" name="96" href="#96">96</a>  
-<a class="jxr_linenumber" name="97" href="#97">97</a>      }
-<a class="jxr_linenumber" name="98" href="#98">98</a>  
-<a class="jxr_linenumber" name="99" href="#99">99</a>      @AfterMethod
-<a class="jxr_linenumber" name="100" href="#100">100</a>     <strong class="jxr_keyword">void</strong> afterMethod() {
+<a class="jxr_linenumber" name="95" href="#95">95</a>          lowWatermarkWriter = mock(LowWatermarkWriter.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="96" href="#96">96</a>          SettableFuture&lt;Void&gt; f = SettableFuture.create();
+<a class="jxr_linenumber" name="97" href="#97">97</a>          f.set(<strong class="jxr_keyword">null</strong>);
+<a class="jxr_linenumber" name="98" href="#98">98</a>          doReturn(f).when(lowWatermarkWriter).persistLowWatermark(any(Long.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="99" href="#99">99</a>  
+<a class="jxr_linenumber" name="100" href="#100">100</a>         replyProcessor = spy(<strong class="jxr_keyword">new</strong> ReplyProcessorImpl(<strong class="jxr_keyword">new</strong> BlockingWaitStrategy(), metrics, panicker, batchPool, lowWatermarkWriter));
 <a class="jxr_linenumber" name="101" href="#101">101</a>     }
 <a class="jxr_linenumber" name="102" href="#102">102</a> 
-<a class="jxr_linenumber" name="103" href="#103">103</a>     @Test(timeOut = 10_000)
-<a class="jxr_linenumber" name="104" href="#104">104</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testBadFormedPackageThrowsException() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="105" href="#105">105</a> 
-<a class="jxr_linenumber" name="106" href="#106">106</a>         <em class="jxr_comment">// We need an instance throwing exceptions for this test</em>
-<a class="jxr_linenumber" name="107" href="#107">107</a>         replyProcessor = spy(<strong class="jxr_keyword">new</strong> ReplyProcessorImpl(<strong class="jxr_keyword">new</strong> BlockingWaitStrategy(), metrics, <strong class="jxr_keyword">new</strong> RuntimeExceptionPanicker(), batchPool));
-<a class="jxr_linenumber" name="108" href="#108">108</a> 
-<a class="jxr_linenumber" name="109" href="#109">109</a>         <em class="jxr_comment">// Prepare test batch</em>
-<a class="jxr_linenumber" name="110" href="#110">110</a>         Batch batch = batchPool.borrowObject();
-<a class="jxr_linenumber" name="111" href="#111">111</a>         batch.addCommitRetry(FIRST_ST, <strong class="jxr_keyword">null</strong>, monCtx);
-<a class="jxr_linenumber" name="112" href="#112">112</a>         ReplyBatchEvent e = ReplyBatchEvent.EVENT_FACTORY.newInstance();
-<a class="jxr_linenumber" name="113" href="#113">113</a>         ReplyBatchEvent.makeReplyBatch(e, batch, 0);
-<a class="jxr_linenumber" name="114" href="#114">114</a> 
-<a class="jxr_linenumber" name="115" href="#115">115</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 0);
-<a class="jxr_linenumber" name="116" href="#116">116</a>         assertEquals(replyProcessor.futureEvents.size(), 0);
-<a class="jxr_linenumber" name="117" href="#117">117</a>         assertEquals(batchPool.getNumActive(), 1);
-<a class="jxr_linenumber" name="118" href="#118">118</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE - 1);
-<a class="jxr_linenumber" name="119" href="#119">119</a> 
-<a class="jxr_linenumber" name="120" href="#120">120</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="121" href="#121">121</a>             replyProcessor.onEvent(e, ANY_DISRUPTOR_SEQUENCE, false);
-<a class="jxr_linenumber" name="122" href="#122">122</a>             fail();
-<a class="jxr_linenumber" name="123" href="#123">123</a>         } <strong class="jxr_keyword">catch</strong> (RuntimeException re) {
-<a class="jxr_linenumber" name="124" href="#124">124</a>             <em class="jxr_comment">// Expected</em>
-<a class="jxr_linenumber" name="125" href="#125">125</a>         }
-<a class="jxr_linenumber" name="126" href="#126">126</a> 
-<a class="jxr_linenumber" name="127" href="#127">127</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 0);
-<a class="jxr_linenumber" name="128" href="#128">128</a>         assertEquals(replyProcessor.futureEvents.size(), 0);
-<a class="jxr_linenumber" name="129" href="#129">129</a>         assertEquals(batchPool.getNumActive(), 1);
-<a class="jxr_linenumber" name="130" href="#130">130</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE - 1);
-<a class="jxr_linenumber" name="131" href="#131">131</a> 
-<a class="jxr_linenumber" name="132" href="#132">132</a>     }
-<a class="jxr_linenumber" name="133" href="#133">133</a> 
-<a class="jxr_linenumber" name="134" href="#134">134</a>     @Test(timeOut = 10_000)
-<a class="jxr_linenumber" name="135" href="#135">135</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testUnorderedBatchSequenceGetsSaved() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="136" href="#136">136</a> 
-<a class="jxr_linenumber" name="137" href="#137">137</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> HIGH_SEQUENCE_NUMBER = 1234L; <em class="jxr_comment">// Should be greater than 0</em>
-<a class="jxr_linenumber" name="138" href="#138">138</a> 
-<a class="jxr_linenumber" name="139" href="#139">139</a>         <em class="jxr_comment">// Prepare test batch</em>
-<a class="jxr_linenumber" name="140" href="#140">140</a>         Batch batch = batchPool.borrowObject();
-<a class="jxr_linenumber" name="141" href="#141">141</a>         ReplyBatchEvent e = ReplyBatchEvent.EVENT_FACTORY.newInstance();
-<a class="jxr_linenumber" name="142" href="#142">142</a>         ReplyBatchEvent.makeReplyBatch(e, batch, HIGH_SEQUENCE_NUMBER);
-<a class="jxr_linenumber" name="143" href="#143">143</a> 
-<a class="jxr_linenumber" name="144" href="#144">144</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 0);
-<a class="jxr_linenumber" name="145" href="#145">145</a>         assertEquals(replyProcessor.futureEvents.size(), 0);
-<a class="jxr_linenumber" name="146" href="#146">146</a>         assertEquals(batchPool.getNumActive(), 1);
-<a class="jxr_linenumber" name="147" href="#147">147</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE - 1);
-<a class="jxr_linenumber" name="148" href="#148">148</a> 
-<a class="jxr_linenumber" name="149" href="#149">149</a>         replyProcessor.onEvent(e, ANY_DISRUPTOR_SEQUENCE, false);
-<a class="jxr_linenumber" name="150" href="#150">150</a> 
-<a class="jxr_linenumber" name="151" href="#151">151</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 0);
-<a class="jxr_linenumber" name="152" href="#152">152</a>         assertEquals(replyProcessor.futureEvents.size(), 1);
-<a class="jxr_linenumber" name="153" href="#153">153</a>         assertEquals(batchPool.getNumActive(), 1);
-<a class="jxr_linenumber" name="154" href="#154">154</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE - 1);
-<a class="jxr_linenumber" name="155" href="#155">155</a>         assertTrue(batch.isEmpty());
-<a class="jxr_linenumber" name="156" href="#156">156</a>         verify(replyProcessor, times(0)).handleReplyBatchEvent(any(ReplyBatchEvent.<strong class="jxr_keyword">class</strong>));
-<a class="jxr_linenumber" name="157" href="#157">157</a> 
-<a class="jxr_linenumber" name="158" href="#158">158</a>     }
-<a class="jxr_linenumber" name="159" href="#159">159</a> 
-<a class="jxr_linenumber" name="160" href="#160">160</a>     @Test(timeOut = 10_000)
-<a class="jxr_linenumber" name="161" href="#161">161</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testProcessingOfEmptyBatchReplyEvent() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="162" href="#162">162</a> 
-<a class="jxr_linenumber" name="163" href="#163">163</a>         <em class="jxr_comment">// Prepare test batch</em>
-<a class="jxr_linenumber" name="164" href="#164">164</a>         Batch batch = batchPool.borrowObject();
-<a class="jxr_linenumber" name="165" href="#165">165</a>         ReplyBatchEvent e = ReplyBatchEvent.EVENT_FACTORY.newInstance();
-<a class="jxr_linenumber" name="166" href="#166">166</a>         ReplyBatchEvent.makeReplyBatch(e, batch, 0);
-<a class="jxr_linenumber" name="167" href="#167">167</a> 
-<a class="jxr_linenumber" name="168" href="#168">168</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 0);
-<a class="jxr_linenumber" name="169" href="#169">169</a>         assertEquals(replyProcessor.futureEvents.size(), 0);
-<a class="jxr_linenumber" name="170" href="#170">170</a>         assertEquals(batchPool.getNumActive(), 1);
-<a class="jxr_linenumber" name="171" href="#171">171</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE - 1);
-<a class="jxr_linenumber" name="172" href="#172">172</a> 
-<a class="jxr_linenumber" name="173" href="#173">173</a>         replyProcessor.onEvent(e, ANY_DISRUPTOR_SEQUENCE, false);
-<a class="jxr_linenumber" name="174" href="#174">174</a> 
-<a class="jxr_linenumber" name="175" href="#175">175</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 1);
-<a class="jxr_linenumber" name="176" href="#176">176</a>         assertEquals(replyProcessor.futureEvents.size(), 0);
-<a class="jxr_linenumber" name="177" href="#177">177</a>         assertEquals(batchPool.getNumActive(), 0);
-<a class="jxr_linenumber" name="178" href="#178">178</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE);
-<a class="jxr_linenumber" name="179" href="#179">179</a>         assertTrue(batch.isEmpty());
-<a class="jxr_linenumber" name="180" href="#180">180</a>         verify(replyProcessor, times(1)).handleReplyBatchEvent(eq(e));
-<a class="jxr_linenumber" name="181" href="#181">181</a> 
-<a class="jxr_linenumber" name="182" href="#182">182</a>     }
-<a class="jxr_linenumber" name="183" href="#183">183</a> 
-<a class="jxr_linenumber" name="184" href="#184">184</a>     @Test(timeOut = 10_000)
-<a class="jxr_linenumber" name="185" href="#185">185</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testUnorderedSequenceOfBatchReplyEventsThatMustBeOrderedBeforeSendingReplies() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="186" href="#186">186</a> 
-<a class="jxr_linenumber" name="187" href="#187">187</a>         <em class="jxr_comment">// Prepare 3 batches with events and simulate a different order of arrival using the batch sequence</em>
-<a class="jxr_linenumber" name="188" href="#188">188</a> 
-<a class="jxr_linenumber" name="189" href="#189">189</a>         <em class="jxr_comment">// Prepare first a delayed batch (Batch #3)</em>
-<a class="jxr_linenumber" name="190" href="#190">190</a>         Batch thirdBatch = batchPool.borrowObject();
-<a class="jxr_linenumber" name="191" href="#191">191</a>         thirdBatch.addTimestamp(FIRST_ST, mock(Channel.<strong class="jxr_keyword">class</strong>), monCtx);
-<a class="jxr_linenumber" name="192" href="#192">192</a>         thirdBatch.addCommit(SECOND_ST, SECOND_CT, mock(Channel.<strong class="jxr_keyword">class</strong>), monCtx);
-<a class="jxr_linenumber" name="193" href="#193">193</a>         ReplyBatchEvent thirdBatchEvent = ReplyBatchEvent.EVENT_FACTORY.newInstance();
-<a class="jxr_linenumber" name="194" href="#194">194</a>         ReplyBatchEvent.makeReplyBatch(thirdBatchEvent, thirdBatch, 2); <em class="jxr_comment">// Set a higher sequence than the initial one</em>
-<a class="jxr_linenumber" name="195" href="#195">195</a> 
-<a class="jxr_linenumber" name="196" href="#196">196</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 0);
-<a class="jxr_linenumber" name="197" href="#197">197</a>         assertEquals(replyProcessor.futureEvents.size(), 0);
-<a class="jxr_linenumber" name="198" href="#198">198</a>         assertEquals(batchPool.getNumActive(), 1);
-<a class="jxr_linenumber" name="199" href="#199">199</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE - 1);
-<a class="jxr_linenumber" name="200" href="#200">200</a> 
-<a class="jxr_linenumber" name="201" href="#201">201</a>         replyProcessor.onEvent(thirdBatchEvent, ANY_DISRUPTOR_SEQUENCE, false);
-<a class="jxr_linenumber" name="202" href="#202">202</a> 
-<a class="jxr_linenumber" name="203" href="#203">203</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 0);
-<a class="jxr_linenumber" name="204" href="#204">204</a>         assertEquals(replyProcessor.futureEvents.size(), 1);
-<a class="jxr_linenumber" name="205" href="#205">205</a>         assertEquals(batchPool.getNumActive(), 1);
-<a class="jxr_linenumber" name="206" href="#206">206</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE - 1);
-<a class="jxr_linenumber" name="207" href="#207">207</a>         assertFalse(thirdBatch.isEmpty());
-<a class="jxr_linenumber" name="208" href="#208">208</a>         verify(replyProcessor, never()).handleReplyBatchEvent(eq(thirdBatchEvent));
-<a class="jxr_linenumber" name="209" href="#209">209</a> 
-<a class="jxr_linenumber" name="210" href="#210">210</a>         <em class="jxr_comment">// Prepare another delayed batch (Batch #2)</em>
-<a class="jxr_linenumber" name="211" href="#211">211</a>         Batch secondBatch = batchPool.borrowObject();
-<a class="jxr_linenumber" name="212" href="#212">212</a>         secondBatch.addTimestamp(THIRD_ST, mock(Channel.<strong class="jxr_keyword">class</strong>), monCtx);
-<a class="jxr_linenumber" name="213" href="#213">213</a>         secondBatch.addCommit(FOURTH_ST, FOURTH_CT, mock(Channel.<strong class="jxr_keyword">class</strong>), monCtx);
-<a class="jxr_linenumber" name="214" href="#214">214</a>         ReplyBatchEvent secondBatchEvent = ReplyBatchEvent.EVENT_FACTORY.newInstance();
-<a class="jxr_linenumber" name="215" href="#215">215</a>         ReplyBatchEvent.makeReplyBatch(secondBatchEvent, secondBatch, 1); <em class="jxr_comment">// Set another higher sequence</em>
-<a class="jxr_linenumber" name="216" href="#216">216</a> 
-<a class="jxr_linenumber" name="217" href="#217">217</a>         replyProcessor.onEvent(secondBatchEvent, ANY_DISRUPTOR_SEQUENCE, false);
-<a class="jxr_linenumber" name="218" href="#218">218</a> 
-<a class="jxr_linenumber" name="219" href="#219">219</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 0);
-<a class="jxr_linenumber" name="220" href="#220">220</a>         assertEquals(replyProcessor.futureEvents.size(), 2);
-<a class="jxr_linenumber" name="221" href="#221">221</a>         assertEquals(batchPool.getNumActive(), 2);
-<a class="jxr_linenumber" name="222" href="#222">222</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE - 2);
-<a class="jxr_linenumber" name="223" href="#223">223</a>         assertFalse(secondBatch.isEmpty());
-<a class="jxr_linenumber" name="224" href="#224">224</a>         assertFalse(thirdBatch.isEmpty());
-<a class="jxr_linenumber" name="225" href="#225">225</a> 
-<a class="jxr_linenumber" name="226" href="#226">226</a>         <em class="jxr_comment">// Finally, prepare the batch that should trigger the execution of the other two</em>
-<a class="jxr_linenumber" name="227" href="#227">227</a>         Batch firstBatch = batchPool.borrowObject();
-<a class="jxr_linenumber" name="228" href="#228">228</a>         firstBatch.addAbort(FIFTH_ST, mock(Channel.<strong class="jxr_keyword">class</strong>), monCtx);
-<a class="jxr_linenumber" name="229" href="#229">229</a>         ReplyBatchEvent firstBatchEvent = ReplyBatchEvent.EVENT_FACTORY.newInstance();
-<a class="jxr_linenumber" name="230" href="#230">230</a>         ReplyBatchEvent.makeReplyBatch(firstBatchEvent, firstBatch, 0); <em class="jxr_comment">// Set the first batch with a higher sequence</em>
-<a class="jxr_linenumber" name="231" href="#231">231</a> 
-<a class="jxr_linenumber" name="232" href="#232">232</a>         replyProcessor.onEvent(firstBatchEvent, ANY_DISRUPTOR_SEQUENCE, false);
-<a class="jxr_linenumber" name="233" href="#233">233</a> 
-<a class="jxr_linenumber" name="234" href="#234">234</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 3);
-<a class="jxr_linenumber" name="235" href="#235">235</a>         assertEquals(replyProcessor.futureEvents.size(), 0);
-<a class="jxr_linenumber" name="236" href="#236">236</a>         assertEquals(batchPool.getNumActive(), 0);
-<a class="jxr_linenumber" name="237" href="#237">237</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE);
-<a class="jxr_linenumber" name="238" href="#238">238</a>         assertTrue(firstBatch.isEmpty());
-<a class="jxr_linenumber" name="239" href="#239">239</a>         assertTrue(secondBatch.isEmpty());
-<a class="jxr_linenumber" name="240" href="#240">240</a>         assertTrue(thirdBatch.isEmpty());
-<a class="jxr_linenumber" name="241" href="#241">241</a> 
-<a class="jxr_linenumber" name="242" href="#242">242</a>         <em class="jxr_comment">// Check the method calls have been properly ordered</em>
-<a class="jxr_linenumber" name="243" href="#243">243</a> 
-<a class="jxr_linenumber" name="244" href="#244">244</a>         InOrder inOrderReplyBatchEvents = inOrder(replyProcessor, replyProcessor, replyProcessor);
-<a class="jxr_linenumber" name="245" href="#245">245</a>         inOrderReplyBatchEvents.verify(replyProcessor, times(1)).handleReplyBatchEvent(eq(firstBatchEvent));
-<a class="jxr_linenumber" name="246" href="#246">246</a>         inOrderReplyBatchEvents.verify(replyProcessor, times(1)).handleReplyBatchEvent(eq(secondBatchEvent));
-<a class="jxr_linenumber" name="247" href="#247">247</a>         inOrderReplyBatchEvents.verify(replyProcessor, times(1)).handleReplyBatchEvent(eq(thirdBatchEvent));
-<a class="jxr_linenumber" name="248" href="#248">248</a> 
-<a class="jxr_linenumber" name="249" href="#249">249</a>         InOrder inOrderReplies = inOrder(replyProcessor, replyProcessor, replyProcessor, replyProcessor, replyProcessor);
-<a class="jxr_linenumber" name="250" href="#250">250</a>         inOrderReplies.verify(replyProcessor, times(1)).sendAbortResponse(eq(FIFTH_ST), any(Channel.<strong class="jxr_keyword">class</strong>), eq(monCtx));
-<a class="jxr_linenumber" name="251" href="#251">251</a>         inOrderReplies.verify(replyProcessor, times(1)).sendTimestampResponse(eq(THIRD_ST), any(Channel.<strong class="jxr_keyword">class</strong>), eq(monCtx));
-<a class="jxr_linenumber" name="252" href="#252">252</a>         inOrderReplies.verify(replyProcessor, times(1)).sendCommitResponse(eq(FOURTH_ST), eq(FOURTH_CT), any(Channel.<strong class="jxr_keyword">class</strong>), eq(monCtx));
-<a class="jxr_linenumber" name="253" href="#253">253</a>         inOrderReplies.verify(replyProcessor, times(1)).sendTimestampResponse(eq(FIRST_ST), any(Channel.<strong class="jxr_keyword">class</strong>), eq(monCtx));
-<a class="jxr_linenumber" name="254" href="#254">254</a>         inOrderReplies.verify(replyProcessor, times(1)).sendCommitResponse(eq(SECOND_ST), eq(SECOND_CT), any(Channel.<strong class="jxr_keyword">class</strong>), eq(monCtx));
-<a class="jxr_linenumber" name="255" href="#255">255</a> 
-<a class="jxr_linenumber" name="256" href="#256">256</a>     }
-<a class="jxr_linenumber" name="257" href="#257">257</a> 
-<a class="jxr_linenumber" name="258" href="#258">258</a> }
+<a class="jxr_linenumber" name="103" href="#103">103</a>     @AfterMethod
+<a class="jxr_linenumber" name="104" href="#104">104</a>     <strong class="jxr_keyword">void</strong> afterMethod() {
+<a class="jxr_linenumber" name="105" href="#105">105</a>     }
+<a class="jxr_linenumber" name="106" href="#106">106</a> 
+<a class="jxr_linenumber" name="107" href="#107">107</a>     @Test(timeOut = 10_000)
+<a class="jxr_linenumber" name="108" href="#108">108</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testBadFormedPackageThrowsException() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="109" href="#109">109</a> 
+<a class="jxr_linenumber" name="110" href="#110">110</a>         <em class="jxr_comment">// We need an instance throwing exceptions for this test</em>
+<a class="jxr_linenumber" name="111" href="#111">111</a>         replyProcessor = spy(<strong class="jxr_keyword">new</strong> ReplyProcessorImpl(<strong class="jxr_keyword">new</strong> BlockingWaitStrategy(), metrics, <strong class="jxr_keyword">new</strong> RuntimeExceptionPanicker(), batchPool, lowWatermarkWriter));
+<a class="jxr_linenumber" name="112" href="#112">112</a> 
+<a class="jxr_linenumber" name="113" href="#113">113</a>         <em class="jxr_comment">// Prepare test batch</em>
+<a class="jxr_linenumber" name="114" href="#114">114</a>         Batch batch = batchPool.borrowObject();
+<a class="jxr_linenumber" name="115" href="#115">115</a>         batch.addCommitRetry(FIRST_ST, <strong class="jxr_keyword">null</strong>, monCtx);
+<a class="jxr_linenumber" name="116" href="#116">116</a>         ReplyBatchEvent e = ReplyBatchEvent.EVENT_FACTORY.newInstance();
+<a class="jxr_linenumber" name="117" href="#117">117</a>         ReplyBatchEvent.makeReplyBatch(e, batch, 0);
+<a class="jxr_linenumber" name="118" href="#118">118</a> 
+<a class="jxr_linenumber" name="119" href="#119">119</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 0);
+<a class="jxr_linenumber" name="120" href="#120">120</a>         assertEquals(replyProcessor.futureEvents.size(), 0);
+<a class="jxr_linenumber" name="121" href="#121">121</a>         assertEquals(batchPool.getNumActive(), 1);
+<a class="jxr_linenumber" name="122" href="#122">122</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE - 1);
+<a class="jxr_linenumber" name="123" href="#123">123</a> 
+<a class="jxr_linenumber" name="124" href="#124">124</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="125" href="#125">125</a>             replyProcessor.onEvent(e, ANY_DISRUPTOR_SEQUENCE, false);
+<a class="jxr_linenumber" name="126" href="#126">126</a>             fail();
+<a class="jxr_linenumber" name="127" href="#127">127</a>         } <strong class="jxr_keyword">catch</strong> (RuntimeException re) {
+<a class="jxr_linenumber" name="128" href="#128">128</a>             <em class="jxr_comment">// Expected</em>
+<a class="jxr_linenumber" name="129" href="#129">129</a>         }
+<a class="jxr_linenumber" name="130" href="#130">130</a> 
+<a class="jxr_linenumber" name="131" href="#131">131</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 0);
+<a class="jxr_linenumber" name="132" href="#132">132</a>         assertEquals(replyProcessor.futureEvents.size(), 0);
+<a class="jxr_linenumber" name="133" href="#133">133</a>         assertEquals(batchPool.getNumActive(), 1);
+<a class="jxr_linenumber" name="134" href="#134">134</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE - 1);
+<a class="jxr_linenumber" name="135" href="#135">135</a> 
+<a class="jxr_linenumber" name="136" href="#136">136</a>     }
+<a class="jxr_linenumber" name="137" href="#137">137</a> 
+<a class="jxr_linenumber" name="138" href="#138">138</a>     @Test(timeOut = 10_000)
+<a class="jxr_linenumber" name="139" href="#139">139</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testUnorderedBatchSequenceGetsSaved() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="140" href="#140">140</a> 
+<a class="jxr_linenumber" name="141" href="#141">141</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> HIGH_SEQUENCE_NUMBER = 1234L; <em class="jxr_comment">// Should be greater than 0</em>
+<a class="jxr_linenumber" name="142" href="#142">142</a> 
+<a class="jxr_linenumber" name="143" href="#143">143</a>         <em class="jxr_comment">// Prepare test batch</em>
+<a class="jxr_linenumber" name="144" href="#144">144</a>         Batch batch = batchPool.borrowObject();
+<a class="jxr_linenumber" name="145" href="#145">145</a>         ReplyBatchEvent e = ReplyBatchEvent.EVENT_FACTORY.newInstance();
+<a class="jxr_linenumber" name="146" href="#146">146</a>         ReplyBatchEvent.makeReplyBatch(e, batch, HIGH_SEQUENCE_NUMBER);
+<a class="jxr_linenumber" name="147" href="#147">147</a> 
+<a class="jxr_linenumber" name="148" href="#148">148</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 0);
+<a class="jxr_linenumber" name="149" href="#149">149</a>         assertEquals(replyProcessor.futureEvents.size(), 0);
+<a class="jxr_linenumber" name="150" href="#150">150</a>         assertEquals(batchPool.getNumActive(), 1);
+<a class="jxr_linenumber" name="151" href="#151">151</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE - 1);
+<a class="jxr_linenumber" name="152" href="#152">152</a> 
+<a class="jxr_linenumber" name="153" href="#153">153</a>         replyProcessor.onEvent(e, ANY_DISRUPTOR_SEQUENCE, false);
+<a class="jxr_linenumber" name="154" href="#154">154</a> 
+<a class="jxr_linenumber" name="155" href="#155">155</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 0);
+<a class="jxr_linenumber" name="156" href="#156">156</a>         assertEquals(replyProcessor.futureEvents.size(), 1);
+<a class="jxr_linenumber" name="157" href="#157">157</a>         assertEquals(batchPool.getNumActive(), 1);
+<a class="jxr_linenumber" name="158" href="#158">158</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE - 1);
+<a class="jxr_linenumber" name="159" href="#159">159</a>         assertTrue(batch.isEmpty());
+<a class="jxr_linenumber" name="160" href="#160">160</a>         verify(replyProcessor, times(0)).handleReplyBatchEvent(any(ReplyBatchEvent.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="161" href="#161">161</a> 
+<a class="jxr_linenumber" name="162" href="#162">162</a>     }
+<a class="jxr_linenumber" name="163" href="#163">163</a> 
+<a class="jxr_linenumber" name="164" href="#164">164</a>     @Test(timeOut = 10_000)
+<a class="jxr_linenumber" name="165" href="#165">165</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testProcessingOfEmptyBatchReplyEvent() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="166" href="#166">166</a> 
+<a class="jxr_linenumber" name="167" href="#167">167</a>         <em class="jxr_comment">// Prepare test batch</em>
+<a class="jxr_linenumber" name="168" href="#168">168</a>         Batch batch = batchPool.borrowObject();
+<a class="jxr_linenumber" name="169" href="#169">169</a>         ReplyBatchEvent e = ReplyBatchEvent.EVENT_FACTORY.newInstance();
+<a class="jxr_linenumber" name="170" href="#170">170</a>         ReplyBatchEvent.makeReplyBatch(e, batch, 0);
+<a class="jxr_linenumber" name="171" href="#171">171</a> 
+<a class="jxr_linenumber" name="172" href="#172">172</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 0);
+<a class="jxr_linenumber" name="173" href="#173">173</a>         assertEquals(replyProcessor.futureEvents.size(), 0);
+<a class="jxr_linenumber" name="174" href="#174">174</a>         assertEquals(batchPool.getNumActive(), 1);
+<a class="jxr_linenumber" name="175" href="#175">175</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE - 1);
+<a class="jxr_linenumber" name="176" href="#176">176</a> 
+<a class="jxr_linenumber" name="177" href="#177">177</a>         replyProcessor.onEvent(e, ANY_DISRUPTOR_SEQUENCE, false);
+<a class="jxr_linenumber" name="178" href="#178">178</a> 
+<a class="jxr_linenumber" name="179" href="#179">179</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 1);
+<a class="jxr_linenumber" name="180" href="#180">180</a>         assertEquals(replyProcessor.futureEvents.size(), 0);
+<a class="jxr_linenumber" name="181" href="#181">181</a>         assertEquals(batchPool.getNumActive(), 0);
+<a class="jxr_linenumber" name="182" href="#182">182</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE);
+<a class="jxr_linenumber" name="183" href="#183">183</a>         assertTrue(batch.isEmpty());
+<a class="jxr_linenumber" name="184" href="#184">184</a>         verify(replyProcessor, times(1)).handleReplyBatchEvent(eq(e));
+<a class="jxr_linenumber" name="185" href="#185">185</a> 
+<a class="jxr_linenumber" name="186" href="#186">186</a>     }
+<a class="jxr_linenumber" name="187" href="#187">187</a> 
+<a class="jxr_linenumber" name="188" href="#188">188</a>     @Test(timeOut = 10_000)
+<a class="jxr_linenumber" name="189" href="#189">189</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testUnorderedSequenceOfBatchReplyEventsThatMustBeOrderedBeforeSendingReplies() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="190" href="#190">190</a> 
+<a class="jxr_linenumber" name="191" href="#191">191</a>         <em class="jxr_comment">// Prepare 3 batches with events and simulate a different order of arrival using the batch sequence</em>
+<a class="jxr_linenumber" name="192" href="#192">192</a> 
+<a class="jxr_linenumber" name="193" href="#193">193</a>         <em class="jxr_comment">// Prepare first a delayed batch (Batch #3)</em>
+<a class="jxr_linenumber" name="194" href="#194">194</a>         Batch thirdBatch = batchPool.borrowObject();
+<a class="jxr_linenumber" name="195" href="#195">195</a>         thirdBatch.addTimestamp(FIRST_ST, mock(Channel.<strong class="jxr_keyword">class</strong>), monCtx);
+<a class="jxr_linenumber" name="196" href="#196">196</a>         thirdBatch.addCommit(SECOND_ST, SECOND_CT, mock(Channel.<strong class="jxr_keyword">class</strong>), monCtx, Optional.&lt;Long&gt;absent());
+<a class="jxr_linenumber" name="197" href="#197">197</a>         ReplyBatchEvent thirdBatchEvent = ReplyBatchEvent.EVENT_FACTORY.newInstance();
+<a class="jxr_linenumber" name="198" href="#198">198</a>         ReplyBatchEvent.makeReplyBatch(thirdBatchEvent, thirdBatch, 2); <em class="jxr_comment">// Set a higher sequence than the initial one</em>
+<a class="jxr_linenumber" name="199" href="#199">199</a> 
+<a class="jxr_linenumber" name="200" href="#200">200</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 0);
+<a class="jxr_linenumber" name="201" href="#201">201</a>         assertEquals(replyProcessor.futureEvents.size(), 0);
+<a class="jxr_linenumber" name="202" href="#202">202</a>         assertEquals(batchPool.getNumActive(), 1);
+<a class="jxr_linenumber" name="203" href="#203">203</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE - 1);
+<a class="jxr_linenumber" name="204" href="#204">204</a> 
+<a class="jxr_linenumber" name="205" href="#205">205</a>         replyProcessor.onEvent(thirdBatchEvent, ANY_DISRUPTOR_SEQUENCE, false);
+<a class="jxr_linenumber" name="206" href="#206">206</a> 
+<a class="jxr_linenumber" name="207" href="#207">207</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 0);
+<a class="jxr_linenumber" name="208" href="#208">208</a>         assertEquals(replyProcessor.futureEvents.size(), 1);
+<a class="jxr_linenumber" name="209" href="#209">209</a>         assertEquals(batchPool.getNumActive(), 1);
+<a class="jxr_linenumber" name="210" href="#210">210</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE - 1);
+<a class="jxr_linenumber" name="211" href="#211">211</a>         assertFalse(thirdBatch.isEmpty());
+<a class="jxr_linenumber" name="212" href="#212">212</a>         verify(replyProcessor, never()).handleReplyBatchEvent(eq(thirdBatchEvent));
+<a class="jxr_linenumber" name="213" href="#213">213</a> 
+<a class="jxr_linenumber" name="214" href="#214">214</a>         <em class="jxr_comment">// Prepare another delayed batch (Batch #2)</em>
+<a class="jxr_linenumber" name="215" href="#215">215</a>         Batch secondBatch = batchPool.borrowObject();
+<a class="jxr_linenumber" name="216" href="#216">216</a>         secondBatch.addTimestamp(THIRD_ST, mock(Channel.<strong class="jxr_keyword">class</strong>), monCtx);
+<a class="jxr_linenumber" name="217" href="#217">217</a>         secondBatch.addCommit(FOURTH_ST, FOURTH_CT, mock(Channel.<strong class="jxr_keyword">class</strong>), monCtx, Optional.&lt;Long&gt;absent());
+<a class="jxr_linenumber" name="218" href="#218">218</a>         ReplyBatchEvent secondBatchEvent = ReplyBatchEvent.EVENT_FACTORY.newInstance();
+<a class="jxr_linenumber" name="219" href="#219">219</a>         ReplyBatchEvent.makeReplyBatch(secondBatchEvent, secondBatch, 1); <em class="jxr_comment">// Set another higher sequence</em>
+<a class="jxr_linenumber" name="220" href="#220">220</a> 
+<a class="jxr_linenumber" name="221" href="#221">221</a>         replyProcessor.onEvent(secondBatchEvent, ANY_DISRUPTOR_SEQUENCE, false);
+<a class="jxr_linenumber" name="222" href="#222">222</a> 
+<a class="jxr_linenumber" name="223" href="#223">223</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 0);
+<a class="jxr_linenumber" name="224" href="#224">224</a>         assertEquals(replyProcessor.futureEvents.size(), 2);
+<a class="jxr_linenumber" name="225" href="#225">225</a>         assertEquals(batchPool.getNumActive(), 2);
+<a class="jxr_linenumber" name="226" href="#226">226</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE - 2);
+<a class="jxr_linenumber" name="227" href="#227">227</a>         assertFalse(secondBatch.isEmpty());
+<a class="jxr_linenumber" name="228" href="#228">228</a>         assertFalse(thirdBatch.isEmpty());
+<a class="jxr_linenumber" name="229" href="#229">229</a> 
+<a class="jxr_linenumber" name="230" href="#230">230</a>         <em class="jxr_comment">// Finally, prepare the batch that should trigger the execution of the other two</em>
+<a class="jxr_linenumber" name="231" href="#231">231</a>         Batch firstBatch = batchPool.borrowObject();
+<a class="jxr_linenumber" name="232" href="#232">232</a>         firstBatch.addAbort(FIFTH_ST, mock(Channel.<strong class="jxr_keyword">class</strong>), monCtx);
+<a class="jxr_linenumber" name="233" href="#233">233</a>         ReplyBatchEvent firstBatchEvent = ReplyBatchEvent.EVENT_FACTORY.newInstance();
+<a class="jxr_linenumber" name="234" href="#234">234</a>         ReplyBatchEvent.makeReplyBatch(firstBatchEvent, firstBatch, 0); <em class="jxr_comment">// Set the first batch with a higher sequence</em>
+<a class="jxr_linenumber" name="235" href="#235">235</a> 
+<a class="jxr_linenumber" name="236" href="#236">236</a>         replyProcessor.onEvent(firstBatchEvent, ANY_DISRUPTOR_SEQUENCE, false);
+<a class="jxr_linenumber" name="237" href="#237">237</a> 
+<a class="jxr_linenumber" name="238" href="#238">238</a>         assertEquals(replyProcessor.nextIDToHandle.get(), 3);
+<a class="jxr_linenumber" name="239" href="#239">239</a>         assertEquals(replyProcessor.futureEvents.size(), 0);
+<a class="jxr_linenumber" name="240" href="#240">240</a>         assertEquals(batchPool.getNumActive(), 0);
+<a class="jxr_linenumber" name="241" href="#241">241</a>         assertEquals(batchPool.getNumIdle(), BATCH_POOL_SIZE);
+<a class="jxr_linenumber" name="242" href="#242">242</a>         assertTrue(firstBatch.isEmpty());
+<a class="jxr_linenumber" name="243" href="#243">243</a>         assertTrue(secondBatch.isEmpty());
+<a class="jxr_linenumber" name="244" href="#244">244</a>         assertTrue(thirdBatch.isEmpty());
+<a class="jxr_linenumber" name="245" href="#245">245</a> 
+<a class="jxr_linenumber" name="246" href="#246">246</a>         <em class="jxr_comment">// Check the method calls have been properly ordered</em>
+<a class="jxr_linenumber" name="247" href="#247">247</a> 
+<a class="jxr_linenumber" name="248" href="#248">248</a>         InOrder inOrderReplyBatchEvents = inOrder(replyProcessor, replyProcessor, replyProcessor);
+<a class="jxr_linenumber" name="249" href="#249">249</a>         inOrderReplyBatchEvents.verify(replyProcessor, times(1)).handleReplyBatchEvent(eq(firstBatchEvent));
+<a class="jxr_linenumber" name="250" href="#250">250</a>         inOrderReplyBatchEvents.verify(replyProcessor, times(1)).handleReplyBatchEvent(eq(secondBatchEvent));
+<a class="jxr_linenumber" name="251" href="#251">251</a>         inOrderReplyBatchEvents.verify(replyProcessor, times(1)).handleReplyBatchEvent(eq(thirdBatchEvent));
+<a class="jxr_linenumber" name="252" href="#252">252</a> 
+<a class="jxr_linenumber" name="253" href="#253">253</a>         InOrder inOrderReplies = inOrder(replyProcessor, replyProcessor, replyProcessor, replyProcessor, replyProcessor);
+<a class="jxr_linenumber" name="254" href="#254">254</a>         inOrderReplies.verify(replyProcessor, times(1)).sendAbortResponse(eq(FIFTH_ST), any(Channel.<strong class="jxr_keyword">class</strong>), eq(monCtx));
+<a class="jxr_linenumber" name="255" href="#255">255</a>         inOrderReplies.verify(replyProcessor, times(1)).sendTimestampResponse(eq(THIRD_ST), any(Channel.<strong class="jxr_keyword">class</strong>), eq(monCtx));
+<a class="jxr_linenumber" name="256" href="#256">256</a>         inOrderReplies.verify(replyProcessor, times(1)).sendCommitResponse(eq(FOURTH_ST), eq(FOURTH_CT), any(Channel.<strong class="jxr_keyword">class</strong>), eq(monCtx), any(Optional.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="257" href="#257">257</a>         inOrderReplies.verify(replyProcessor, times(1)).sendTimestampResponse(eq(FIRST_ST), any(Channel.<strong class="jxr_keyword">class</strong>), eq(monCtx));
+<a class="jxr_linenumber" name="258" href="#258">258</a>         inOrderReplies.verify(replyProcessor, times(1)).sendCommitResponse(eq(SECOND_ST), eq(SECOND_CT), any(Channel.<strong class="jxr_keyword">class</strong>), eq(monCtx), any(Optional.<strong class="jxr_keyword">class</strong>));
+<a class="jxr_linenumber" name="259" href="#259">259</a> 
+<a class="jxr_linenumber" name="260" href="#260">260</a>     }
+<a class="jxr_linenumber" name="261" href="#261">261</a> 
+<a class="jxr_linenumber" name="262" href="#262">262</a>     @Test
+<a class="jxr_linenumber" name="263" href="#263">263</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testUpdateLowWaterMarkOnlyForMaxInBatch() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="264" href="#264">264</a> 
+<a class="jxr_linenumber" name="265" href="#265">265</a>         Batch thirdBatch = batchPool.borrowObject();
+<a class="jxr_linenumber" name="266" href="#266">266</a>         thirdBatch.addTimestamp(FIRST_ST, mock(Channel.<strong class="jxr_keyword">class</strong>), monCtx);
+<a class="jxr_linenumber" name="267" href="#267">267</a>         thirdBatch.addCommit(SECOND_ST, SECOND_CT, mock(Channel.<strong class="jxr_keyword">class</strong>), monCtx, Optional.of(100L));
+<a class="jxr_linenumber" name="268" href="#268">268</a>         thirdBatch.addCommit(THIRD_ST, THIRD_CT, mock(Channel.<strong class="jxr_keyword">class</strong>), monCtx, Optional.of(50L));
+<a class="jxr_linenumber" name="269" href="#269">269</a>         thirdBatch.addCommit(FOURTH_ST, FOURTH_CT, mock(Channel.<strong class="jxr_keyword">class</strong>), monCtx, Optional.&lt;Long&gt;absent());
+<a class="jxr_linenumber" name="270" href="#270">270</a>         thirdBatch.addCommit(FIFTH_ST, FIFTH_CT, mock(Channel.<strong class="jxr_keyword">class</strong>), monCtx, Optional.of(100L));
+<a class="jxr_linenumber" name="271" href="#271">271</a>         thirdBatch.addCommit(SIXTH_ST, SIXTH_CT, mock(Channel.<strong class="jxr_keyword">class</strong>), monCtx, Optional.of(150L));
+<a class="jxr_linenumber" name="272" href="#272">272</a> 
+<a class="jxr_linenumber" name="273" href="#273">273</a>         ReplyBatchEvent thirdBatchEvent = ReplyBatchEvent.EVENT_FACTORY.newInstance();
+<a class="jxr_linenumber" name="274" href="#274">274</a>         ReplyBatchEvent.makeReplyBatch(thirdBatchEvent, thirdBatch, 0);
+<a class="jxr_linenumber" name="275" href="#275">275</a> 
+<a class="jxr_linenumber" name="276" href="#276">276</a>         replyProcessor.onEvent(thirdBatchEvent, ANY_DISRUPTOR_SEQUENCE, false);
+<a class="jxr_linenumber" name="277" href="#277">277</a> 
+<a class="jxr_linenumber" name="278" href="#278">278</a>         InOrder inOrderWatermarkWriter = inOrder(lowWatermarkWriter, lowWatermarkWriter, lowWatermarkWriter);
+<a class="jxr_linenumber" name="279" href="#279">279</a> 
+<a class="jxr_linenumber" name="280" href="#280">280</a>         inOrderWatermarkWriter.verify(lowWatermarkWriter, times(1)).persistLowWatermark(eq(100L));
+<a class="jxr_linenumber" name="281" href="#281">281</a>         inOrderWatermarkWriter.verify(lowWatermarkWriter, times(1)).persistLowWatermark(eq(150L));
+<a class="jxr_linenumber" name="282" href="#282">282</a> 
+<a class="jxr_linenumber" name="283" href="#283">283</a>         verify(lowWatermarkWriter, timeout(100).never()).persistLowWatermark(eq(50L));
+<a class="jxr_linenumber" name="284" href="#284">284</a> 
+<a class="jxr_linenumber" name="285" href="#285">285</a>         InOrder inOrderCheckLWM = inOrder(replyProcessor, replyProcessor,replyProcessor,replyProcessor,replyProcessor);
+<a class="jxr_linenumber" name="286" href="#286">286</a>         inOrderCheckLWM.verify(replyProcessor, times(1)).updateLowWatermark(Optional.of(100L));
+<a class="jxr_linenumber" name="287" href="#287">287</a>         inOrderCheckLWM.verify(replyProcessor, times(1)).updateLowWatermark(Optional.of(50L));
+<a class="jxr_linenumber" name="288" href="#288">288</a>         inOrderCheckLWM.verify(replyProcessor, times(1)).updateLowWatermark(Optional.&lt;Long&gt;absent());
+<a class="jxr_linenumber" name="289" href="#289">289</a>         inOrderCheckLWM.verify(replyProcessor, times(1)).updateLowWatermark(Optional.of(100L));
+<a class="jxr_linenumber" name="290" href="#290">290</a>         inOrderCheckLWM.verify(replyProcessor, times(1)).updateLowWatermark(Optional.of(150L));
+<a class="jxr_linenumber" name="291" href="#291">291</a> 
+<a class="jxr_linenumber" name="292" href="#292">292</a>     }
+<a class="jxr_linenumber" name="293" href="#293">293</a> 
+<a class="jxr_linenumber" name="294" href="#294">294</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

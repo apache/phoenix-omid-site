@@ -30,10 +30,10 @@
 <a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> com.google.common.annotations.VisibleForTesting;
 <a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> com.google.common.util.concurrent.ThreadFactoryBuilder;
 <a class="jxr_linenumber" name="22" href="#22">22</a>  
-<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.metrics.Gauge;
-<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.metrics.MetricsRegistry;
-<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.timestamp.storage.TimestampStorage;
-<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.transaction.AbstractTransactionManager;
+<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.committable.CommitTable;
+<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.metrics.Gauge;
+<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.metrics.MetricsRegistry;
+<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.timestamp.storage.TimestampStorage;
 <a class="jxr_linenumber" name="27" href="#27">27</a>  <strong class="jxr_keyword">import</strong> org.slf4j.Logger;
 <a class="jxr_linenumber" name="28" href="#28">28</a>  <strong class="jxr_keyword">import</strong> org.slf4j.LoggerFactory;
 <a class="jxr_linenumber" name="29" href="#29">29</a>  
@@ -141,7 +141,7 @@
 <a class="jxr_linenumber" name="131" href="#131">131</a> 
 <a class="jxr_linenumber" name="132" href="#132">132</a>         <strong class="jxr_keyword">long</strong> currentMsFirstTimestamp = System.currentTimeMillis() * MAX_TX_PER_MS;
 <a class="jxr_linenumber" name="133" href="#133">133</a> 
-<a class="jxr_linenumber" name="134" href="#134">134</a>         lastTimestamp += AbstractTransactionManager.MAX_CHECKPOINTS_PER_TXN;
+<a class="jxr_linenumber" name="134" href="#134">134</a>         lastTimestamp += CommitTable.MAX_CHECKPOINTS_PER_TXN;
 <a class="jxr_linenumber" name="135" href="#135">135</a> 
 <a class="jxr_linenumber" name="136" href="#136">136</a>         <em class="jxr_comment">// Return the next timestamp in case we are still in the same millisecond as the previous timestamp was. </em>
 <a class="jxr_linenumber" name="137" href="#137">137</a>         <strong class="jxr_keyword">if</strong> (lastTimestamp &gt;= currentMsFirstTimestamp) {

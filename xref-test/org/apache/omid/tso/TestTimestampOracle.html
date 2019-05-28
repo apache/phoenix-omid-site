@@ -27,9 +27,9 @@
 <a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">package</strong> org.apache.omid.tso;
 <a class="jxr_linenumber" name="19" href="#19">19</a>  
-<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.metrics.MetricsRegistry;
-<a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.timestamp.storage.TimestampStorage;
-<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.transaction.AbstractTransactionManager;
+<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.committable.CommitTable;
+<a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.metrics.MetricsRegistry;
+<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.timestamp.storage.TimestampStorage;
 <a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.mockito.InjectMocks;
 <a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.mockito.Mock;
 <a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> org.mockito.MockitoAnnotations;
@@ -73,7 +73,7 @@
 <a class="jxr_linenumber" name="63" href="#63">63</a>          MockitoAnnotations.initMocks(<strong class="jxr_keyword">this</strong>);
 <a class="jxr_linenumber" name="64" href="#64">64</a>      }
 <a class="jxr_linenumber" name="65" href="#65">65</a>  
-<a class="jxr_linenumber" name="66" href="#66">66</a>      @Test(timeOut = 10_000)
+<a class="jxr_linenumber" name="66" href="#66">66</a>      @Test(timeOut = 60_000)
 <a class="jxr_linenumber" name="67" href="#67">67</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testMonotonicTimestampGrowth() <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="68" href="#68">68</a>  
 <a class="jxr_linenumber" name="69" href="#69">69</a>          <em class="jxr_comment">// Intialize component under test</em>
@@ -82,7 +82,7 @@
 <a class="jxr_linenumber" name="72" href="#72">72</a>          <strong class="jxr_keyword">long</strong> last = timestampOracle.next();
 <a class="jxr_linenumber" name="73" href="#73">73</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; (3 * TimestampOracleImpl.TIMESTAMP_BATCH); i++) {
 <a class="jxr_linenumber" name="74" href="#74">74</a>              <strong class="jxr_keyword">long</strong> current = timestampOracle.next();
-<a class="jxr_linenumber" name="75" href="#75">75</a>              assertEquals(current, last + AbstractTransactionManager.MAX_CHECKPOINTS_PER_TXN, <span class="jxr_string">"Not monotonic growth"</span>);
+<a class="jxr_linenumber" name="75" href="#75">75</a>              assertEquals(current, last + CommitTable.MAX_CHECKPOINTS_PER_TXN, <span class="jxr_string">"Not monotonic growth"</span>);
 <a class="jxr_linenumber" name="76" href="#76">76</a>              last = current;
 <a class="jxr_linenumber" name="77" href="#77">77</a>          }
 <a class="jxr_linenumber" name="78" href="#78">78</a>          assertTrue(timestampOracle.getLast() == last);

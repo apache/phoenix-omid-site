@@ -30,18 +30,18 @@
 <a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> com.google.common.base.Optional;
 <a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> com.google.common.util.concurrent.ListenableFuture;
 <a class="jxr_linenumber" name="22" href="#22">22</a>  
-<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> java.io.Closeable;
-<a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
-<a class="jxr_linenumber" name="25" href="#25">25</a>  
-<a class="jxr_linenumber" name="26" href="#26">26</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">interface</strong> <a href="../../../../org/apache/omid/committable/CommitTable.html">CommitTable</a> {
-<a class="jxr_linenumber" name="27" href="#27">27</a>  
-<a class="jxr_linenumber" name="28" href="#28">28</a>      <strong class="jxr_keyword">long</strong> INVALID_TRANSACTION_MARKER = -1L;
+<a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> java.io.IOException;
+<a class="jxr_linenumber" name="24" href="#24">24</a>  
+<a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">interface</strong> <a href="../../../../org/apache/omid/committable/CommitTable.html">CommitTable</a> {
+<a class="jxr_linenumber" name="26" href="#26">26</a>  
+<a class="jxr_linenumber" name="27" href="#27">27</a>      <strong class="jxr_keyword">long</strong> INVALID_TRANSACTION_MARKER = -1L;
+<a class="jxr_linenumber" name="28" href="#28">28</a>      <strong class="jxr_keyword">int</strong> MAX_CHECKPOINTS_PER_TXN = 50;
 <a class="jxr_linenumber" name="29" href="#29">29</a>  
 <a class="jxr_linenumber" name="30" href="#30">30</a>      <a href="../../../../org/apache/omid/committable/InMemoryCommitTable.html">Writer</a> getWriter() <strong class="jxr_keyword">throws</strong> IOException;
 <a class="jxr_linenumber" name="31" href="#31">31</a>  
 <a class="jxr_linenumber" name="32" href="#32">32</a>      <a href="../../../../org/apache/omid/committable/InMemoryCommitTable.html">Client</a> getClient() <strong class="jxr_keyword">throws</strong> IOException;
 <a class="jxr_linenumber" name="33" href="#33">33</a>  
-<a class="jxr_linenumber" name="34" href="#34">34</a>      <strong class="jxr_keyword">interface</strong> <a href="../../../../org/apache/omid/committable/InMemoryCommitTable.html">Writer</a> <strong class="jxr_keyword">extends</strong> Closeable {
+<a class="jxr_linenumber" name="34" href="#34">34</a>      <strong class="jxr_keyword">interface</strong> <a href="../../../../org/apache/omid/committable/InMemoryCommitTable.html">Writer</a>{
 <a class="jxr_linenumber" name="35" href="#35">35</a>  
 <a class="jxr_linenumber" name="36" href="#36">36</a>          <strong class="jxr_keyword">void</strong> addCommittedTransaction(<strong class="jxr_keyword">long</strong> startTimestamp, <strong class="jxr_keyword">long</strong> commitTimestamp) <strong class="jxr_keyword">throws</strong> IOException;
 <a class="jxr_linenumber" name="37" href="#37">37</a>  
@@ -63,7 +63,7 @@
 <a class="jxr_linenumber" name="53" href="#53">53</a>          <strong class="jxr_keyword">boolean</strong> atomicAddCommittedTransaction(<strong class="jxr_keyword">long</strong> startTimestamp, <strong class="jxr_keyword">long</strong> commitTimestamp) <strong class="jxr_keyword">throws</strong> IOException;
 <a class="jxr_linenumber" name="54" href="#54">54</a>      }
 <a class="jxr_linenumber" name="55" href="#55">55</a>  
-<a class="jxr_linenumber" name="56" href="#56">56</a>      <strong class="jxr_keyword">interface</strong> <a href="../../../../org/apache/omid/committable/InMemoryCommitTable.html">Client</a> <strong class="jxr_keyword">extends</strong> Closeable {
+<a class="jxr_linenumber" name="56" href="#56">56</a>      <strong class="jxr_keyword">interface</strong> <a href="../../../../org/apache/omid/committable/InMemoryCommitTable.html">Client</a> {
 <a class="jxr_linenumber" name="57" href="#57">57</a>  
 <a class="jxr_linenumber" name="58" href="#58">58</a>          <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="59" href="#59">59</a>  <em class="jxr_javadoccomment">         * Checks whether a transaction commit data is inside the commit table The function also checks whether the</em>
@@ -76,7 +76,7 @@
 <a class="jxr_linenumber" name="66" href="#66">66</a>  
 <a class="jxr_linenumber" name="67" href="#67">67</a>          ListenableFuture&lt;Long&gt; readLowWatermark();
 <a class="jxr_linenumber" name="68" href="#68">68</a>  
-<a class="jxr_linenumber" name="69" href="#69">69</a>          ListenableFuture&lt;Void&gt; completeTransaction(<strong class="jxr_keyword">long</strong> startTimestamp);
+<a class="jxr_linenumber" name="69" href="#69">69</a>          ListenableFuture&lt;Void&gt; deleteCommitEntry(<strong class="jxr_keyword">long</strong> startTimestamp);
 <a class="jxr_linenumber" name="70" href="#70">70</a>  
 <a class="jxr_linenumber" name="71" href="#71">71</a>          <em class="jxr_javadoccomment">/**</em>
 <a class="jxr_linenumber" name="72" href="#72">72</a>  <em class="jxr_javadoccomment">         * Atomically tries to invalidate a non-committed transaction launched by a previous TSO server.</em>

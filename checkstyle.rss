@@ -23,11 +23,11 @@ under the License.
     <link>http://omid.incubator.apache.org</link>
     <description>Omid - Checkstyle report</description>
     <language>en-us</language>
-    <copyright>&#169;2011 - 2018 Apache Software Foundation</copyright>
+    <copyright>&#169;2011 - 2019 Apache Software Foundation</copyright>
     <item>
       <title>File: 161,
              Errors: 0,
-             Warnings: 1377,
+             Warnings: 1399,
              Infos: 0
       </title>
             <link>http://omid.incubator.apache.org/checkstyle.html</link>
@@ -276,7 +276,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  20
+                  30
                 </td>
                 <td>
                   0
@@ -640,7 +640,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  12
+                  13
                 </td>
                 <td>
                   0
@@ -724,7 +724,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  4
+                  5
                 </td>
                 <td>
                   0
@@ -752,7 +752,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  31
+                  24
                 </td>
                 <td>
                   0
@@ -822,7 +822,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  1
+                  3
                 </td>
                 <td>
                   0
@@ -920,7 +920,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  26
+                  29
                 </td>
                 <td>
                   0
@@ -962,7 +962,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  33
+                  34
                 </td>
                 <td>
                   0
@@ -976,7 +976,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  11
+                  7
                 </td>
                 <td>
                   0
@@ -1060,7 +1060,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  7
+                  6
                 </td>
                 <td>
                   0
@@ -1200,7 +1200,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  6
+                  8
                 </td>
                 <td>
                   0
@@ -1214,7 +1214,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  6
+                  7
                 </td>
                 <td>
                   0
@@ -1228,7 +1228,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  41
+                  38
                 </td>
                 <td>
                   0
@@ -1284,7 +1284,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  19
+                  21
                 </td>
                 <td>
                   0
@@ -1326,7 +1326,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  78
+                  77
                 </td>
                 <td>
                   0
@@ -1508,7 +1508,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  7
+                  8
                 </td>
                 <td>
                   0
@@ -1732,7 +1732,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  8
+                  9
                 </td>
                 <td>
                   0
@@ -1782,20 +1782,6 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.hadoop.hbase.ipc.controller.InterRegionServerRpcController.java">org/apache/hadoop/hbase/ipc/controller/InterRegionServerRpcController.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  2
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
                   <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.omid.tso.TSOStateManagerImpl.java">org/apache/omid/tso/TSOStateManagerImpl.java</a>
                 </td>
                 <td>
@@ -1803,6 +1789,20 @@ under the License.
                 </td>
                 <td>
                   5
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="http://omid.incubator.apache.org/checkstyle.html#org.apache.hadoop.hbase.ipc.controller.InterRegionServerRpcController.java">org/apache/hadoop/hbase/ipc/controller/InterRegionServerRpcController.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  2
                 </td>
                 <td>
                   0
@@ -1928,7 +1928,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  7
+                  9
                 </td>
                 <td>
                   0
@@ -2236,7 +2236,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  12
+                  24
                 </td>
                 <td>
                   0
@@ -2278,7 +2278,7 @@ under the License.
                   0
                 </td>
                 <td>
-                  6
+                  5
                 </td>
                 <td>
                   0

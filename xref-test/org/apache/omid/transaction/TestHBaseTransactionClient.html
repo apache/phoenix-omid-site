@@ -104,7 +104,7 @@
 <a class="jxr_linenumber" name="94" href="#94">94</a>      @Test(timeOut = 30_000)
 <a class="jxr_linenumber" name="95" href="#95">95</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCrashAfterCommit(ITestContext context) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="96" href="#96">96</a>          PostCommitActions syncPostCommitter =
-<a class="jxr_linenumber" name="97" href="#97">97</a>                  spy(<strong class="jxr_keyword">new</strong> HBaseSyncPostCommitter(<strong class="jxr_keyword">new</strong> NullMetricsProvider(), getCommitTable(context).getClient()));
+<a class="jxr_linenumber" name="97" href="#97">97</a>                  spy(<strong class="jxr_keyword">new</strong> HBaseSyncPostCommitter(<strong class="jxr_keyword">new</strong> NullMetricsProvider(), getCommitTable(context).getClient(), connection));
 <a class="jxr_linenumber" name="98" href="#98">98</a>          AbstractTransactionManager tm = (AbstractTransactionManager) newTransactionManager(context, syncPostCommitter);
 <a class="jxr_linenumber" name="99" href="#99">99</a>          <em class="jxr_comment">// The following line emulates a crash after commit that is observed in (*) below</em>
 <a class="jxr_linenumber" name="100" href="#100">100</a>         doThrow(<strong class="jxr_keyword">new</strong> RuntimeException()).when(syncPostCommitter).updateShadowCells(any(HBaseTransaction.<strong class="jxr_keyword">class</strong>));
@@ -144,7 +144,7 @@
 <a class="jxr_linenumber" name="134" href="#134">134</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> NON_EXISTING_CELL_TS = 1000L;
 <a class="jxr_linenumber" name="135" href="#135">135</a> 
 <a class="jxr_linenumber" name="136" href="#136">136</a>         PostCommitActions syncPostCommitter =
-<a class="jxr_linenumber" name="137" href="#137">137</a>                 spy(<strong class="jxr_keyword">new</strong> HBaseSyncPostCommitter(<strong class="jxr_keyword">new</strong> NullMetricsProvider(), getCommitTable(context).getClient()));
+<a class="jxr_linenumber" name="137" href="#137">137</a>                 spy(<strong class="jxr_keyword">new</strong> HBaseSyncPostCommitter(<strong class="jxr_keyword">new</strong> NullMetricsProvider(), getCommitTable(context).getClient(), connection));
 <a class="jxr_linenumber" name="138" href="#138">138</a>         AbstractTransactionManager tm = (AbstractTransactionManager) newTransactionManager(context, syncPostCommitter);
 <a class="jxr_linenumber" name="139" href="#139">139</a>         <em class="jxr_comment">// The following line emulates a crash after commit that is observed in (*) below</em>
 <a class="jxr_linenumber" name="140" href="#140">140</a>         doThrow(<strong class="jxr_keyword">new</strong> RuntimeException()).when(syncPostCommitter).updateShadowCells(any(HBaseTransaction.<strong class="jxr_keyword">class</strong>));
@@ -267,7 +267,7 @@
 <a class="jxr_linenumber" name="257" href="#257">257</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCellCommitTimestampIsLocatedInCommitTable(ITestContext context) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="258" href="#258">258</a> 
 <a class="jxr_linenumber" name="259" href="#259">259</a>         PostCommitActions syncPostCommitter =
-<a class="jxr_linenumber" name="260" href="#260">260</a>                 spy(<strong class="jxr_keyword">new</strong> HBaseSyncPostCommitter(<strong class="jxr_keyword">new</strong> NullMetricsProvider(), getCommitTable(context).getClient()));
+<a class="jxr_linenumber" name="260" href="#260">260</a>                 spy(<strong class="jxr_keyword">new</strong> HBaseSyncPostCommitter(<strong class="jxr_keyword">new</strong> NullMetricsProvider(), getCommitTable(context).getClient(), connection));
 <a class="jxr_linenumber" name="261" href="#261">261</a>         AbstractTransactionManager tm = (AbstractTransactionManager) newTransactionManager(context, syncPostCommitter);
 <a class="jxr_linenumber" name="262" href="#262">262</a>         <em class="jxr_comment">// The following line emulates a crash after commit that is observed in (*) below</em>
 <a class="jxr_linenumber" name="263" href="#263">263</a>         doThrow(<strong class="jxr_keyword">new</strong> RuntimeException()).when(syncPostCommitter).updateShadowCells(any(HBaseTransaction.<strong class="jxr_keyword">class</strong>));
@@ -297,7 +297,7 @@
 <a class="jxr_linenumber" name="287" href="#287">287</a>             CommitTimestamp ct = snapshotFilter.locateCellCommitTimestamp(tx1.getStartTimestamp(), tm.tsoClient.getEpoch(),
 <a class="jxr_linenumber" name="288" href="#288">288</a>                     ctLocator, false);
 <a class="jxr_linenumber" name="289" href="#289">289</a>             assertTrue(ct.isValid());
-<a class="jxr_linenumber" name="290" href="#290">290</a>             <strong class="jxr_keyword">long</strong> expectedCommitTS = tx1.getStartTimestamp() + AbstractTransactionManager.MAX_CHECKPOINTS_PER_TXN;
+<a class="jxr_linenumber" name="290" href="#290">290</a>             <strong class="jxr_keyword">long</strong> expectedCommitTS = tx1.getStartTimestamp() + CommitTable.MAX_CHECKPOINTS_PER_TXN;
 <a class="jxr_linenumber" name="291" href="#291">291</a>             assertEquals(ct.getValue(), expectedCommitTS);
 <a class="jxr_linenumber" name="292" href="#292">292</a>             assertTrue(ct.getLocation().compareTo(COMMIT_TABLE) == 0);
 <a class="jxr_linenumber" name="293" href="#293">293</a>         }
@@ -341,7 +341,7 @@
 <a class="jxr_linenumber" name="331" href="#331">331</a>     @Test(timeOut = 30_000)
 <a class="jxr_linenumber" name="332" href="#332">332</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCellFromTransactionInPreviousEpochGetsInvalidComitTimestamp(ITestContext context) <strong class="jxr_keyword">throws</strong> Exception {
 <a class="jxr_linenumber" name="333" href="#333">333</a> 
-<a class="jxr_linenumber" name="334" href="#334">334</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> CURRENT_EPOCH_FAKE = 1000L * AbstractTransactionManager.MAX_CHECKPOINTS_PER_TXN;
+<a class="jxr_linenumber" name="334" href="#334">334</a>         <strong class="jxr_keyword">final</strong> <strong class="jxr_keyword">long</strong> CURRENT_EPOCH_FAKE = 1000L * CommitTable.MAX_CHECKPOINTS_PER_TXN;
 <a class="jxr_linenumber" name="335" href="#335">335</a> 
 <a class="jxr_linenumber" name="336" href="#336">336</a>         CommitTable.Client commitTableClient = spy(getCommitTable(context).getClient());
 <a class="jxr_linenumber" name="337" href="#337">337</a>         AbstractTransactionManager tm = spy((AbstractTransactionManager) newTransactionManager(context, commitTableClient));
@@ -384,7 +384,7 @@
 <a class="jxr_linenumber" name="374" href="#374">374</a> 
 <a class="jxr_linenumber" name="375" href="#375">375</a>         CommitTable.Client commitTableClient = spy(getCommitTable(context).getClient());
 <a class="jxr_linenumber" name="376" href="#376">376</a>         PostCommitActions syncPostCommitter =
-<a class="jxr_linenumber" name="377" href="#377">377</a>                 spy(<strong class="jxr_keyword">new</strong> HBaseSyncPostCommitter(<strong class="jxr_keyword">new</strong> NullMetricsProvider(), commitTableClient));
+<a class="jxr_linenumber" name="377" href="#377">377</a>                 spy(<strong class="jxr_keyword">new</strong> HBaseSyncPostCommitter(<strong class="jxr_keyword">new</strong> NullMetricsProvider(), commitTableClient, connection));
 <a class="jxr_linenumber" name="378" href="#378">378</a>         AbstractTransactionManager tm = spy((AbstractTransactionManager) newTransactionManager(context, syncPostCommitter));
 <a class="jxr_linenumber" name="379" href="#379">379</a> 
 <a class="jxr_linenumber" name="380" href="#380">380</a>         <em class="jxr_comment">// The following line emulates a crash after commit that is observed in (*) below</em>

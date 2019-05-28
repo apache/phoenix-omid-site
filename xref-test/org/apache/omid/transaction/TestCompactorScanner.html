@@ -74,46 +74,44 @@
 <a class="jxr_linenumber" name="64" href="#64">64</a>          ObserverContext&lt;RegionCoprocessorEnvironment&gt; ctx = mock(ObserverContext.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="65" href="#65">65</a>          InternalScanner internalScanner = mock(InternalScanner.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="66" href="#66">66</a>          CommitTable.Client ctClient = mock(CommitTable.Client.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="67" href="#67">67</a>          @SuppressWarnings(<span class="jxr_string">"unchecked"</span>)
-<a class="jxr_linenumber" name="68" href="#68">68</a>          Queue&lt;Client&gt; queue = mock(Queue.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="69" href="#69">69</a>          RegionCoprocessorEnvironment rce = mock(RegionCoprocessorEnvironment.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="70" href="#70">70</a>          HRegion hRegion = mock(HRegion.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="71" href="#71">71</a>          HRegionInfo hRegionInfo = mock(HRegionInfo.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="72" href="#72">72</a>          SettableFuture&lt;Long&gt; f = SettableFuture.create();
-<a class="jxr_linenumber" name="73" href="#73">73</a>  
-<a class="jxr_linenumber" name="74" href="#74">74</a>          <em class="jxr_comment">// Wire required mock internals</em>
-<a class="jxr_linenumber" name="75" href="#75">75</a>          f.set(TEST_TS);
-<a class="jxr_linenumber" name="76" href="#76">76</a>          when(ctClient.readLowWatermark()).thenReturn(f);
-<a class="jxr_linenumber" name="77" href="#77">77</a>          when(ctx.getEnvironment()).thenReturn(rce);
-<a class="jxr_linenumber" name="78" href="#78">78</a>          when(rce.getRegion()).thenReturn(hRegion);
-<a class="jxr_linenumber" name="79" href="#79">79</a>          when(hRegion.getRegionInfo()).thenReturn(hRegionInfo);
-<a class="jxr_linenumber" name="80" href="#80">80</a>  
-<a class="jxr_linenumber" name="81" href="#81">81</a>          LOG.info(<span class="jxr_string">"Testing when retain is {}"</span>, retainOption);
-<a class="jxr_linenumber" name="82" href="#82">82</a>          <strong class="jxr_keyword">try</strong> (CompactorScanner scanner = spy(<strong class="jxr_keyword">new</strong> CompactorScanner(ctx,
-<a class="jxr_linenumber" name="83" href="#83">83</a>                  internalScanner,
-<a class="jxr_linenumber" name="84" href="#84">84</a>                  ctClient,
-<a class="jxr_linenumber" name="85" href="#85">85</a>                  queue,
-<a class="jxr_linenumber" name="86" href="#86">86</a>                  false,
-<a class="jxr_linenumber" name="87" href="#87">87</a>                  retainOption))) {
-<a class="jxr_linenumber" name="88" href="#88">88</a>  
-<a class="jxr_linenumber" name="89" href="#89">89</a>              <em class="jxr_comment">// Different cell types to test</em>
-<a class="jxr_linenumber" name="90" href="#90">90</a>              KeyValue regularKV = <strong class="jxr_keyword">new</strong> KeyValue(Bytes.toBytes(<span class="jxr_string">"test-row"</span>), TEST_TS, Type.Put);
-<a class="jxr_linenumber" name="91" href="#91">91</a>              KeyValue deleteKV = <strong class="jxr_keyword">new</strong> KeyValue(Bytes.toBytes(<span class="jxr_string">"test-row"</span>), TEST_TS, Type.Delete);
-<a class="jxr_linenumber" name="92" href="#92">92</a>              KeyValue deleteColumnKV = <strong class="jxr_keyword">new</strong> KeyValue(Bytes.toBytes(<span class="jxr_string">"test-row"</span>), TEST_TS, Type.DeleteColumn);
-<a class="jxr_linenumber" name="93" href="#93">93</a>              KeyValue deleteFamilyKV = <strong class="jxr_keyword">new</strong> KeyValue(Bytes.toBytes(<span class="jxr_string">"test-row"</span>), TEST_TS, Type.DeleteFamily);
-<a class="jxr_linenumber" name="94" href="#94">94</a>              KeyValue deleteFamilyVersionKV = <strong class="jxr_keyword">new</strong> KeyValue(Bytes.toBytes(<span class="jxr_string">"test-row"</span>), TEST_TS, Type.DeleteFamilyVersion);
-<a class="jxr_linenumber" name="95" href="#95">95</a>  
-<a class="jxr_linenumber" name="96" href="#96">96</a>              assertFalse(scanner.shouldRetainNonTransactionallyDeletedCell(regularKV));
-<a class="jxr_linenumber" name="97" href="#97">97</a>              assertEquals(scanner.shouldRetainNonTransactionallyDeletedCell(deleteKV), retainOption);
-<a class="jxr_linenumber" name="98" href="#98">98</a>              assertEquals(scanner.shouldRetainNonTransactionallyDeletedCell(deleteColumnKV), retainOption);
-<a class="jxr_linenumber" name="99" href="#99">99</a>              assertEquals(scanner.shouldRetainNonTransactionallyDeletedCell(deleteFamilyKV), retainOption);
-<a class="jxr_linenumber" name="100" href="#100">100</a>             assertEquals(scanner.shouldRetainNonTransactionallyDeletedCell(deleteFamilyVersionKV), retainOption);
+<a class="jxr_linenumber" name="67" href="#67">67</a>  
+<a class="jxr_linenumber" name="68" href="#68">68</a>          RegionCoprocessorEnvironment rce = mock(RegionCoprocessorEnvironment.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="69" href="#69">69</a>          HRegion hRegion = mock(HRegion.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="70" href="#70">70</a>          HRegionInfo hRegionInfo = mock(HRegionInfo.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="71" href="#71">71</a>          SettableFuture&lt;Long&gt; f = SettableFuture.create();
+<a class="jxr_linenumber" name="72" href="#72">72</a>  
+<a class="jxr_linenumber" name="73" href="#73">73</a>          <em class="jxr_comment">// Wire required mock internals</em>
+<a class="jxr_linenumber" name="74" href="#74">74</a>          f.set(TEST_TS);
+<a class="jxr_linenumber" name="75" href="#75">75</a>          when(ctClient.readLowWatermark()).thenReturn(f);
+<a class="jxr_linenumber" name="76" href="#76">76</a>          when(ctx.getEnvironment()).thenReturn(rce);
+<a class="jxr_linenumber" name="77" href="#77">77</a>          when(rce.getRegion()).thenReturn(hRegion);
+<a class="jxr_linenumber" name="78" href="#78">78</a>          when(hRegion.getRegionInfo()).thenReturn(hRegionInfo);
+<a class="jxr_linenumber" name="79" href="#79">79</a>  
+<a class="jxr_linenumber" name="80" href="#80">80</a>          LOG.info(<span class="jxr_string">"Testing when retain is {}"</span>, retainOption);
+<a class="jxr_linenumber" name="81" href="#81">81</a>          <strong class="jxr_keyword">try</strong> (CompactorScanner scanner = spy(<strong class="jxr_keyword">new</strong> CompactorScanner(ctx,
+<a class="jxr_linenumber" name="82" href="#82">82</a>                  internalScanner,
+<a class="jxr_linenumber" name="83" href="#83">83</a>                  ctClient,
+<a class="jxr_linenumber" name="84" href="#84">84</a>                  false,
+<a class="jxr_linenumber" name="85" href="#85">85</a>                  retainOption))) {
+<a class="jxr_linenumber" name="86" href="#86">86</a>  
+<a class="jxr_linenumber" name="87" href="#87">87</a>              <em class="jxr_comment">// Different cell types to test</em>
+<a class="jxr_linenumber" name="88" href="#88">88</a>              KeyValue regularKV = <strong class="jxr_keyword">new</strong> KeyValue(Bytes.toBytes(<span class="jxr_string">"test-row"</span>), TEST_TS, Type.Put);
+<a class="jxr_linenumber" name="89" href="#89">89</a>              KeyValue deleteKV = <strong class="jxr_keyword">new</strong> KeyValue(Bytes.toBytes(<span class="jxr_string">"test-row"</span>), TEST_TS, Type.Delete);
+<a class="jxr_linenumber" name="90" href="#90">90</a>              KeyValue deleteColumnKV = <strong class="jxr_keyword">new</strong> KeyValue(Bytes.toBytes(<span class="jxr_string">"test-row"</span>), TEST_TS, Type.DeleteColumn);
+<a class="jxr_linenumber" name="91" href="#91">91</a>              KeyValue deleteFamilyKV = <strong class="jxr_keyword">new</strong> KeyValue(Bytes.toBytes(<span class="jxr_string">"test-row"</span>), TEST_TS, Type.DeleteFamily);
+<a class="jxr_linenumber" name="92" href="#92">92</a>              KeyValue deleteFamilyVersionKV = <strong class="jxr_keyword">new</strong> KeyValue(Bytes.toBytes(<span class="jxr_string">"test-row"</span>), TEST_TS, Type.DeleteFamilyVersion);
+<a class="jxr_linenumber" name="93" href="#93">93</a>  
+<a class="jxr_linenumber" name="94" href="#94">94</a>              assertFalse(scanner.shouldRetainNonTransactionallyDeletedCell(regularKV));
+<a class="jxr_linenumber" name="95" href="#95">95</a>              assertEquals(scanner.shouldRetainNonTransactionallyDeletedCell(deleteKV), retainOption);
+<a class="jxr_linenumber" name="96" href="#96">96</a>              assertEquals(scanner.shouldRetainNonTransactionallyDeletedCell(deleteColumnKV), retainOption);
+<a class="jxr_linenumber" name="97" href="#97">97</a>              assertEquals(scanner.shouldRetainNonTransactionallyDeletedCell(deleteFamilyKV), retainOption);
+<a class="jxr_linenumber" name="98" href="#98">98</a>              assertEquals(scanner.shouldRetainNonTransactionallyDeletedCell(deleteFamilyVersionKV), retainOption);
+<a class="jxr_linenumber" name="99" href="#99">99</a>  
+<a class="jxr_linenumber" name="100" href="#100">100</a>         }
 <a class="jxr_linenumber" name="101" href="#101">101</a> 
-<a class="jxr_linenumber" name="102" href="#102">102</a>         }
+<a class="jxr_linenumber" name="102" href="#102">102</a>     }
 <a class="jxr_linenumber" name="103" href="#103">103</a> 
-<a class="jxr_linenumber" name="104" href="#104">104</a>     }
-<a class="jxr_linenumber" name="105" href="#105">105</a> 
-<a class="jxr_linenumber" name="106" href="#106">106</a> }
+<a class="jxr_linenumber" name="104" href="#104">104</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
