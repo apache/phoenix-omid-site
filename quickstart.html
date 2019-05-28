@@ -196,7 +196,7 @@
       <div id="breadcrumbs">
         <ul class="breadcrumb">
               
-                  <li id="projectVersion">Version: 1.0.1
+                  <li id="projectVersion">Version: 1.0.2-SNAPSHOT
                     </li>
               
               
@@ -427,6 +427,47 @@ public class OmidExample {
 <div>
 <div>
 <pre class="source">enable 'MY_TX_TABLE'
+</pre></div></div>
+</div>
+<div class="section">
+<h2><a name="Server_Side_Filtering"></a>Server Side Filtering</h2>
+<p>Omid can offload the snapshot filtering while get/scan operations to an Hbase coprocessor. To use this coprocessor follow these steps:</p>
+<p><b>1) Disable the table</b></p>
+
+<div>
+<div>
+<pre class="source">disable 'MY_TX_TABLE'
+</pre></div></div>
+
+<p><b>2) Put coprocessor jar in hbase lib dir and restart hbase</b></p>
+
+<div>
+<div>
+<pre class="source">cp hbase-coprocessor/target/omid-hbase-coprocessor-1.0.1.jar $HBASE_HOME/lib
+</pre></div></div>
+
+<p><b>3) Add a coprocessor specification to the table via a &#x201c;coprocessor&#x201d; attribute. The coprocessor spec may (and usually will) also include the name of the Omid commit table</b></p>
+
+<div>
+<div>
+<pre class="source">alter 'MY_TX_TABLE', METHOD =&gt; 'table_att', 'coprocessor'=&gt;'|org.apache.omid.transaction.OmidSnapshotFilter|1001|omid.committable.tablename=OMID_COMMIT_TABLE'
+</pre></div></div>
+
+<p><b>4) Re-enable the table</b></p>
+
+<div>
+<div>
+<pre class="source">enable 'MY_TX_TABLE'
+</pre></div></div>
+
+<p><b>5) In hbase-site.xml enable server side filtering. The omid client should have this in its classpath</b></p>
+
+<div>
+<div>
+<pre class="source">    &lt;property&gt;
+        &lt;name&gt;omid.server.side.filter&lt;/name&gt;
+        &lt;value&gt;true&lt;/value&gt;
+    &lt;/property&gt;
 </pre></div></div></div>
                   </div>
           </div>

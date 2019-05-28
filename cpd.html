@@ -196,7 +196,7 @@
       <div id="breadcrumbs">
         <ul class="breadcrumb">
               
-                  <li id="projectVersion">Version: 1.0.1
+                  <li id="projectVersion">Version: 1.0.2-SNAPSHOT
                     </li>
               
               
@@ -222,40 +222,7 @@
 <tr class="b">
 <td>org/apache/omid/examples/BasicExample.java</td>
 <td>Omid Client Examples</td>
-<td><a href="./xref/org/apache/omid/examples/BasicExample.html#L93">93</a></td></tr>
-<tr class="a">
-<td>org/apache/omid/examples/ConfigurationExample.java</td>
-<td>Omid Client Examples</td>
-<td><a href="./xref/org/apache/omid/examples/ConfigurationExample.html#L110">110</a></td></tr>
-<tr class="b"><td colspan='3'>
-<div>
-<pre>            LOG.info(&quot;Transaction {} STARTED&quot;, tx);
-
-            Put row1 = new Put(exampleRow1);
-            row1.addColumn(family, qualifier, dataValue1);
-            txTable.put(tx, row1);
-            LOG.info(&quot;Transaction {} trying to write a new value in [TABLE:ROW/CF/Q] =&gt; {}:{}/{}/{} = {} &quot;,
-                     tx, userTableName, Bytes.toString(exampleRow1), Bytes.toString(family),
-                     Bytes.toString(qualifier), Bytes.toString(dataValue1));
-
-            Put row2 = new Put(exampleRow2);
-            row2.addColumn(family, qualifier, dataValue2);
-            txTable.put(tx, row2);
-            LOG.info(&quot;Transaction {} trying to write a new value in [TABLE:ROW/CF/Q] =&gt; {}:{}/{}/{} = {} &quot;,
-                     tx, userTableName, Bytes.toString(exampleRow2), Bytes.toString(family),
-                     Bytes.toString(qualifier), Bytes.toString(dataValue2));
-
-            tm.commit(tx);
-            LOG.info(&quot;Transaction {} COMMITTED&quot;, tx);</pre></div></td></tr></table>
-<table border="0" class="table table-striped">
-<tr class="a">
-<th>File</th>
-<th>Project</th>
-<th>Line</th></tr>
-<tr class="b">
-<td>org/apache/omid/examples/BasicExample.java</td>
-<td>Omid Client Examples</td>
-<td><a href="./xref/org/apache/omid/examples/BasicExample.html#L66">66</a></td></tr>
+<td><a href="./xref/org/apache/omid/examples/BasicExample.html#L72">72</a></td></tr>
 <tr class="a">
 <td>org/apache/omid/examples/ConfigurationExample.java</td>
 <td>Omid Client Examples</td>
@@ -265,7 +232,6 @@
 <pre>    private static final Logger LOG = LoggerFactory.getLogger(BasicExample.class);
 
     public static void main(String[] args) throws Exception {
-
         LOG.info(&quot;Parsing command line arguments&quot;);
         String userTableName = &quot;MY_TX_TABLE&quot;;
         if (args != null &amp;&amp; args.length &gt; 0 &amp;&amp; StringUtils.isNotEmpty(args[0])) {
