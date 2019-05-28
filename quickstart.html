@@ -412,7 +412,7 @@ public class OmidExample {
 
 <div>
 <div>
-<pre class="source">alter 'MY_TX_TABLE', METHOD =&gt; 'table_att', 'coprocessor'=&gt;'|com.yahoo.omid.transaction.OmidCompactor|1001|omid.committable.tablename=OMID_COMMIT_TABLE'
+<pre class="source">alter 'MY_TX_TABLE', METHOD =&gt; 'table_att', 'coprocessor'=&gt;'|org.apache.omid.transaction.OmidCompactor|1001|omid.committable.tablename=OMID_COMMIT_TABLE'
 </pre></div></div>
 
 <p><b>4) Add an &#x201c;OMID_ENABLED =&gt; true&#x201d; flag to any column families which the co-processor should work on</b></p>
