@@ -27,7 +27,7 @@
 <a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">package</strong> org.apache.omid.transaction;
 <a class="jxr_linenumber" name="19" href="#19">19</a>  
-<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> com.google.common.annotations.VisibleForTesting;
+<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> org.apache.phoenix.thirdparty.com.google.common.annotations.VisibleForTesting;
 <a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> com.google.inject.Inject;
 <a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> com.google.inject.name.Named;
 <a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.beanutils.BeanUtils;
@@ -68,7 +68,7 @@
 <a class="jxr_linenumber" name="58" href="#58">58</a>          <strong class="jxr_keyword">this</strong>(CONFIG_FILE_NAME);
 <a class="jxr_linenumber" name="59" href="#59">59</a>      }
 <a class="jxr_linenumber" name="60" href="#60">60</a>  
-<a class="jxr_linenumber" name="61" href="#61">61</a>      <strong class="jxr_keyword">public</strong> &lt;K, V&gt; <a href="../../../../org/apache/omid/transaction/HBaseOmidClientConfiguration.html">HBaseOmidClientConfiguration</a>(Map&lt;K, V&gt; properties) {
+<a class="jxr_linenumber" name="61" href="#61">61</a>      <strong class="jxr_keyword">public</strong> &lt;K, V&gt; <a href="../../../../org/apache/omid/transaction/HBaseOmidClientConfiguration.html">HBaseOmidClientConfiguration</a>(Map&lt;String, ? <strong class="jxr_keyword">extends</strong> Object&gt; properties) {
 <a class="jxr_linenumber" name="62" href="#62">62</a>          <strong class="jxr_keyword">try</strong> {
 <a class="jxr_linenumber" name="63" href="#63">63</a>              BeanUtils.populate(<strong class="jxr_keyword">this</strong>, properties);
 <a class="jxr_linenumber" name="64" href="#64">64</a>          } <strong class="jxr_keyword">catch</strong> (IllegalAccessException | InvocationTargetException e) {

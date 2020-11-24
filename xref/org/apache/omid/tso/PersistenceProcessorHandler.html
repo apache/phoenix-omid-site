@@ -27,8 +27,8 @@
 <a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">package</strong> org.apache.omid.tso;
 <a class="jxr_linenumber" name="19" href="#19">19</a>  
-<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> com.google.common.annotations.VisibleForTesting;
-<a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> com.google.common.base.Objects;
+<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> org.apache.phoenix.thirdparty.com.google.common.annotations.VisibleForTesting;
+<a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> org.apache.phoenix.thirdparty.com.google.common.base.MoreObjects;
 <a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> com.lmax.disruptor.WorkHandler;
 <a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.committable.CommitTable;
 <a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.apache.omid.metrics.Histogram;
@@ -219,7 +219,7 @@
 <a class="jxr_linenumber" name="209" href="#209">209</a>     @Override
 <a class="jxr_linenumber" name="210" href="#210">210</a>     <strong class="jxr_keyword">public</strong> String toString() {
 <a class="jxr_linenumber" name="211" href="#211">211</a> 
-<a class="jxr_linenumber" name="212" href="#212">212</a>         <strong class="jxr_keyword">return</strong> Objects.toStringHelper(<strong class="jxr_keyword">this</strong>).add(<span class="jxr_string">"id"</span>, id).toString();
+<a class="jxr_linenumber" name="212" href="#212">212</a>         <strong class="jxr_keyword">return</strong> MoreObjects.toStringHelper(<strong class="jxr_keyword">this</strong>).add(<span class="jxr_string">"id"</span>, id).toString();
 <a class="jxr_linenumber" name="213" href="#213">213</a> 
 <a class="jxr_linenumber" name="214" href="#214">214</a>     }
 <a class="jxr_linenumber" name="215" href="#215">215</a> 

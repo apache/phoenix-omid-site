@@ -27,9 +27,9 @@
 <a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">package</strong> org.apache.omid.tso;
 <a class="jxr_linenumber" name="19" href="#19">19</a>  
-<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> com.google.common.base.Objects;
-<a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> com.google.common.base.Optional;
-<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> com.google.common.base.Preconditions;
+<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> org.apache.phoenix.thirdparty.com.google.common.base.MoreObjects;
+<a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> org.apache.phoenix.thirdparty.com.google.common.base.Optional;
+<a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> org.apache.phoenix.thirdparty.com.google.common.base.Preconditions;
 <a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.pool2.BasePooledObjectFactory;
 <a class="jxr_linenumber" name="24" href="#24">24</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.pool2.PooledObject;
 <a class="jxr_linenumber" name="25" href="#25">25</a>  <strong class="jxr_keyword">import</strong> org.apache.commons.pool2.impl.DefaultPooledObject;
@@ -156,7 +156,7 @@
 <a class="jxr_linenumber" name="146" href="#146">146</a> 
 <a class="jxr_linenumber" name="147" href="#147">147</a>     @Override
 <a class="jxr_linenumber" name="148" href="#148">148</a>     <strong class="jxr_keyword">public</strong> String toString() {
-<a class="jxr_linenumber" name="149" href="#149">149</a>         <strong class="jxr_keyword">return</strong> Objects.toStringHelper(<strong class="jxr_keyword">this</strong>)
+<a class="jxr_linenumber" name="149" href="#149">149</a>         <strong class="jxr_keyword">return</strong> MoreObjects.toStringHelper(<strong class="jxr_keyword">this</strong>)
 <a class="jxr_linenumber" name="150" href="#150">150</a>                 .add(<span class="jxr_string">"id"</span>, id)
 <a class="jxr_linenumber" name="151" href="#151">151</a>                 .add(<span class="jxr_string">"size"</span>, size)
 <a class="jxr_linenumber" name="152" href="#152">152</a>                 .add(<span class="jxr_string">"num events"</span>, numEvents)

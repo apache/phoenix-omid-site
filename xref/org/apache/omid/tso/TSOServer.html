@@ -27,7 +27,7 @@
 <a class="jxr_linenumber" name="17" href="#17">17</a>  <em class="jxr_comment"> */</em>
 <a class="jxr_linenumber" name="18" href="#18">18</a>  <strong class="jxr_keyword">package</strong> org.apache.omid.tso;
 <a class="jxr_linenumber" name="19" href="#19">19</a>  
-<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> com.google.common.util.concurrent.AbstractIdleService;
+<a class="jxr_linenumber" name="20" href="#20">20</a>  <strong class="jxr_keyword">import</strong> org.apache.phoenix.thirdparty.com.google.common.util.concurrent.AbstractIdleService;
 <a class="jxr_linenumber" name="21" href="#21">21</a>  <strong class="jxr_keyword">import</strong> com.google.inject.Binder;
 <a class="jxr_linenumber" name="22" href="#22">22</a>  <strong class="jxr_keyword">import</strong> com.google.inject.Guice;
 <a class="jxr_linenumber" name="23" href="#23">23</a>  <strong class="jxr_keyword">import</strong> com.google.inject.Inject;
@@ -143,35 +143,37 @@
 <a class="jxr_linenumber" name="133" href="#133">133</a>         Runtime.getRuntime().addShutdownHook(<strong class="jxr_keyword">new</strong> Thread() {
 <a class="jxr_linenumber" name="134" href="#134">134</a>             @Override
 <a class="jxr_linenumber" name="135" href="#135">135</a>             <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> run() {
-<a class="jxr_linenumber" name="136" href="#136">136</a>                 stopAndWait();
-<a class="jxr_linenumber" name="137" href="#137">137</a>             }
-<a class="jxr_linenumber" name="138" href="#138">138</a>         });
-<a class="jxr_linenumber" name="139" href="#139">139</a>         LOG.info(<span class="jxr_string">"Shutdown Hook Attached"</span>);
-<a class="jxr_linenumber" name="140" href="#140">140</a>     }
-<a class="jxr_linenumber" name="141" href="#141">141</a> 
-<a class="jxr_linenumber" name="142" href="#142">142</a>     <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="143" href="#143">143</a> <em class="jxr_javadoccomment">     * This is where all starts on the server side</em>
-<a class="jxr_linenumber" name="144" href="#144">144</a> <em class="jxr_javadoccomment">     */</em>
-<a class="jxr_linenumber" name="145" href="#145">145</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> main(String[] args) {
-<a class="jxr_linenumber" name="146" href="#146">146</a> 
-<a class="jxr_linenumber" name="147" href="#147">147</a>         <a href="../../../../org/apache/omid/tso/TSOServerConfig.html">TSOServerConfig</a> config = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/tso/TSOServerConfig.html">TSOServerConfig</a>();
-<a class="jxr_linenumber" name="148" href="#148">148</a> 
-<a class="jxr_linenumber" name="149" href="#149">149</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="150" href="#150">150</a>             <a href="../../../../org/apache/omid/tso/TSOServer.html">TSOServer</a> tsoServer = getInitializedTsoServer(config);
-<a class="jxr_linenumber" name="151" href="#151">151</a>             tsoServer.attachShutDownHook();
-<a class="jxr_linenumber" name="152" href="#152">152</a>             tsoServer.startAndWait();
-<a class="jxr_linenumber" name="153" href="#153">153</a>             <strong class="jxr_keyword">if</strong> (config.getLowLatency() &amp;&amp;
-<a class="jxr_linenumber" name="154" href="#154">154</a>                     !(config.getCommitTableStoreModule() instanceof HBaseCommitTableStorageModule)) {
-<a class="jxr_linenumber" name="155" href="#155">155</a>                 LOG.error(<span class="jxr_string">"Running low latency mode with memory commit table. Use only with testing!"</span>);
-<a class="jxr_linenumber" name="156" href="#156">156</a>             }
-<a class="jxr_linenumber" name="157" href="#157">157</a>         } <strong class="jxr_keyword">catch</strong> (Exception e) {
-<a class="jxr_linenumber" name="158" href="#158">158</a>             System.out.println(e.getMessage());
-<a class="jxr_linenumber" name="159" href="#159">159</a>             System.exit(-1);
-<a class="jxr_linenumber" name="160" href="#160">160</a>         }
-<a class="jxr_linenumber" name="161" href="#161">161</a> 
-<a class="jxr_linenumber" name="162" href="#162">162</a>     }
+<a class="jxr_linenumber" name="136" href="#136">136</a>                 stopAsync();
+<a class="jxr_linenumber" name="137" href="#137">137</a>                 awaitTerminated();
+<a class="jxr_linenumber" name="138" href="#138">138</a>             }
+<a class="jxr_linenumber" name="139" href="#139">139</a>         });
+<a class="jxr_linenumber" name="140" href="#140">140</a>         LOG.info(<span class="jxr_string">"Shutdown Hook Attached"</span>);
+<a class="jxr_linenumber" name="141" href="#141">141</a>     }
+<a class="jxr_linenumber" name="142" href="#142">142</a> 
+<a class="jxr_linenumber" name="143" href="#143">143</a>     <em class="jxr_javadoccomment">/**</em>
+<a class="jxr_linenumber" name="144" href="#144">144</a> <em class="jxr_javadoccomment">     * This is where all starts on the server side</em>
+<a class="jxr_linenumber" name="145" href="#145">145</a> <em class="jxr_javadoccomment">     */</em>
+<a class="jxr_linenumber" name="146" href="#146">146</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> main(String[] args) {
+<a class="jxr_linenumber" name="147" href="#147">147</a> 
+<a class="jxr_linenumber" name="148" href="#148">148</a>         <a href="../../../../org/apache/omid/tso/TSOServerConfig.html">TSOServerConfig</a> config = <strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/tso/TSOServerConfig.html">TSOServerConfig</a>();
+<a class="jxr_linenumber" name="149" href="#149">149</a> 
+<a class="jxr_linenumber" name="150" href="#150">150</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="151" href="#151">151</a>             <a href="../../../../org/apache/omid/tso/TSOServer.html">TSOServer</a> tsoServer = getInitializedTsoServer(config);
+<a class="jxr_linenumber" name="152" href="#152">152</a>             tsoServer.attachShutDownHook();
+<a class="jxr_linenumber" name="153" href="#153">153</a>             tsoServer.startAsync();
+<a class="jxr_linenumber" name="154" href="#154">154</a>             tsoServer.awaitRunning();
+<a class="jxr_linenumber" name="155" href="#155">155</a>             <strong class="jxr_keyword">if</strong> (config.getLowLatency() &amp;&amp;
+<a class="jxr_linenumber" name="156" href="#156">156</a>                     !(config.getCommitTableStoreModule() instanceof HBaseCommitTableStorageModule)) {
+<a class="jxr_linenumber" name="157" href="#157">157</a>                 LOG.error(<span class="jxr_string">"Running low latency mode with memory commit table. Use only with testing!"</span>);
+<a class="jxr_linenumber" name="158" href="#158">158</a>             }
+<a class="jxr_linenumber" name="159" href="#159">159</a>         } <strong class="jxr_keyword">catch</strong> (Exception e) {
+<a class="jxr_linenumber" name="160" href="#160">160</a>             System.out.println(e.getMessage());
+<a class="jxr_linenumber" name="161" href="#161">161</a>             System.exit(-1);
+<a class="jxr_linenumber" name="162" href="#162">162</a>         }
 <a class="jxr_linenumber" name="163" href="#163">163</a> 
-<a class="jxr_linenumber" name="164" href="#164">164</a> }
+<a class="jxr_linenumber" name="164" href="#164">164</a>     }
+<a class="jxr_linenumber" name="165" href="#165">165</a> 
+<a class="jxr_linenumber" name="166" href="#166">166</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

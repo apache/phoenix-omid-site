@@ -78,7 +78,7 @@
 <a class="jxr_linenumber" name="68" href="#68">68</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.BeforeMethod;
 <a class="jxr_linenumber" name="69" href="#69">69</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.Test;
 <a class="jxr_linenumber" name="70" href="#70">70</a>  
-<a class="jxr_linenumber" name="71" href="#71">71</a>  <strong class="jxr_keyword">import</strong> com.google.common.util.concurrent.SettableFuture;
+<a class="jxr_linenumber" name="71" href="#71">71</a>  <strong class="jxr_keyword">import</strong> org.apache.phoenix.thirdparty.com.google.common.util.concurrent.SettableFuture;
 <a class="jxr_linenumber" name="72" href="#72">72</a>  <strong class="jxr_keyword">import</strong> com.google.inject.Guice;
 <a class="jxr_linenumber" name="73" href="#73">73</a>  <strong class="jxr_keyword">import</strong> com.google.inject.Injector;
 <a class="jxr_linenumber" name="74" href="#74">74</a>  
@@ -176,165 +176,167 @@
 <a class="jxr_linenumber" name="166" href="#166">166</a> 
 <a class="jxr_linenumber" name="167" href="#167">167</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> setupTSO() <strong class="jxr_keyword">throws</strong> IOException, InterruptedException {
 <a class="jxr_linenumber" name="168" href="#168">168</a>         tso = injector.getInstance(TSOServer.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="169" href="#169">169</a>         tso.startAndWait();
-<a class="jxr_linenumber" name="170" href="#170">170</a>         TestUtils.waitForSocketListening(<span class="jxr_string">"localhost"</span>, 1235, 100);
-<a class="jxr_linenumber" name="171" href="#171">171</a>         Thread.currentThread().setName(<span class="jxr_string">"UnitTest(s) thread"</span>);
-<a class="jxr_linenumber" name="172" href="#172">172</a>     }
-<a class="jxr_linenumber" name="173" href="#173">173</a> 
-<a class="jxr_linenumber" name="174" href="#174">174</a>     @AfterClass
-<a class="jxr_linenumber" name="175" href="#175">175</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> cleanupTestCompation() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="176" href="#176">176</a>         teardownTSO();
-<a class="jxr_linenumber" name="177" href="#177">177</a>         hbaseCluster.shutdown();
-<a class="jxr_linenumber" name="178" href="#178">178</a>     }
-<a class="jxr_linenumber" name="179" href="#179">179</a> 
-<a class="jxr_linenumber" name="180" href="#180">180</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> teardownTSO() <strong class="jxr_keyword">throws</strong> IOException, InterruptedException {
-<a class="jxr_linenumber" name="181" href="#181">181</a>         tso.stopAndWait();
-<a class="jxr_linenumber" name="182" href="#182">182</a>         TestUtils.waitForSocketNotListening(<span class="jxr_string">"localhost"</span>, 1235, 1000);
-<a class="jxr_linenumber" name="183" href="#183">183</a>     }
-<a class="jxr_linenumber" name="184" href="#184">184</a> 
-<a class="jxr_linenumber" name="185" href="#185">185</a>     @BeforeMethod
-<a class="jxr_linenumber" name="186" href="#186">186</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setupTestCompactionIndividualTest() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="187" href="#187">187</a>         randomGenerator = <strong class="jxr_keyword">new</strong> Random(0xfeedcafeL);
-<a class="jxr_linenumber" name="188" href="#188">188</a>         tm = spy((AbstractTransactionManager) newTransactionManager());
-<a class="jxr_linenumber" name="189" href="#189">189</a>     }
-<a class="jxr_linenumber" name="190" href="#190">190</a> 
-<a class="jxr_linenumber" name="191" href="#191">191</a>     <strong class="jxr_keyword">private</strong> TransactionManager newTransactionManager() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="192" href="#192">192</a>         HBaseOmidClientConfiguration hbaseOmidClientConf = <strong class="jxr_keyword">new</strong> HBaseOmidClientConfiguration();
-<a class="jxr_linenumber" name="193" href="#193">193</a>         hbaseOmidClientConf.setConnectionString(<span class="jxr_string">"localhost:1235"</span>);
-<a class="jxr_linenumber" name="194" href="#194">194</a>         hbaseOmidClientConf.setHBaseConfiguration(hbaseConf);
-<a class="jxr_linenumber" name="195" href="#195">195</a>         CommitTable.Client commitTableClient = commitTable.getClient();
-<a class="jxr_linenumber" name="196" href="#196">196</a>         syncPostCommitter =
-<a class="jxr_linenumber" name="197" href="#197">197</a>                 spy(<strong class="jxr_keyword">new</strong> HBaseSyncPostCommitter(<strong class="jxr_keyword">new</strong> NullMetricsProvider(),commitTableClient, connection));
-<a class="jxr_linenumber" name="198" href="#198">198</a>         <strong class="jxr_keyword">return</strong> HBaseTransactionManager.builder(hbaseOmidClientConf)
-<a class="jxr_linenumber" name="199" href="#199">199</a>                 .postCommitter(syncPostCommitter)
-<a class="jxr_linenumber" name="200" href="#200">200</a>                 .commitTableClient(commitTableClient)
-<a class="jxr_linenumber" name="201" href="#201">201</a>                 .build();
-<a class="jxr_linenumber" name="202" href="#202">202</a>     }
-<a class="jxr_linenumber" name="203" href="#203">203</a> 
-<a class="jxr_linenumber" name="204" href="#204">204</a> 
+<a class="jxr_linenumber" name="169" href="#169">169</a>         tso.startAsync();
+<a class="jxr_linenumber" name="170" href="#170">170</a>         tso.awaitRunning();
+<a class="jxr_linenumber" name="171" href="#171">171</a>         TestUtils.waitForSocketListening(<span class="jxr_string">"localhost"</span>, 1235, 100);
+<a class="jxr_linenumber" name="172" href="#172">172</a>         Thread.currentThread().setName(<span class="jxr_string">"UnitTest(s) thread"</span>);
+<a class="jxr_linenumber" name="173" href="#173">173</a>     }
+<a class="jxr_linenumber" name="174" href="#174">174</a> 
+<a class="jxr_linenumber" name="175" href="#175">175</a>     @AfterClass
+<a class="jxr_linenumber" name="176" href="#176">176</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> cleanupTestCompation() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="177" href="#177">177</a>         teardownTSO();
+<a class="jxr_linenumber" name="178" href="#178">178</a>         hbaseCluster.shutdown();
+<a class="jxr_linenumber" name="179" href="#179">179</a>     }
+<a class="jxr_linenumber" name="180" href="#180">180</a> 
+<a class="jxr_linenumber" name="181" href="#181">181</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> teardownTSO() <strong class="jxr_keyword">throws</strong> IOException, InterruptedException {
+<a class="jxr_linenumber" name="182" href="#182">182</a>         tso.stopAsync();
+<a class="jxr_linenumber" name="183" href="#183">183</a>         tso.awaitTerminated();
+<a class="jxr_linenumber" name="184" href="#184">184</a>         TestUtils.waitForSocketNotListening(<span class="jxr_string">"localhost"</span>, 1235, 1000);
+<a class="jxr_linenumber" name="185" href="#185">185</a>     }
+<a class="jxr_linenumber" name="186" href="#186">186</a> 
+<a class="jxr_linenumber" name="187" href="#187">187</a>     @BeforeMethod
+<a class="jxr_linenumber" name="188" href="#188">188</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> setupTestCompactionIndividualTest() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="189" href="#189">189</a>         randomGenerator = <strong class="jxr_keyword">new</strong> Random(0xfeedcafeL);
+<a class="jxr_linenumber" name="190" href="#190">190</a>         tm = spy((AbstractTransactionManager) newTransactionManager());
+<a class="jxr_linenumber" name="191" href="#191">191</a>     }
+<a class="jxr_linenumber" name="192" href="#192">192</a> 
+<a class="jxr_linenumber" name="193" href="#193">193</a>     <strong class="jxr_keyword">private</strong> TransactionManager newTransactionManager() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="194" href="#194">194</a>         HBaseOmidClientConfiguration hbaseOmidClientConf = <strong class="jxr_keyword">new</strong> HBaseOmidClientConfiguration();
+<a class="jxr_linenumber" name="195" href="#195">195</a>         hbaseOmidClientConf.setConnectionString(<span class="jxr_string">"localhost:1235"</span>);
+<a class="jxr_linenumber" name="196" href="#196">196</a>         hbaseOmidClientConf.setHBaseConfiguration(hbaseConf);
+<a class="jxr_linenumber" name="197" href="#197">197</a>         CommitTable.Client commitTableClient = commitTable.getClient();
+<a class="jxr_linenumber" name="198" href="#198">198</a>         syncPostCommitter =
+<a class="jxr_linenumber" name="199" href="#199">199</a>                 spy(<strong class="jxr_keyword">new</strong> HBaseSyncPostCommitter(<strong class="jxr_keyword">new</strong> NullMetricsProvider(),commitTableClient, connection));
+<a class="jxr_linenumber" name="200" href="#200">200</a>         <strong class="jxr_keyword">return</strong> HBaseTransactionManager.builder(hbaseOmidClientConf)
+<a class="jxr_linenumber" name="201" href="#201">201</a>                 .postCommitter(syncPostCommitter)
+<a class="jxr_linenumber" name="202" href="#202">202</a>                 .commitTableClient(commitTableClient)
+<a class="jxr_linenumber" name="203" href="#203">203</a>                 .build();
+<a class="jxr_linenumber" name="204" href="#204">204</a>     }
 <a class="jxr_linenumber" name="205" href="#205">205</a> 
-<a class="jxr_linenumber" name="206" href="#206">206</a>     @Test(timeOut = 60_000)
-<a class="jxr_linenumber" name="207" href="#207">207</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testRowsUnalteredWhenCommitTableCannotBeReached() <strong class="jxr_keyword">throws</strong> Throwable {
-<a class="jxr_linenumber" name="208" href="#208">208</a>         String TEST_TABLE = <span class="jxr_string">"testRowsUnalteredWhenCommitTableCannotBeReachedLL"</span>;
-<a class="jxr_linenumber" name="209" href="#209">209</a>         createTableIfNotExists(TEST_TABLE, Bytes.toBytes(TEST_FAMILY));
-<a class="jxr_linenumber" name="210" href="#210">210</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE);
-<a class="jxr_linenumber" name="211" href="#211">211</a> 
-<a class="jxr_linenumber" name="212" href="#212">212</a>         <em class="jxr_comment">// The KV in this transaction should be discarded but in the end should remain there because</em>
-<a class="jxr_linenumber" name="213" href="#213">213</a>         <em class="jxr_comment">// the commit table won't be accessed (simulating an error on access)</em>
-<a class="jxr_linenumber" name="214" href="#214">214</a>         HBaseTransaction neverendingTx = (HBaseTransaction) tm.begin();
-<a class="jxr_linenumber" name="215" href="#215">215</a>         <strong class="jxr_keyword">long</strong> rowId = randomGenerator.nextLong();
-<a class="jxr_linenumber" name="216" href="#216">216</a>         Put put = <strong class="jxr_keyword">new</strong> Put(Bytes.toBytes(rowId));
-<a class="jxr_linenumber" name="217" href="#217">217</a>         put.addColumn(fam, qual, data);
-<a class="jxr_linenumber" name="218" href="#218">218</a>         txTable.put(neverendingTx, put);
-<a class="jxr_linenumber" name="219" href="#219">219</a>         assertTrue(CellUtils.hasCell(Bytes.toBytes(rowId), fam, qual, neverendingTx.getStartTimestamp(),
-<a class="jxr_linenumber" name="220" href="#220">220</a>                 <strong class="jxr_keyword">new</strong> TTableCellGetterAdapter(txTable)),
-<a class="jxr_linenumber" name="221" href="#221">221</a>                 <span class="jxr_string">"Cell should be there"</span>);
-<a class="jxr_linenumber" name="222" href="#222">222</a>         assertFalse(CellUtils.hasShadowCell(Bytes.toBytes(rowId), fam, qual, neverendingTx.getStartTimestamp(),
-<a class="jxr_linenumber" name="223" href="#223">223</a>                 <strong class="jxr_keyword">new</strong> TTableCellGetterAdapter(txTable)),
-<a class="jxr_linenumber" name="224" href="#224">224</a>                 <span class="jxr_string">"Shadow cell should not be there"</span>);
-<a class="jxr_linenumber" name="225" href="#225">225</a> 
-<a class="jxr_linenumber" name="226" href="#226">226</a>         assertEquals(rowCount(TEST_TABLE, fam), 1, <span class="jxr_string">"There should be only one rows in table before flushing"</span>);
-<a class="jxr_linenumber" name="227" href="#227">227</a>         LOG.info(<span class="jxr_string">"Flushing table {}"</span>, TEST_TABLE);
-<a class="jxr_linenumber" name="228" href="#228">228</a>         admin.flush(TableName.valueOf(TEST_TABLE));
-<a class="jxr_linenumber" name="229" href="#229">229</a>         assertEquals(rowCount(TEST_TABLE, fam), 1, <span class="jxr_string">"There should be only one rows in table after flushing"</span>);
-<a class="jxr_linenumber" name="230" href="#230">230</a> 
-<a class="jxr_linenumber" name="231" href="#231">231</a>         <em class="jxr_comment">// Break access to CommitTable functionality in Compactor</em>
-<a class="jxr_linenumber" name="232" href="#232">232</a>         LOG.info(<span class="jxr_string">"Regions in table {}: {}"</span>, TEST_TABLE, hbaseCluster.getRegions(Bytes.toBytes(TEST_TABLE)).size());
-<a class="jxr_linenumber" name="233" href="#233">233</a>         OmidCompactor omidCompactor = (OmidCompactor) hbaseCluster.getRegions(Bytes.toBytes(TEST_TABLE)).get(0)
-<a class="jxr_linenumber" name="234" href="#234">234</a>                 .getCoprocessorHost().findCoprocessor(OmidCompactor.<strong class="jxr_keyword">class</strong>.getName());
-<a class="jxr_linenumber" name="235" href="#235">235</a>         CommitTable commitTable = injector.getInstance(CommitTable.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="236" href="#236">236</a>         CommitTable.Client commitTableClient = spy(commitTable.getClient());
-<a class="jxr_linenumber" name="237" href="#237">237</a>         SettableFuture&lt;Long&gt; f = SettableFuture.create();
-<a class="jxr_linenumber" name="238" href="#238">238</a>         f.setException(<strong class="jxr_keyword">new</strong> IOException(<span class="jxr_string">"Unable to read"</span>));
-<a class="jxr_linenumber" name="239" href="#239">239</a>         doReturn(f).when(commitTableClient).readLowWatermark();
-<a class="jxr_linenumber" name="240" href="#240">240</a>         omidCompactor.commitTableClient = commitTableClient;
-<a class="jxr_linenumber" name="241" href="#241">241</a>         LOG.info(<span class="jxr_string">"Compacting table {}"</span>, TEST_TABLE);
-<a class="jxr_linenumber" name="242" href="#242">242</a>         admin.majorCompact(TableName.valueOf(TEST_TABLE)); <em class="jxr_comment">// Should trigger the error when accessing CommitTable funct.</em>
-<a class="jxr_linenumber" name="243" href="#243">243</a> 
-<a class="jxr_linenumber" name="244" href="#244">244</a>         LOG.info(<span class="jxr_string">"Sleeping for 3 secs"</span>);
-<a class="jxr_linenumber" name="245" href="#245">245</a>         Thread.sleep(3000);
-<a class="jxr_linenumber" name="246" href="#246">246</a>         LOG.info(<span class="jxr_string">"Waking up after 3 secs"</span>);
-<a class="jxr_linenumber" name="247" href="#247">247</a> 
-<a class="jxr_linenumber" name="248" href="#248">248</a>         <em class="jxr_comment">// All rows should be there after the failed compaction</em>
-<a class="jxr_linenumber" name="249" href="#249">249</a>         assertEquals(rowCount(TEST_TABLE, fam), 1, <span class="jxr_string">"There should be only one row in table after compacting"</span>);
-<a class="jxr_linenumber" name="250" href="#250">250</a>         assertTrue(CellUtils.hasCell(Bytes.toBytes(rowId), fam, qual, neverendingTx.getStartTimestamp(),
-<a class="jxr_linenumber" name="251" href="#251">251</a>                 <strong class="jxr_keyword">new</strong> TTableCellGetterAdapter(txTable)),
-<a class="jxr_linenumber" name="252" href="#252">252</a>                 <span class="jxr_string">"Cell should be there"</span>);
-<a class="jxr_linenumber" name="253" href="#253">253</a>         assertFalse(CellUtils.hasShadowCell(Bytes.toBytes(rowId), fam, qual, neverendingTx.getStartTimestamp(),
-<a class="jxr_linenumber" name="254" href="#254">254</a>                 <strong class="jxr_keyword">new</strong> TTableCellGetterAdapter(txTable)),
-<a class="jxr_linenumber" name="255" href="#255">255</a>                 <span class="jxr_string">"Shadow cell should not be there"</span>);
-<a class="jxr_linenumber" name="256" href="#256">256</a>     }
-<a class="jxr_linenumber" name="257" href="#257">257</a> 
-<a class="jxr_linenumber" name="258" href="#258">258</a> 
-<a class="jxr_linenumber" name="259" href="#259">259</a>     @Test(timeOut = 60_000)
-<a class="jxr_linenumber" name="260" href="#260">260</a>     <em class="jxr_comment">// test omid-147 in ll mode the scanner should invalidate the transaction</em>
-<a class="jxr_linenumber" name="261" href="#261">261</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCommitTableInvalidation() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="262" href="#262">262</a>         String TEST_TABLE = <span class="jxr_string">"testCommitTableInvalidationLL"</span>;
-<a class="jxr_linenumber" name="263" href="#263">263</a>         createTableIfNotExists(TEST_TABLE, Bytes.toBytes(TEST_FAMILY));
-<a class="jxr_linenumber" name="264" href="#264">264</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE);
-<a class="jxr_linenumber" name="265" href="#265">265</a>         byte[] rowId = Bytes.toBytes(<span class="jxr_string">"row"</span>);
-<a class="jxr_linenumber" name="266" href="#266">266</a> 
-<a class="jxr_linenumber" name="267" href="#267">267</a>         HBaseTransaction tx1 = (HBaseTransaction) tm.begin();
-<a class="jxr_linenumber" name="268" href="#268">268</a>         Put p = <strong class="jxr_keyword">new</strong> Put(rowId);
-<a class="jxr_linenumber" name="269" href="#269">269</a>         p.addColumn(fam, qual, Bytes.toBytes(<span class="jxr_string">"testValue"</span>));
-<a class="jxr_linenumber" name="270" href="#270">270</a>         txTable.put(tx1, p);
-<a class="jxr_linenumber" name="271" href="#271">271</a> 
-<a class="jxr_linenumber" name="272" href="#272">272</a>         HBaseTransaction lwmTx = (HBaseTransaction) tm.begin();
-<a class="jxr_linenumber" name="273" href="#273">273</a>         compactWithLWM(lwmTx.getStartTimestamp(), TEST_TABLE);
-<a class="jxr_linenumber" name="274" href="#274">274</a> 
-<a class="jxr_linenumber" name="275" href="#275">275</a>         <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="276" href="#276">276</a>             <em class="jxr_comment">//give compaction time to invalidate</em>
-<a class="jxr_linenumber" name="277" href="#277">277</a>             Thread.sleep(1000);
-<a class="jxr_linenumber" name="278" href="#278">278</a> 
-<a class="jxr_linenumber" name="279" href="#279">279</a>             tm.commit(tx1);
-<a class="jxr_linenumber" name="280" href="#280">280</a>             fail(<span class="jxr_string">" Should have been invalidated"</span>);
-<a class="jxr_linenumber" name="281" href="#281">281</a>         } <strong class="jxr_keyword">catch</strong> (RollbackException e) {
-<a class="jxr_linenumber" name="282" href="#282">282</a>             e.printStackTrace();
-<a class="jxr_linenumber" name="283" href="#283">283</a>         }
-<a class="jxr_linenumber" name="284" href="#284">284</a>     }
-<a class="jxr_linenumber" name="285" href="#285">285</a> 
-<a class="jxr_linenumber" name="286" href="#286">286</a> 
-<a class="jxr_linenumber" name="287" href="#287">287</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> setCompactorLWM(<strong class="jxr_keyword">long</strong> lwm, String tableName) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="288" href="#288">288</a>         OmidCompactor omidCompactor = (OmidCompactor) hbaseCluster.getRegions(Bytes.toBytes(tableName)).get(0)
-<a class="jxr_linenumber" name="289" href="#289">289</a>                 .getCoprocessorHost().findCoprocessor(OmidCompactor.<strong class="jxr_keyword">class</strong>.getName());
-<a class="jxr_linenumber" name="290" href="#290">290</a>         CommitTable commitTable = injector.getInstance(CommitTable.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="291" href="#291">291</a>         CommitTable.Client commitTableClient = spy(commitTable.getClient());
-<a class="jxr_linenumber" name="292" href="#292">292</a>         SettableFuture&lt;Long&gt; f = SettableFuture.create();
-<a class="jxr_linenumber" name="293" href="#293">293</a>         f.set(lwm);
-<a class="jxr_linenumber" name="294" href="#294">294</a>         doReturn(f).when(commitTableClient).readLowWatermark();
-<a class="jxr_linenumber" name="295" href="#295">295</a>         omidCompactor.commitTableClient = commitTableClient;
-<a class="jxr_linenumber" name="296" href="#296">296</a>     }
-<a class="jxr_linenumber" name="297" href="#297">297</a> 
-<a class="jxr_linenumber" name="298" href="#298">298</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> compactEverything(String tableName) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="299" href="#299">299</a>         compactWithLWM(Long.MAX_VALUE, tableName);
-<a class="jxr_linenumber" name="300" href="#300">300</a>     }
-<a class="jxr_linenumber" name="301" href="#301">301</a> 
-<a class="jxr_linenumber" name="302" href="#302">302</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> compactWithLWM(<strong class="jxr_keyword">long</strong> lwm, String tableName) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="303" href="#303">303</a>         admin.flush(TableName.valueOf(tableName));
-<a class="jxr_linenumber" name="304" href="#304">304</a> 
-<a class="jxr_linenumber" name="305" href="#305">305</a>         LOG.info(<span class="jxr_string">"Regions in table {}: {}"</span>, tableName, hbaseCluster.getRegions(Bytes.toBytes(tableName)).size());
-<a class="jxr_linenumber" name="306" href="#306">306</a>         setCompactorLWM(lwm, tableName);
-<a class="jxr_linenumber" name="307" href="#307">307</a>         LOG.info(<span class="jxr_string">"Compacting table {}"</span>, tableName);
-<a class="jxr_linenumber" name="308" href="#308">308</a>         admin.majorCompact(TableName.valueOf(tableName));
-<a class="jxr_linenumber" name="309" href="#309">309</a> 
-<a class="jxr_linenumber" name="310" href="#310">310</a>         LOG.info(<span class="jxr_string">"Sleeping for 3 secs"</span>);
-<a class="jxr_linenumber" name="311" href="#311">311</a>         Thread.sleep(3000);
-<a class="jxr_linenumber" name="312" href="#312">312</a>         LOG.info(<span class="jxr_string">"Waking up after 3 secs"</span>);
-<a class="jxr_linenumber" name="313" href="#313">313</a>     }
-<a class="jxr_linenumber" name="314" href="#314">314</a> 
-<a class="jxr_linenumber" name="315" href="#315">315</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">long</strong> rowCount(String tableName, byte[] family) <strong class="jxr_keyword">throws</strong> Throwable {
-<a class="jxr_linenumber" name="316" href="#316">316</a>         Scan scan = <strong class="jxr_keyword">new</strong> Scan();
-<a class="jxr_linenumber" name="317" href="#317">317</a>         scan.addFamily(family);
-<a class="jxr_linenumber" name="318" href="#318">318</a>         Table table = connection.getTable(TableName.valueOf(tableName));
-<a class="jxr_linenumber" name="319" href="#319">319</a>         <strong class="jxr_keyword">try</strong> (ResultScanner scanner = table.getScanner(scan)) {
-<a class="jxr_linenumber" name="320" href="#320">320</a>             <strong class="jxr_keyword">int</strong> count = 0;
-<a class="jxr_linenumber" name="321" href="#321">321</a>             <strong class="jxr_keyword">while</strong> (scanner.next() != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="322" href="#322">322</a>                 count++;
-<a class="jxr_linenumber" name="323" href="#323">323</a>             }
-<a class="jxr_linenumber" name="324" href="#324">324</a>             <strong class="jxr_keyword">return</strong> count;
-<a class="jxr_linenumber" name="325" href="#325">325</a>         }
-<a class="jxr_linenumber" name="326" href="#326">326</a>     }
-<a class="jxr_linenumber" name="327" href="#327">327</a> }
+<a class="jxr_linenumber" name="206" href="#206">206</a> 
+<a class="jxr_linenumber" name="207" href="#207">207</a> 
+<a class="jxr_linenumber" name="208" href="#208">208</a>     @Test(timeOut = 60_000)
+<a class="jxr_linenumber" name="209" href="#209">209</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testRowsUnalteredWhenCommitTableCannotBeReached() <strong class="jxr_keyword">throws</strong> Throwable {
+<a class="jxr_linenumber" name="210" href="#210">210</a>         String TEST_TABLE = <span class="jxr_string">"testRowsUnalteredWhenCommitTableCannotBeReachedLL"</span>;
+<a class="jxr_linenumber" name="211" href="#211">211</a>         createTableIfNotExists(TEST_TABLE, Bytes.toBytes(TEST_FAMILY));
+<a class="jxr_linenumber" name="212" href="#212">212</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE);
+<a class="jxr_linenumber" name="213" href="#213">213</a> 
+<a class="jxr_linenumber" name="214" href="#214">214</a>         <em class="jxr_comment">// The KV in this transaction should be discarded but in the end should remain there because</em>
+<a class="jxr_linenumber" name="215" href="#215">215</a>         <em class="jxr_comment">// the commit table won't be accessed (simulating an error on access)</em>
+<a class="jxr_linenumber" name="216" href="#216">216</a>         HBaseTransaction neverendingTx = (HBaseTransaction) tm.begin();
+<a class="jxr_linenumber" name="217" href="#217">217</a>         <strong class="jxr_keyword">long</strong> rowId = randomGenerator.nextLong();
+<a class="jxr_linenumber" name="218" href="#218">218</a>         Put put = <strong class="jxr_keyword">new</strong> Put(Bytes.toBytes(rowId));
+<a class="jxr_linenumber" name="219" href="#219">219</a>         put.addColumn(fam, qual, data);
+<a class="jxr_linenumber" name="220" href="#220">220</a>         txTable.put(neverendingTx, put);
+<a class="jxr_linenumber" name="221" href="#221">221</a>         assertTrue(CellUtils.hasCell(Bytes.toBytes(rowId), fam, qual, neverendingTx.getStartTimestamp(),
+<a class="jxr_linenumber" name="222" href="#222">222</a>                 <strong class="jxr_keyword">new</strong> TTableCellGetterAdapter(txTable)),
+<a class="jxr_linenumber" name="223" href="#223">223</a>                 <span class="jxr_string">"Cell should be there"</span>);
+<a class="jxr_linenumber" name="224" href="#224">224</a>         assertFalse(CellUtils.hasShadowCell(Bytes.toBytes(rowId), fam, qual, neverendingTx.getStartTimestamp(),
+<a class="jxr_linenumber" name="225" href="#225">225</a>                 <strong class="jxr_keyword">new</strong> TTableCellGetterAdapter(txTable)),
+<a class="jxr_linenumber" name="226" href="#226">226</a>                 <span class="jxr_string">"Shadow cell should not be there"</span>);
+<a class="jxr_linenumber" name="227" href="#227">227</a> 
+<a class="jxr_linenumber" name="228" href="#228">228</a>         assertEquals(rowCount(TEST_TABLE, fam), 1, <span class="jxr_string">"There should be only one rows in table before flushing"</span>);
+<a class="jxr_linenumber" name="229" href="#229">229</a>         LOG.info(<span class="jxr_string">"Flushing table {}"</span>, TEST_TABLE);
+<a class="jxr_linenumber" name="230" href="#230">230</a>         admin.flush(TableName.valueOf(TEST_TABLE));
+<a class="jxr_linenumber" name="231" href="#231">231</a>         assertEquals(rowCount(TEST_TABLE, fam), 1, <span class="jxr_string">"There should be only one rows in table after flushing"</span>);
+<a class="jxr_linenumber" name="232" href="#232">232</a> 
+<a class="jxr_linenumber" name="233" href="#233">233</a>         <em class="jxr_comment">// Break access to CommitTable functionality in Compactor</em>
+<a class="jxr_linenumber" name="234" href="#234">234</a>         LOG.info(<span class="jxr_string">"Regions in table {}: {}"</span>, TEST_TABLE, hbaseCluster.getRegions(Bytes.toBytes(TEST_TABLE)).size());
+<a class="jxr_linenumber" name="235" href="#235">235</a>         OmidCompactor omidCompactor = (OmidCompactor) hbaseCluster.getRegions(Bytes.toBytes(TEST_TABLE)).get(0)
+<a class="jxr_linenumber" name="236" href="#236">236</a>                 .getCoprocessorHost().findCoprocessor(OmidCompactor.<strong class="jxr_keyword">class</strong>.getName());
+<a class="jxr_linenumber" name="237" href="#237">237</a>         CommitTable commitTable = injector.getInstance(CommitTable.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="238" href="#238">238</a>         CommitTable.Client commitTableClient = spy(commitTable.getClient());
+<a class="jxr_linenumber" name="239" href="#239">239</a>         SettableFuture&lt;Long&gt; f = SettableFuture.create();
+<a class="jxr_linenumber" name="240" href="#240">240</a>         f.setException(<strong class="jxr_keyword">new</strong> IOException(<span class="jxr_string">"Unable to read"</span>));
+<a class="jxr_linenumber" name="241" href="#241">241</a>         doReturn(f).when(commitTableClient).readLowWatermark();
+<a class="jxr_linenumber" name="242" href="#242">242</a>         omidCompactor.commitTableClient = commitTableClient;
+<a class="jxr_linenumber" name="243" href="#243">243</a>         LOG.info(<span class="jxr_string">"Compacting table {}"</span>, TEST_TABLE);
+<a class="jxr_linenumber" name="244" href="#244">244</a>         admin.majorCompact(TableName.valueOf(TEST_TABLE)); <em class="jxr_comment">// Should trigger the error when accessing CommitTable funct.</em>
+<a class="jxr_linenumber" name="245" href="#245">245</a> 
+<a class="jxr_linenumber" name="246" href="#246">246</a>         LOG.info(<span class="jxr_string">"Sleeping for 3 secs"</span>);
+<a class="jxr_linenumber" name="247" href="#247">247</a>         Thread.sleep(3000);
+<a class="jxr_linenumber" name="248" href="#248">248</a>         LOG.info(<span class="jxr_string">"Waking up after 3 secs"</span>);
+<a class="jxr_linenumber" name="249" href="#249">249</a> 
+<a class="jxr_linenumber" name="250" href="#250">250</a>         <em class="jxr_comment">// All rows should be there after the failed compaction</em>
+<a class="jxr_linenumber" name="251" href="#251">251</a>         assertEquals(rowCount(TEST_TABLE, fam), 1, <span class="jxr_string">"There should be only one row in table after compacting"</span>);
+<a class="jxr_linenumber" name="252" href="#252">252</a>         assertTrue(CellUtils.hasCell(Bytes.toBytes(rowId), fam, qual, neverendingTx.getStartTimestamp(),
+<a class="jxr_linenumber" name="253" href="#253">253</a>                 <strong class="jxr_keyword">new</strong> TTableCellGetterAdapter(txTable)),
+<a class="jxr_linenumber" name="254" href="#254">254</a>                 <span class="jxr_string">"Cell should be there"</span>);
+<a class="jxr_linenumber" name="255" href="#255">255</a>         assertFalse(CellUtils.hasShadowCell(Bytes.toBytes(rowId), fam, qual, neverendingTx.getStartTimestamp(),
+<a class="jxr_linenumber" name="256" href="#256">256</a>                 <strong class="jxr_keyword">new</strong> TTableCellGetterAdapter(txTable)),
+<a class="jxr_linenumber" name="257" href="#257">257</a>                 <span class="jxr_string">"Shadow cell should not be there"</span>);
+<a class="jxr_linenumber" name="258" href="#258">258</a>     }
+<a class="jxr_linenumber" name="259" href="#259">259</a> 
+<a class="jxr_linenumber" name="260" href="#260">260</a> 
+<a class="jxr_linenumber" name="261" href="#261">261</a>     @Test(timeOut = 60_000)
+<a class="jxr_linenumber" name="262" href="#262">262</a>     <em class="jxr_comment">// test omid-147 in ll mode the scanner should invalidate the transaction</em>
+<a class="jxr_linenumber" name="263" href="#263">263</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testCommitTableInvalidation() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="264" href="#264">264</a>         String TEST_TABLE = <span class="jxr_string">"testCommitTableInvalidationLL"</span>;
+<a class="jxr_linenumber" name="265" href="#265">265</a>         createTableIfNotExists(TEST_TABLE, Bytes.toBytes(TEST_FAMILY));
+<a class="jxr_linenumber" name="266" href="#266">266</a>         TTable txTable = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE);
+<a class="jxr_linenumber" name="267" href="#267">267</a>         byte[] rowId = Bytes.toBytes(<span class="jxr_string">"row"</span>);
+<a class="jxr_linenumber" name="268" href="#268">268</a> 
+<a class="jxr_linenumber" name="269" href="#269">269</a>         HBaseTransaction tx1 = (HBaseTransaction) tm.begin();
+<a class="jxr_linenumber" name="270" href="#270">270</a>         Put p = <strong class="jxr_keyword">new</strong> Put(rowId);
+<a class="jxr_linenumber" name="271" href="#271">271</a>         p.addColumn(fam, qual, Bytes.toBytes(<span class="jxr_string">"testValue"</span>));
+<a class="jxr_linenumber" name="272" href="#272">272</a>         txTable.put(tx1, p);
+<a class="jxr_linenumber" name="273" href="#273">273</a> 
+<a class="jxr_linenumber" name="274" href="#274">274</a>         HBaseTransaction lwmTx = (HBaseTransaction) tm.begin();
+<a class="jxr_linenumber" name="275" href="#275">275</a>         compactWithLWM(lwmTx.getStartTimestamp(), TEST_TABLE);
+<a class="jxr_linenumber" name="276" href="#276">276</a> 
+<a class="jxr_linenumber" name="277" href="#277">277</a>         <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="278" href="#278">278</a>             <em class="jxr_comment">//give compaction time to invalidate</em>
+<a class="jxr_linenumber" name="279" href="#279">279</a>             Thread.sleep(1000);
+<a class="jxr_linenumber" name="280" href="#280">280</a> 
+<a class="jxr_linenumber" name="281" href="#281">281</a>             tm.commit(tx1);
+<a class="jxr_linenumber" name="282" href="#282">282</a>             fail(<span class="jxr_string">" Should have been invalidated"</span>);
+<a class="jxr_linenumber" name="283" href="#283">283</a>         } <strong class="jxr_keyword">catch</strong> (RollbackException e) {
+<a class="jxr_linenumber" name="284" href="#284">284</a>             e.printStackTrace();
+<a class="jxr_linenumber" name="285" href="#285">285</a>         }
+<a class="jxr_linenumber" name="286" href="#286">286</a>     }
+<a class="jxr_linenumber" name="287" href="#287">287</a> 
+<a class="jxr_linenumber" name="288" href="#288">288</a> 
+<a class="jxr_linenumber" name="289" href="#289">289</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> setCompactorLWM(<strong class="jxr_keyword">long</strong> lwm, String tableName) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="290" href="#290">290</a>         OmidCompactor omidCompactor = (OmidCompactor) hbaseCluster.getRegions(Bytes.toBytes(tableName)).get(0)
+<a class="jxr_linenumber" name="291" href="#291">291</a>                 .getCoprocessorHost().findCoprocessor(OmidCompactor.<strong class="jxr_keyword">class</strong>.getName());
+<a class="jxr_linenumber" name="292" href="#292">292</a>         CommitTable commitTable = injector.getInstance(CommitTable.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="293" href="#293">293</a>         CommitTable.Client commitTableClient = spy(commitTable.getClient());
+<a class="jxr_linenumber" name="294" href="#294">294</a>         SettableFuture&lt;Long&gt; f = SettableFuture.create();
+<a class="jxr_linenumber" name="295" href="#295">295</a>         f.set(lwm);
+<a class="jxr_linenumber" name="296" href="#296">296</a>         doReturn(f).when(commitTableClient).readLowWatermark();
+<a class="jxr_linenumber" name="297" href="#297">297</a>         omidCompactor.commitTableClient = commitTableClient;
+<a class="jxr_linenumber" name="298" href="#298">298</a>     }
+<a class="jxr_linenumber" name="299" href="#299">299</a> 
+<a class="jxr_linenumber" name="300" href="#300">300</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> compactEverything(String tableName) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="301" href="#301">301</a>         compactWithLWM(Long.MAX_VALUE, tableName);
+<a class="jxr_linenumber" name="302" href="#302">302</a>     }
+<a class="jxr_linenumber" name="303" href="#303">303</a> 
+<a class="jxr_linenumber" name="304" href="#304">304</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> compactWithLWM(<strong class="jxr_keyword">long</strong> lwm, String tableName) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="305" href="#305">305</a>         admin.flush(TableName.valueOf(tableName));
+<a class="jxr_linenumber" name="306" href="#306">306</a> 
+<a class="jxr_linenumber" name="307" href="#307">307</a>         LOG.info(<span class="jxr_string">"Regions in table {}: {}"</span>, tableName, hbaseCluster.getRegions(Bytes.toBytes(tableName)).size());
+<a class="jxr_linenumber" name="308" href="#308">308</a>         setCompactorLWM(lwm, tableName);
+<a class="jxr_linenumber" name="309" href="#309">309</a>         LOG.info(<span class="jxr_string">"Compacting table {}"</span>, tableName);
+<a class="jxr_linenumber" name="310" href="#310">310</a>         admin.majorCompact(TableName.valueOf(tableName));
+<a class="jxr_linenumber" name="311" href="#311">311</a> 
+<a class="jxr_linenumber" name="312" href="#312">312</a>         LOG.info(<span class="jxr_string">"Sleeping for 3 secs"</span>);
+<a class="jxr_linenumber" name="313" href="#313">313</a>         Thread.sleep(3000);
+<a class="jxr_linenumber" name="314" href="#314">314</a>         LOG.info(<span class="jxr_string">"Waking up after 3 secs"</span>);
+<a class="jxr_linenumber" name="315" href="#315">315</a>     }
+<a class="jxr_linenumber" name="316" href="#316">316</a> 
+<a class="jxr_linenumber" name="317" href="#317">317</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">long</strong> rowCount(String tableName, byte[] family) <strong class="jxr_keyword">throws</strong> Throwable {
+<a class="jxr_linenumber" name="318" href="#318">318</a>         Scan scan = <strong class="jxr_keyword">new</strong> Scan();
+<a class="jxr_linenumber" name="319" href="#319">319</a>         scan.addFamily(family);
+<a class="jxr_linenumber" name="320" href="#320">320</a>         Table table = connection.getTable(TableName.valueOf(tableName));
+<a class="jxr_linenumber" name="321" href="#321">321</a>         <strong class="jxr_keyword">try</strong> (ResultScanner scanner = table.getScanner(scan)) {
+<a class="jxr_linenumber" name="322" href="#322">322</a>             <strong class="jxr_keyword">int</strong> count = 0;
+<a class="jxr_linenumber" name="323" href="#323">323</a>             <strong class="jxr_keyword">while</strong> (scanner.next() != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="324" href="#324">324</a>                 count++;
+<a class="jxr_linenumber" name="325" href="#325">325</a>             }
+<a class="jxr_linenumber" name="326" href="#326">326</a>             <strong class="jxr_keyword">return</strong> count;
+<a class="jxr_linenumber" name="327" href="#327">327</a>         }
+<a class="jxr_linenumber" name="328" href="#328">328</a>     }
+<a class="jxr_linenumber" name="329" href="#329">329</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>

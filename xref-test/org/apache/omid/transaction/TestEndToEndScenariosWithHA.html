@@ -62,7 +62,7 @@
 <a class="jxr_linenumber" name="52" href="#52">52</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.BeforeMethod;
 <a class="jxr_linenumber" name="53" href="#53">53</a>  <strong class="jxr_keyword">import</strong> org.testng.annotations.Test;
 <a class="jxr_linenumber" name="54" href="#54">54</a>  
-<a class="jxr_linenumber" name="55" href="#55">55</a>  <strong class="jxr_keyword">import</strong> com.google.common.base.Charsets;
+<a class="jxr_linenumber" name="55" href="#55">55</a>  <strong class="jxr_keyword">import</strong> org.apache.phoenix.thirdparty.com.google.common.base.Charsets;
 <a class="jxr_linenumber" name="56" href="#56">56</a>  <strong class="jxr_keyword">import</strong> com.google.inject.Guice;
 <a class="jxr_linenumber" name="57" href="#57">57</a>  <strong class="jxr_keyword">import</strong> com.google.inject.Injector;
 <a class="jxr_linenumber" name="58" href="#58">58</a>  
@@ -132,295 +132,300 @@
 <a class="jxr_linenumber" name="122" href="#122">122</a>         LOG.info(<span class="jxr_string">"===================== Starting TSO 1 ====================="</span>);
 <a class="jxr_linenumber" name="123" href="#123">123</a>         tso1 = injector1.getInstance(TSOServer.<strong class="jxr_keyword">class</strong>);
 <a class="jxr_linenumber" name="124" href="#124">124</a>         leaseManager1 = (PausableLeaseManager) injector1.getInstance(LeaseManagement.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="125" href="#125">125</a>         tso1.startAndWait();
-<a class="jxr_linenumber" name="126" href="#126">126</a>         TestUtils.waitForSocketListening(<span class="jxr_string">"localhost"</span>, TSO1_PORT, 100);
-<a class="jxr_linenumber" name="127" href="#127">127</a>         LOG.info(<span class="jxr_string">"================ Finished loading TSO 1 =================="</span>);
-<a class="jxr_linenumber" name="128" href="#128">128</a> 
-<a class="jxr_linenumber" name="129" href="#129">129</a>         <em class="jxr_comment">// Configure TSO 2</em>
-<a class="jxr_linenumber" name="130" href="#130">130</a>         TSOServerConfig config2 = <strong class="jxr_keyword">new</strong> TSOServerConfig();
-<a class="jxr_linenumber" name="131" href="#131">131</a>         config2.setPort(TSO2_PORT);
-<a class="jxr_linenumber" name="132" href="#132">132</a>         config2.setConflictMapSize(1000);
-<a class="jxr_linenumber" name="133" href="#133">133</a>         config2.setLeaseModule(<strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/TestHALeaseManagementModule.html">TestHALeaseManagementModule</a>(TEST_LEASE_PERIOD_MS, TSO_LEASE_PATH, CURRENT_TSO_PATH, zkConnection, NAMESPACE));
-<a class="jxr_linenumber" name="134" href="#134">134</a>         Injector injector2 = Guice.createInjector(<strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/TestTSOModule.html">TestTSOModule</a>(hbaseConf, config2));
-<a class="jxr_linenumber" name="135" href="#135">135</a>         LOG.info(<span class="jxr_string">"===================== Starting TSO 2 ====================="</span>);
-<a class="jxr_linenumber" name="136" href="#136">136</a>         tso2 = injector2.getInstance(TSOServer.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="137" href="#137">137</a>         injector2.getInstance(LeaseManagement.<strong class="jxr_keyword">class</strong>);
-<a class="jxr_linenumber" name="138" href="#138">138</a>         tso2.startAndWait();
-<a class="jxr_linenumber" name="139" href="#139">139</a>         <em class="jxr_comment">// Don't do this here: TestUtils.waitForSocketListening("localhost", 4321, 100);</em>
-<a class="jxr_linenumber" name="140" href="#140">140</a>         LOG.info(<span class="jxr_string">"================ Finished loading TSO 2 =================="</span>);
-<a class="jxr_linenumber" name="141" href="#141">141</a> 
-<a class="jxr_linenumber" name="142" href="#142">142</a>         <em class="jxr_comment">// Wait till the master TSO is up</em>
-<a class="jxr_linenumber" name="143" href="#143">143</a>         barrierTillTSOAddressPublication.await();
-<a class="jxr_linenumber" name="144" href="#144">144</a>         currentTSOZNode.close();
-<a class="jxr_linenumber" name="145" href="#145">145</a> 
-<a class="jxr_linenumber" name="146" href="#146">146</a>         <em class="jxr_comment">// Configure HBase TM</em>
-<a class="jxr_linenumber" name="147" href="#147">147</a>         LOG.info(<span class="jxr_string">"===================== Starting TM ====================="</span>);
-<a class="jxr_linenumber" name="148" href="#148">148</a>         HBaseOmidClientConfiguration hbaseOmidClientConf = <strong class="jxr_keyword">new</strong> HBaseOmidClientConfiguration();
-<a class="jxr_linenumber" name="149" href="#149">149</a>         hbaseOmidClientConf.setConnectionType(HA);
-<a class="jxr_linenumber" name="150" href="#150">150</a>         hbaseOmidClientConf.setConnectionString(zkConnection);
-<a class="jxr_linenumber" name="151" href="#151">151</a>         hbaseOmidClientConf.getOmidClientConfiguration().setZkCurrentTsoPath(CURRENT_TSO_PATH);
-<a class="jxr_linenumber" name="152" href="#152">152</a>         hbaseOmidClientConf.getOmidClientConfiguration().setZkNamespace(NAMESPACE);
-<a class="jxr_linenumber" name="153" href="#153">153</a>         hbaseOmidClientConf.setHBaseConfiguration(hbaseConf);
-<a class="jxr_linenumber" name="154" href="#154">154</a>         hbaseConf.setInt(HBASE_CLIENT_RETRIES_NUMBER, 3);
-<a class="jxr_linenumber" name="155" href="#155">155</a>         tm = HBaseTransactionManager.builder(hbaseOmidClientConf).build();
-<a class="jxr_linenumber" name="156" href="#156">156</a>         LOG.info(<span class="jxr_string">"===================== TM Started ========================="</span>);
-<a class="jxr_linenumber" name="157" href="#157">157</a>     }
-<a class="jxr_linenumber" name="158" href="#158">158</a> 
-<a class="jxr_linenumber" name="159" href="#159">159</a> 
-<a class="jxr_linenumber" name="160" href="#160">160</a>     @AfterMethod(alwaysRun = <strong class="jxr_keyword">true</strong>, timeOut = 60_000)
-<a class="jxr_linenumber" name="161" href="#161">161</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> cleanup() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="162" href="#162">162</a>         LOG.info(<span class="jxr_string">"Cleanup"</span>);
-<a class="jxr_linenumber" name="163" href="#163">163</a>         HBaseAdmin admin = hBaseUtils.getHBaseAdmin();
-<a class="jxr_linenumber" name="164" href="#164">164</a>         deleteTable(admin, TableName.valueOf(DEFAULT_TIMESTAMP_STORAGE_TABLE_NAME));
-<a class="jxr_linenumber" name="165" href="#165">165</a>         hBaseUtils.createTable(TableName.valueOf((DEFAULT_TIMESTAMP_STORAGE_TABLE_NAME)),
-<a class="jxr_linenumber" name="166" href="#166">166</a>                                <strong class="jxr_keyword">new</strong> byte[][]{DEFAULT_TIMESTAMP_STORAGE_CF_NAME.getBytes()},
-<a class="jxr_linenumber" name="167" href="#167">167</a>                                Integer.MAX_VALUE);
-<a class="jxr_linenumber" name="168" href="#168">168</a>         tso1.stopAndWait();
-<a class="jxr_linenumber" name="169" href="#169">169</a>         TestUtils.waitForSocketNotListening(<span class="jxr_string">"localhost"</span>, TSO1_PORT, 100);
-<a class="jxr_linenumber" name="170" href="#170">170</a>         tso2.stopAndWait();
-<a class="jxr_linenumber" name="171" href="#171">171</a>         TestUtils.waitForSocketNotListening(<span class="jxr_string">"localhost"</span>, TSO2_PORT, 100);
-<a class="jxr_linenumber" name="172" href="#172">172</a> 
-<a class="jxr_linenumber" name="173" href="#173">173</a>         zkClient.delete().forPath(TSO_LEASE_PATH);
-<a class="jxr_linenumber" name="174" href="#174">174</a>         LOG.info(<span class="jxr_string">"ZKPath {} deleted"</span>, TSO_LEASE_PATH);
-<a class="jxr_linenumber" name="175" href="#175">175</a>         zkClient.delete().forPath(CURRENT_TSO_PATH);
-<a class="jxr_linenumber" name="176" href="#176">176</a>         LOG.info(<span class="jxr_string">"ZKPaths {} deleted"</span>, CURRENT_TSO_PATH);
-<a class="jxr_linenumber" name="177" href="#177">177</a> 
-<a class="jxr_linenumber" name="178" href="#178">178</a>         zkClient.close();
-<a class="jxr_linenumber" name="179" href="#179">179</a>     }
-<a class="jxr_linenumber" name="180" href="#180">180</a> 
-<a class="jxr_linenumber" name="181" href="#181">181</a>     <em class="jxr_comment">//</em>
-<a class="jxr_linenumber" name="182" href="#182">182</a>     <em class="jxr_comment">// TSO 1 is MASTER &amp; TSO 2 is BACKUP</em>
-<a class="jxr_linenumber" name="183" href="#183">183</a>     <em class="jxr_comment">// Setup: TX 0 -&gt; Add initial data to cells R1C1 (v0) &amp; R2C2 (v0)</em>
-<a class="jxr_linenumber" name="184" href="#184">184</a>     <em class="jxr_comment">// TX 1 starts (TSO1)</em>
-<a class="jxr_linenumber" name="185" href="#185">185</a>     <em class="jxr_comment">// TX 1 modifies cells R1C1 &amp; R2C2 (v1)</em>
-<a class="jxr_linenumber" name="186" href="#186">186</a>     <em class="jxr_comment">// Interleaved Read TX -IR TX- starts (TSO1)</em>
-<a class="jxr_linenumber" name="187" href="#187">187</a>     <em class="jxr_comment">// TSO 1 PAUSES -&gt; TSO 2 becomes MASTER</em>
-<a class="jxr_linenumber" name="188" href="#188">188</a>     <em class="jxr_comment">// IR TX reads R1C1 -&gt; should get v0</em>
-<a class="jxr_linenumber" name="189" href="#189">189</a>     <em class="jxr_comment">// TX 1 tries to commit -&gt; should abort because was started in TSO 1</em>
-<a class="jxr_linenumber" name="190" href="#190">190</a>     <em class="jxr_comment">// IR TX reads R2C2 -&gt; should get v0</em>
-<a class="jxr_linenumber" name="191" href="#191">191</a>     <em class="jxr_comment">// IR TX tries to commit -&gt; should abort because was started in TSO 1</em>
-<a class="jxr_linenumber" name="192" href="#192">192</a>     <em class="jxr_comment">// End of Test state: R1C1 &amp; R2C2 (v0)</em>
-<a class="jxr_linenumber" name="193" href="#193">193</a>     @Test(timeOut = 60_000)
-<a class="jxr_linenumber" name="194" href="#194">194</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testScenario1() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="195" href="#195">195</a>         <strong class="jxr_keyword">try</strong> (TTable txTable = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE)) {
-<a class="jxr_linenumber" name="196" href="#196">196</a> 
-<a class="jxr_linenumber" name="197" href="#197">197</a>             <em class="jxr_comment">// Write initial values for the test</em>
-<a class="jxr_linenumber" name="198" href="#198">198</a>             HBaseTransaction tx0 = (HBaseTransaction) tm.begin();
-<a class="jxr_linenumber" name="199" href="#199">199</a>             <strong class="jxr_keyword">long</strong> initialEpoch = tx0.getEpoch();
-<a class="jxr_linenumber" name="200" href="#200">200</a>             LOG.info(<span class="jxr_string">"Starting Tx {} writing initial values for cells ({}) "</span>, tx0, Bytes.toString(initialData));
-<a class="jxr_linenumber" name="201" href="#201">201</a>             Put putInitialDataRow1 = <strong class="jxr_keyword">new</strong> Put(row1);
-<a class="jxr_linenumber" name="202" href="#202">202</a>             putInitialDataRow1.addColumn(TEST_FAMILY.getBytes(), qualifier1, initialData);
-<a class="jxr_linenumber" name="203" href="#203">203</a>             txTable.put(tx0, putInitialDataRow1);
-<a class="jxr_linenumber" name="204" href="#204">204</a>             Put putInitialDataRow2 = <strong class="jxr_keyword">new</strong> Put(row2);
-<a class="jxr_linenumber" name="205" href="#205">205</a>             putInitialDataRow2.addColumn(TEST_FAMILY.getBytes(), qualifier2, initialData);
-<a class="jxr_linenumber" name="206" href="#206">206</a>             txTable.put(tx0, putInitialDataRow2);
-<a class="jxr_linenumber" name="207" href="#207">207</a>             tm.commit(tx0);
-<a class="jxr_linenumber" name="208" href="#208">208</a> 
-<a class="jxr_linenumber" name="209" href="#209">209</a>             <em class="jxr_comment">// Initial checks</em>
-<a class="jxr_linenumber" name="210" href="#210">210</a>             checkRowValues(txTable, initialData, initialData);
-<a class="jxr_linenumber" name="211" href="#211">211</a> 
-<a class="jxr_linenumber" name="212" href="#212">212</a>             HBaseTransaction tx1 = (HBaseTransaction) tm.begin();
-<a class="jxr_linenumber" name="213" href="#213">213</a>             LOG.info(<span class="jxr_string">"Starting Tx {} writing values for cells ({}, {}) "</span>, tx1, Bytes.toString(data1_q1),
-<a class="jxr_linenumber" name="214" href="#214">214</a>                      Bytes.toString(data1_q2));
-<a class="jxr_linenumber" name="215" href="#215">215</a>             Put putData1R1Q1 = <strong class="jxr_keyword">new</strong> Put(row1);
-<a class="jxr_linenumber" name="216" href="#216">216</a>             putData1R1Q1.addColumn(TEST_FAMILY.getBytes(), qualifier1, data1_q1);
-<a class="jxr_linenumber" name="217" href="#217">217</a>             txTable.put(tx1, putData1R1Q1);
-<a class="jxr_linenumber" name="218" href="#218">218</a>             Put putData1R2Q2 = <strong class="jxr_keyword">new</strong> Put(row2);
-<a class="jxr_linenumber" name="219" href="#219">219</a>             putData1R2Q2.addColumn(TEST_FAMILY.getBytes(), qualifier2, data1_q2);
-<a class="jxr_linenumber" name="220" href="#220">220</a>             txTable.put(tx1, putData1R2Q2);
-<a class="jxr_linenumber" name="221" href="#221">221</a> 
-<a class="jxr_linenumber" name="222" href="#222">222</a>             Transaction interleavedReadTx = tm.begin();
-<a class="jxr_linenumber" name="223" href="#223">223</a> 
-<a class="jxr_linenumber" name="224" href="#224">224</a>             LOG.info(<span class="jxr_string">"Starting Interleaving Read Tx {} for checking cell values"</span>, interleavedReadTx.getTransactionId());
+<a class="jxr_linenumber" name="125" href="#125">125</a>         tso1.startAsync();
+<a class="jxr_linenumber" name="126" href="#126">126</a>         tso1.awaitRunning();
+<a class="jxr_linenumber" name="127" href="#127">127</a>         TestUtils.waitForSocketListening(<span class="jxr_string">"localhost"</span>, TSO1_PORT, 100);
+<a class="jxr_linenumber" name="128" href="#128">128</a>         LOG.info(<span class="jxr_string">"================ Finished loading TSO 1 =================="</span>);
+<a class="jxr_linenumber" name="129" href="#129">129</a> 
+<a class="jxr_linenumber" name="130" href="#130">130</a>         <em class="jxr_comment">// Configure TSO 2</em>
+<a class="jxr_linenumber" name="131" href="#131">131</a>         TSOServerConfig config2 = <strong class="jxr_keyword">new</strong> TSOServerConfig();
+<a class="jxr_linenumber" name="132" href="#132">132</a>         config2.setPort(TSO2_PORT);
+<a class="jxr_linenumber" name="133" href="#133">133</a>         config2.setConflictMapSize(1000);
+<a class="jxr_linenumber" name="134" href="#134">134</a>         config2.setLeaseModule(<strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/TestHALeaseManagementModule.html">TestHALeaseManagementModule</a>(TEST_LEASE_PERIOD_MS, TSO_LEASE_PATH, CURRENT_TSO_PATH, zkConnection, NAMESPACE));
+<a class="jxr_linenumber" name="135" href="#135">135</a>         Injector injector2 = Guice.createInjector(<strong class="jxr_keyword">new</strong> <a href="../../../../org/apache/omid/transaction/TestTSOModule.html">TestTSOModule</a>(hbaseConf, config2));
+<a class="jxr_linenumber" name="136" href="#136">136</a>         LOG.info(<span class="jxr_string">"===================== Starting TSO 2 ====================="</span>);
+<a class="jxr_linenumber" name="137" href="#137">137</a>         tso2 = injector2.getInstance(TSOServer.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="138" href="#138">138</a>         injector2.getInstance(LeaseManagement.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="139" href="#139">139</a>         tso2.startAsync();
+<a class="jxr_linenumber" name="140" href="#140">140</a>         tso2.awaitRunning();
+<a class="jxr_linenumber" name="141" href="#141">141</a>         <em class="jxr_comment">// Don't do this here: TestUtils.waitForSocketListening("localhost", 4321, 100);</em>
+<a class="jxr_linenumber" name="142" href="#142">142</a>         LOG.info(<span class="jxr_string">"================ Finished loading TSO 2 =================="</span>);
+<a class="jxr_linenumber" name="143" href="#143">143</a> 
+<a class="jxr_linenumber" name="144" href="#144">144</a>         <em class="jxr_comment">// Wait till the master TSO is up</em>
+<a class="jxr_linenumber" name="145" href="#145">145</a>         barrierTillTSOAddressPublication.await();
+<a class="jxr_linenumber" name="146" href="#146">146</a>         currentTSOZNode.close();
+<a class="jxr_linenumber" name="147" href="#147">147</a> 
+<a class="jxr_linenumber" name="148" href="#148">148</a>         <em class="jxr_comment">// Configure HBase TM</em>
+<a class="jxr_linenumber" name="149" href="#149">149</a>         LOG.info(<span class="jxr_string">"===================== Starting TM ====================="</span>);
+<a class="jxr_linenumber" name="150" href="#150">150</a>         HBaseOmidClientConfiguration hbaseOmidClientConf = <strong class="jxr_keyword">new</strong> HBaseOmidClientConfiguration();
+<a class="jxr_linenumber" name="151" href="#151">151</a>         hbaseOmidClientConf.setConnectionType(HA);
+<a class="jxr_linenumber" name="152" href="#152">152</a>         hbaseOmidClientConf.setConnectionString(zkConnection);
+<a class="jxr_linenumber" name="153" href="#153">153</a>         hbaseOmidClientConf.getOmidClientConfiguration().setZkCurrentTsoPath(CURRENT_TSO_PATH);
+<a class="jxr_linenumber" name="154" href="#154">154</a>         hbaseOmidClientConf.getOmidClientConfiguration().setZkNamespace(NAMESPACE);
+<a class="jxr_linenumber" name="155" href="#155">155</a>         hbaseOmidClientConf.setHBaseConfiguration(hbaseConf);
+<a class="jxr_linenumber" name="156" href="#156">156</a>         hbaseConf.setInt(HBASE_CLIENT_RETRIES_NUMBER, 3);
+<a class="jxr_linenumber" name="157" href="#157">157</a>         tm = HBaseTransactionManager.builder(hbaseOmidClientConf).build();
+<a class="jxr_linenumber" name="158" href="#158">158</a>         LOG.info(<span class="jxr_string">"===================== TM Started ========================="</span>);
+<a class="jxr_linenumber" name="159" href="#159">159</a>     }
+<a class="jxr_linenumber" name="160" href="#160">160</a> 
+<a class="jxr_linenumber" name="161" href="#161">161</a> 
+<a class="jxr_linenumber" name="162" href="#162">162</a>     @AfterMethod(alwaysRun = <strong class="jxr_keyword">true</strong>, timeOut = 60_000)
+<a class="jxr_linenumber" name="163" href="#163">163</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> cleanup() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="164" href="#164">164</a>         LOG.info(<span class="jxr_string">"Cleanup"</span>);
+<a class="jxr_linenumber" name="165" href="#165">165</a>         HBaseAdmin admin = hBaseUtils.getHBaseAdmin();
+<a class="jxr_linenumber" name="166" href="#166">166</a>         deleteTable(admin, TableName.valueOf(DEFAULT_TIMESTAMP_STORAGE_TABLE_NAME));
+<a class="jxr_linenumber" name="167" href="#167">167</a>         hBaseUtils.createTable(TableName.valueOf((DEFAULT_TIMESTAMP_STORAGE_TABLE_NAME)),
+<a class="jxr_linenumber" name="168" href="#168">168</a>                                <strong class="jxr_keyword">new</strong> byte[][]{DEFAULT_TIMESTAMP_STORAGE_CF_NAME.getBytes()},
+<a class="jxr_linenumber" name="169" href="#169">169</a>                                Integer.MAX_VALUE);
+<a class="jxr_linenumber" name="170" href="#170">170</a>         tso1.stopAsync();
+<a class="jxr_linenumber" name="171" href="#171">171</a>         tso1.awaitTerminated();
+<a class="jxr_linenumber" name="172" href="#172">172</a>         TestUtils.waitForSocketNotListening(<span class="jxr_string">"localhost"</span>, TSO1_PORT, 100);
+<a class="jxr_linenumber" name="173" href="#173">173</a>         tso2.stopAsync();
+<a class="jxr_linenumber" name="174" href="#174">174</a>         tso2.awaitTerminated();
+<a class="jxr_linenumber" name="175" href="#175">175</a>         TestUtils.waitForSocketNotListening(<span class="jxr_string">"localhost"</span>, TSO2_PORT, 100);
+<a class="jxr_linenumber" name="176" href="#176">176</a> 
+<a class="jxr_linenumber" name="177" href="#177">177</a>         zkClient.delete().forPath(TSO_LEASE_PATH);
+<a class="jxr_linenumber" name="178" href="#178">178</a>         LOG.info(<span class="jxr_string">"ZKPath {} deleted"</span>, TSO_LEASE_PATH);
+<a class="jxr_linenumber" name="179" href="#179">179</a>         zkClient.delete().forPath(CURRENT_TSO_PATH);
+<a class="jxr_linenumber" name="180" href="#180">180</a>         LOG.info(<span class="jxr_string">"ZKPaths {} deleted"</span>, CURRENT_TSO_PATH);
+<a class="jxr_linenumber" name="181" href="#181">181</a> 
+<a class="jxr_linenumber" name="182" href="#182">182</a>         zkClient.close();
+<a class="jxr_linenumber" name="183" href="#183">183</a>     }
+<a class="jxr_linenumber" name="184" href="#184">184</a> 
+<a class="jxr_linenumber" name="185" href="#185">185</a>     <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="186" href="#186">186</a>     <em class="jxr_comment">// TSO 1 is MASTER &amp; TSO 2 is BACKUP</em>
+<a class="jxr_linenumber" name="187" href="#187">187</a>     <em class="jxr_comment">// Setup: TX 0 -&gt; Add initial data to cells R1C1 (v0) &amp; R2C2 (v0)</em>
+<a class="jxr_linenumber" name="188" href="#188">188</a>     <em class="jxr_comment">// TX 1 starts (TSO1)</em>
+<a class="jxr_linenumber" name="189" href="#189">189</a>     <em class="jxr_comment">// TX 1 modifies cells R1C1 &amp; R2C2 (v1)</em>
+<a class="jxr_linenumber" name="190" href="#190">190</a>     <em class="jxr_comment">// Interleaved Read TX -IR TX- starts (TSO1)</em>
+<a class="jxr_linenumber" name="191" href="#191">191</a>     <em class="jxr_comment">// TSO 1 PAUSES -&gt; TSO 2 becomes MASTER</em>
+<a class="jxr_linenumber" name="192" href="#192">192</a>     <em class="jxr_comment">// IR TX reads R1C1 -&gt; should get v0</em>
+<a class="jxr_linenumber" name="193" href="#193">193</a>     <em class="jxr_comment">// TX 1 tries to commit -&gt; should abort because was started in TSO 1</em>
+<a class="jxr_linenumber" name="194" href="#194">194</a>     <em class="jxr_comment">// IR TX reads R2C2 -&gt; should get v0</em>
+<a class="jxr_linenumber" name="195" href="#195">195</a>     <em class="jxr_comment">// IR TX tries to commit -&gt; should abort because was started in TSO 1</em>
+<a class="jxr_linenumber" name="196" href="#196">196</a>     <em class="jxr_comment">// End of Test state: R1C1 &amp; R2C2 (v0)</em>
+<a class="jxr_linenumber" name="197" href="#197">197</a>     @Test(timeOut = 60_000)
+<a class="jxr_linenumber" name="198" href="#198">198</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testScenario1() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="199" href="#199">199</a>         <strong class="jxr_keyword">try</strong> (TTable txTable = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE)) {
+<a class="jxr_linenumber" name="200" href="#200">200</a> 
+<a class="jxr_linenumber" name="201" href="#201">201</a>             <em class="jxr_comment">// Write initial values for the test</em>
+<a class="jxr_linenumber" name="202" href="#202">202</a>             HBaseTransaction tx0 = (HBaseTransaction) tm.begin();
+<a class="jxr_linenumber" name="203" href="#203">203</a>             <strong class="jxr_keyword">long</strong> initialEpoch = tx0.getEpoch();
+<a class="jxr_linenumber" name="204" href="#204">204</a>             LOG.info(<span class="jxr_string">"Starting Tx {} writing initial values for cells ({}) "</span>, tx0, Bytes.toString(initialData));
+<a class="jxr_linenumber" name="205" href="#205">205</a>             Put putInitialDataRow1 = <strong class="jxr_keyword">new</strong> Put(row1);
+<a class="jxr_linenumber" name="206" href="#206">206</a>             putInitialDataRow1.addColumn(TEST_FAMILY.getBytes(), qualifier1, initialData);
+<a class="jxr_linenumber" name="207" href="#207">207</a>             txTable.put(tx0, putInitialDataRow1);
+<a class="jxr_linenumber" name="208" href="#208">208</a>             Put putInitialDataRow2 = <strong class="jxr_keyword">new</strong> Put(row2);
+<a class="jxr_linenumber" name="209" href="#209">209</a>             putInitialDataRow2.addColumn(TEST_FAMILY.getBytes(), qualifier2, initialData);
+<a class="jxr_linenumber" name="210" href="#210">210</a>             txTable.put(tx0, putInitialDataRow2);
+<a class="jxr_linenumber" name="211" href="#211">211</a>             tm.commit(tx0);
+<a class="jxr_linenumber" name="212" href="#212">212</a> 
+<a class="jxr_linenumber" name="213" href="#213">213</a>             <em class="jxr_comment">// Initial checks</em>
+<a class="jxr_linenumber" name="214" href="#214">214</a>             checkRowValues(txTable, initialData, initialData);
+<a class="jxr_linenumber" name="215" href="#215">215</a> 
+<a class="jxr_linenumber" name="216" href="#216">216</a>             HBaseTransaction tx1 = (HBaseTransaction) tm.begin();
+<a class="jxr_linenumber" name="217" href="#217">217</a>             LOG.info(<span class="jxr_string">"Starting Tx {} writing values for cells ({}, {}) "</span>, tx1, Bytes.toString(data1_q1),
+<a class="jxr_linenumber" name="218" href="#218">218</a>                      Bytes.toString(data1_q2));
+<a class="jxr_linenumber" name="219" href="#219">219</a>             Put putData1R1Q1 = <strong class="jxr_keyword">new</strong> Put(row1);
+<a class="jxr_linenumber" name="220" href="#220">220</a>             putData1R1Q1.addColumn(TEST_FAMILY.getBytes(), qualifier1, data1_q1);
+<a class="jxr_linenumber" name="221" href="#221">221</a>             txTable.put(tx1, putData1R1Q1);
+<a class="jxr_linenumber" name="222" href="#222">222</a>             Put putData1R2Q2 = <strong class="jxr_keyword">new</strong> Put(row2);
+<a class="jxr_linenumber" name="223" href="#223">223</a>             putData1R2Q2.addColumn(TEST_FAMILY.getBytes(), qualifier2, data1_q2);
+<a class="jxr_linenumber" name="224" href="#224">224</a>             txTable.put(tx1, putData1R2Q2);
 <a class="jxr_linenumber" name="225" href="#225">225</a> 
-<a class="jxr_linenumber" name="226" href="#226">226</a>             <em class="jxr_comment">// Simulate a GC pause to change mastership (should throw a ServiceUnavailable exception)</em>
-<a class="jxr_linenumber" name="227" href="#227">227</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++++++++++++++++++++++++++++++++++++"</span>);
-<a class="jxr_linenumber" name="228" href="#228">228</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++++++++++++++++++++++++++++++++++++"</span>);
-<a class="jxr_linenumber" name="229" href="#229">229</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++ PAUSING TSO 1 +++++++++++++++++++"</span>);
-<a class="jxr_linenumber" name="230" href="#230">230</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++++++++++++++++++++++++++++++++++++"</span>);
+<a class="jxr_linenumber" name="226" href="#226">226</a>             Transaction interleavedReadTx = tm.begin();
+<a class="jxr_linenumber" name="227" href="#227">227</a> 
+<a class="jxr_linenumber" name="228" href="#228">228</a>             LOG.info(<span class="jxr_string">"Starting Interleaving Read Tx {} for checking cell values"</span>, interleavedReadTx.getTransactionId());
+<a class="jxr_linenumber" name="229" href="#229">229</a> 
+<a class="jxr_linenumber" name="230" href="#230">230</a>             <em class="jxr_comment">// Simulate a GC pause to change mastership (should throw a ServiceUnavailable exception)</em>
 <a class="jxr_linenumber" name="231" href="#231">231</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++++++++++++++++++++++++++++++++++++"</span>);
-<a class="jxr_linenumber" name="232" href="#232">232</a>             leaseManager1.pausedInStillInLeasePeriod();
-<a class="jxr_linenumber" name="233" href="#233">233</a> 
-<a class="jxr_linenumber" name="234" href="#234">234</a>             <em class="jxr_comment">// Read interleaved and check the values writen by tx 1</em>
-<a class="jxr_linenumber" name="235" href="#235">235</a>             Get getRow1 = <strong class="jxr_keyword">new</strong> Get(row1).setMaxVersions(1);
-<a class="jxr_linenumber" name="236" href="#236">236</a>             getRow1.addColumn(TEST_FAMILY.getBytes(), qualifier1);
-<a class="jxr_linenumber" name="237" href="#237">237</a>             Result r = txTable.get(interleavedReadTx, getRow1);
-<a class="jxr_linenumber" name="238" href="#238">238</a>             assertEquals(r.getValue(TEST_FAMILY.getBytes(), qualifier1), initialData,
-<a class="jxr_linenumber" name="239" href="#239">239</a>                          <span class="jxr_string">"Unexpected value for SI read R1Q1"</span> + interleavedReadTx + <span class="jxr_string">": "</span>
-<a class="jxr_linenumber" name="240" href="#240">240</a>                                  + Bytes.toString(r.getValue(TEST_FAMILY.getBytes(), qualifier1)));
-<a class="jxr_linenumber" name="241" href="#241">241</a> 
-<a class="jxr_linenumber" name="242" href="#242">242</a>             <em class="jxr_comment">// Try to commit, but it should abort due to the change in mastership</em>
-<a class="jxr_linenumber" name="243" href="#243">243</a>             <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="244" href="#244">244</a>                 tm.commit(tx1);
-<a class="jxr_linenumber" name="245" href="#245">245</a>                 fail();
-<a class="jxr_linenumber" name="246" href="#246">246</a>             } <strong class="jxr_keyword">catch</strong> (RollbackException e) {
-<a class="jxr_linenumber" name="247" href="#247">247</a>                 <em class="jxr_comment">// Expected</em>
-<a class="jxr_linenumber" name="248" href="#248">248</a>                 LOG.info(<span class="jxr_string">"Rollback cause for Tx {}: "</span>, tx1, e.getCause());
-<a class="jxr_linenumber" name="249" href="#249">249</a>                 assertEquals(tx1.getStatus(), Transaction.Status.ROLLEDBACK);
-<a class="jxr_linenumber" name="250" href="#250">250</a>                 assertEquals(tx1.getEpoch(), initialEpoch);
-<a class="jxr_linenumber" name="251" href="#251">251</a>             }
-<a class="jxr_linenumber" name="252" href="#252">252</a> 
-<a class="jxr_linenumber" name="253" href="#253">253</a>             <em class="jxr_comment">// Read interleaved and check the values written by tx 1</em>
-<a class="jxr_linenumber" name="254" href="#254">254</a>             Get getRow2 = <strong class="jxr_keyword">new</strong> Get(row2).setMaxVersions(1);
-<a class="jxr_linenumber" name="255" href="#255">255</a>             r = txTable.get(interleavedReadTx, getRow2);
-<a class="jxr_linenumber" name="256" href="#256">256</a>             assertEquals(r.getValue(TEST_FAMILY.getBytes(), qualifier2), initialData,
-<a class="jxr_linenumber" name="257" href="#257">257</a>                          <span class="jxr_string">"Unexpected value for SI read R2Q2"</span> + interleavedReadTx + <span class="jxr_string">": "</span>
-<a class="jxr_linenumber" name="258" href="#258">258</a>                                  + Bytes.toString(r.getValue(TEST_FAMILY.getBytes(), qualifier2)));
-<a class="jxr_linenumber" name="259" href="#259">259</a> 
-<a class="jxr_linenumber" name="260" href="#260">260</a>             <em class="jxr_comment">// Should commit because its a read only tx does not have to contact the TSO</em>
-<a class="jxr_linenumber" name="261" href="#261">261</a>             tm.commit(interleavedReadTx);
-<a class="jxr_linenumber" name="262" href="#262">262</a>             assertEquals(interleavedReadTx.getEpoch(), initialEpoch);
-<a class="jxr_linenumber" name="263" href="#263">263</a>             assertEquals(interleavedReadTx.getStatus(), Transaction.Status.COMMITTED_RO);
-<a class="jxr_linenumber" name="264" href="#264">264</a> 
-<a class="jxr_linenumber" name="265" href="#265">265</a>             LOG.info(<span class="jxr_string">"Wait till the client is informed about the connection parameters of the new TSO"</span>);
-<a class="jxr_linenumber" name="266" href="#266">266</a>             TestUtils.waitForSocketListening(<span class="jxr_string">"localhost"</span>, TSO2_PORT, 100);
-<a class="jxr_linenumber" name="267" href="#267">267</a> 
-<a class="jxr_linenumber" name="268" href="#268">268</a>             checkRowValues(txTable, initialData, initialData);
-<a class="jxr_linenumber" name="269" href="#269">269</a> 
-<a class="jxr_linenumber" name="270" href="#270">270</a>             <em class="jxr_comment">// Need to resume to let other test progress</em>
-<a class="jxr_linenumber" name="271" href="#271">271</a>             leaseManager1.resume();
-<a class="jxr_linenumber" name="272" href="#272">272</a> 
-<a class="jxr_linenumber" name="273" href="#273">273</a>         }
-<a class="jxr_linenumber" name="274" href="#274">274</a> 
-<a class="jxr_linenumber" name="275" href="#275">275</a>     }
+<a class="jxr_linenumber" name="232" href="#232">232</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++++++++++++++++++++++++++++++++++++"</span>);
+<a class="jxr_linenumber" name="233" href="#233">233</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++ PAUSING TSO 1 +++++++++++++++++++"</span>);
+<a class="jxr_linenumber" name="234" href="#234">234</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++++++++++++++++++++++++++++++++++++"</span>);
+<a class="jxr_linenumber" name="235" href="#235">235</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++++++++++++++++++++++++++++++++++++"</span>);
+<a class="jxr_linenumber" name="236" href="#236">236</a>             leaseManager1.pausedInStillInLeasePeriod();
+<a class="jxr_linenumber" name="237" href="#237">237</a> 
+<a class="jxr_linenumber" name="238" href="#238">238</a>             <em class="jxr_comment">// Read interleaved and check the values writen by tx 1</em>
+<a class="jxr_linenumber" name="239" href="#239">239</a>             Get getRow1 = <strong class="jxr_keyword">new</strong> Get(row1).setMaxVersions(1);
+<a class="jxr_linenumber" name="240" href="#240">240</a>             getRow1.addColumn(TEST_FAMILY.getBytes(), qualifier1);
+<a class="jxr_linenumber" name="241" href="#241">241</a>             Result r = txTable.get(interleavedReadTx, getRow1);
+<a class="jxr_linenumber" name="242" href="#242">242</a>             assertEquals(r.getValue(TEST_FAMILY.getBytes(), qualifier1), initialData,
+<a class="jxr_linenumber" name="243" href="#243">243</a>                          <span class="jxr_string">"Unexpected value for SI read R1Q1"</span> + interleavedReadTx + <span class="jxr_string">": "</span>
+<a class="jxr_linenumber" name="244" href="#244">244</a>                                  + Bytes.toString(r.getValue(TEST_FAMILY.getBytes(), qualifier1)));
+<a class="jxr_linenumber" name="245" href="#245">245</a> 
+<a class="jxr_linenumber" name="246" href="#246">246</a>             <em class="jxr_comment">// Try to commit, but it should abort due to the change in mastership</em>
+<a class="jxr_linenumber" name="247" href="#247">247</a>             <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="248" href="#248">248</a>                 tm.commit(tx1);
+<a class="jxr_linenumber" name="249" href="#249">249</a>                 fail();
+<a class="jxr_linenumber" name="250" href="#250">250</a>             } <strong class="jxr_keyword">catch</strong> (RollbackException e) {
+<a class="jxr_linenumber" name="251" href="#251">251</a>                 <em class="jxr_comment">// Expected</em>
+<a class="jxr_linenumber" name="252" href="#252">252</a>                 LOG.info(<span class="jxr_string">"Rollback cause for Tx {}: "</span>, tx1, e.getCause());
+<a class="jxr_linenumber" name="253" href="#253">253</a>                 assertEquals(tx1.getStatus(), Transaction.Status.ROLLEDBACK);
+<a class="jxr_linenumber" name="254" href="#254">254</a>                 assertEquals(tx1.getEpoch(), initialEpoch);
+<a class="jxr_linenumber" name="255" href="#255">255</a>             }
+<a class="jxr_linenumber" name="256" href="#256">256</a> 
+<a class="jxr_linenumber" name="257" href="#257">257</a>             <em class="jxr_comment">// Read interleaved and check the values written by tx 1</em>
+<a class="jxr_linenumber" name="258" href="#258">258</a>             Get getRow2 = <strong class="jxr_keyword">new</strong> Get(row2).setMaxVersions(1);
+<a class="jxr_linenumber" name="259" href="#259">259</a>             r = txTable.get(interleavedReadTx, getRow2);
+<a class="jxr_linenumber" name="260" href="#260">260</a>             assertEquals(r.getValue(TEST_FAMILY.getBytes(), qualifier2), initialData,
+<a class="jxr_linenumber" name="261" href="#261">261</a>                          <span class="jxr_string">"Unexpected value for SI read R2Q2"</span> + interleavedReadTx + <span class="jxr_string">": "</span>
+<a class="jxr_linenumber" name="262" href="#262">262</a>                                  + Bytes.toString(r.getValue(TEST_FAMILY.getBytes(), qualifier2)));
+<a class="jxr_linenumber" name="263" href="#263">263</a> 
+<a class="jxr_linenumber" name="264" href="#264">264</a>             <em class="jxr_comment">// Should commit because its a read only tx does not have to contact the TSO</em>
+<a class="jxr_linenumber" name="265" href="#265">265</a>             tm.commit(interleavedReadTx);
+<a class="jxr_linenumber" name="266" href="#266">266</a>             assertEquals(interleavedReadTx.getEpoch(), initialEpoch);
+<a class="jxr_linenumber" name="267" href="#267">267</a>             assertEquals(interleavedReadTx.getStatus(), Transaction.Status.COMMITTED_RO);
+<a class="jxr_linenumber" name="268" href="#268">268</a> 
+<a class="jxr_linenumber" name="269" href="#269">269</a>             LOG.info(<span class="jxr_string">"Wait till the client is informed about the connection parameters of the new TSO"</span>);
+<a class="jxr_linenumber" name="270" href="#270">270</a>             TestUtils.waitForSocketListening(<span class="jxr_string">"localhost"</span>, TSO2_PORT, 100);
+<a class="jxr_linenumber" name="271" href="#271">271</a> 
+<a class="jxr_linenumber" name="272" href="#272">272</a>             checkRowValues(txTable, initialData, initialData);
+<a class="jxr_linenumber" name="273" href="#273">273</a> 
+<a class="jxr_linenumber" name="274" href="#274">274</a>             <em class="jxr_comment">// Need to resume to let other test progress</em>
+<a class="jxr_linenumber" name="275" href="#275">275</a>             leaseManager1.resume();
 <a class="jxr_linenumber" name="276" href="#276">276</a> 
-<a class="jxr_linenumber" name="277" href="#277">277</a>     <em class="jxr_comment">//</em>
-<a class="jxr_linenumber" name="278" href="#278">278</a>     <em class="jxr_comment">// TSO 1 is MASTER &amp; TSO 2 is BACKUP</em>
-<a class="jxr_linenumber" name="279" href="#279">279</a>     <em class="jxr_comment">// Setup: TX 0 -&gt; Add initial data to cells R1C1 (v0) &amp; R2C2 (v0)</em>
-<a class="jxr_linenumber" name="280" href="#280">280</a>     <em class="jxr_comment">// TX 1 starts (TSO1)</em>
-<a class="jxr_linenumber" name="281" href="#281">281</a>     <em class="jxr_comment">// TX 1 modifies cells R1C1 &amp; R2C2 (v1)</em>
-<a class="jxr_linenumber" name="282" href="#282">282</a>     <em class="jxr_comment">// TSO 1 is KILLED -&gt; TSO 2 becomes MASTER</em>
-<a class="jxr_linenumber" name="283" href="#283">283</a>     <em class="jxr_comment">// TX 1 tries to commit -&gt; should abort because was started in TSO 1</em>
-<a class="jxr_linenumber" name="284" href="#284">284</a>     <em class="jxr_comment">// TX 2 starts (TSO1)</em>
-<a class="jxr_linenumber" name="285" href="#285">285</a>     <em class="jxr_comment">// TX 2 reads R1C1 -&gt; should get v0</em>
-<a class="jxr_linenumber" name="286" href="#286">286</a>     <em class="jxr_comment">// TX 2 reads R2C2 -&gt; should get v0</em>
-<a class="jxr_linenumber" name="287" href="#287">287</a>     <em class="jxr_comment">// TX 2 modifies cells R1C1 &amp; R2C2 (v2)</em>
-<a class="jxr_linenumber" name="288" href="#288">288</a>     <em class="jxr_comment">// TX 2 commits</em>
-<a class="jxr_linenumber" name="289" href="#289">289</a>     <em class="jxr_comment">// End of Test state: R1C1 &amp; R2C2 (v2)</em>
-<a class="jxr_linenumber" name="290" href="#290">290</a>     @Test(timeOut = 60_000)
-<a class="jxr_linenumber" name="291" href="#291">291</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testScenario2() <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="292" href="#292">292</a>         <strong class="jxr_keyword">try</strong> (TTable txTable = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE)) {
-<a class="jxr_linenumber" name="293" href="#293">293</a> 
-<a class="jxr_linenumber" name="294" href="#294">294</a>             <em class="jxr_comment">// Write initial values for the test</em>
-<a class="jxr_linenumber" name="295" href="#295">295</a>             HBaseTransaction tx0 = (HBaseTransaction) tm.begin();
-<a class="jxr_linenumber" name="296" href="#296">296</a>             <strong class="jxr_keyword">long</strong> initialEpoch = tx0.getEpoch();
-<a class="jxr_linenumber" name="297" href="#297">297</a>             LOG.info(<span class="jxr_string">"Starting Tx {} writing initial values for cells ({}) "</span>, tx0, Bytes.toString(initialData));
-<a class="jxr_linenumber" name="298" href="#298">298</a>             Put putInitialDataRow1 = <strong class="jxr_keyword">new</strong> Put(row1);
-<a class="jxr_linenumber" name="299" href="#299">299</a>             putInitialDataRow1.addColumn(TEST_FAMILY.getBytes(), qualifier1, initialData);
-<a class="jxr_linenumber" name="300" href="#300">300</a>             txTable.put(tx0, putInitialDataRow1);
-<a class="jxr_linenumber" name="301" href="#301">301</a>             Put putInitialDataRow2 = <strong class="jxr_keyword">new</strong> Put(row2);
-<a class="jxr_linenumber" name="302" href="#302">302</a>             putInitialDataRow2.addColumn(TEST_FAMILY.getBytes(), qualifier2, initialData);
-<a class="jxr_linenumber" name="303" href="#303">303</a>             txTable.put(tx0, putInitialDataRow2);
-<a class="jxr_linenumber" name="304" href="#304">304</a>             tm.commit(tx0);
-<a class="jxr_linenumber" name="305" href="#305">305</a> 
-<a class="jxr_linenumber" name="306" href="#306">306</a>             HBaseTransaction tx1 = (HBaseTransaction) tm.begin();
-<a class="jxr_linenumber" name="307" href="#307">307</a>             LOG.info(<span class="jxr_string">"Starting Tx {} writing values for cells ({}, {}) "</span>, tx1, Bytes.toString(data1_q1),
-<a class="jxr_linenumber" name="308" href="#308">308</a>                      Bytes.toString(data1_q2));
-<a class="jxr_linenumber" name="309" href="#309">309</a>             Put putData1R1Q1 = <strong class="jxr_keyword">new</strong> Put(row1);
-<a class="jxr_linenumber" name="310" href="#310">310</a>             putData1R1Q1.addColumn(TEST_FAMILY.getBytes(), qualifier1, data1_q1);
-<a class="jxr_linenumber" name="311" href="#311">311</a>             txTable.put(tx1, putData1R1Q1);
-<a class="jxr_linenumber" name="312" href="#312">312</a>             Put putData1R2Q2 = <strong class="jxr_keyword">new</strong> Put(row2);
-<a class="jxr_linenumber" name="313" href="#313">313</a>             putData1R2Q2.addColumn(TEST_FAMILY.getBytes(), qualifier2, data1_q2);
-<a class="jxr_linenumber" name="314" href="#314">314</a>             txTable.put(tx1, putData1R2Q2);
-<a class="jxr_linenumber" name="315" href="#315">315</a> 
-<a class="jxr_linenumber" name="316" href="#316">316</a>             <em class="jxr_comment">// Provoke change in mastership (should throw a Connection exception)</em>
-<a class="jxr_linenumber" name="317" href="#317">317</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++++++++++++++++++++++++++++++++++++"</span>);
-<a class="jxr_linenumber" name="318" href="#318">318</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++++++++++++++++++++++++++++++++++++"</span>);
-<a class="jxr_linenumber" name="319" href="#319">319</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++ KILLING TSO 1 +++++++++++++++++++"</span>);
-<a class="jxr_linenumber" name="320" href="#320">320</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++++++++++++++++++++++++++++++++++++"</span>);
+<a class="jxr_linenumber" name="277" href="#277">277</a>         }
+<a class="jxr_linenumber" name="278" href="#278">278</a> 
+<a class="jxr_linenumber" name="279" href="#279">279</a>     }
+<a class="jxr_linenumber" name="280" href="#280">280</a> 
+<a class="jxr_linenumber" name="281" href="#281">281</a>     <em class="jxr_comment">//</em>
+<a class="jxr_linenumber" name="282" href="#282">282</a>     <em class="jxr_comment">// TSO 1 is MASTER &amp; TSO 2 is BACKUP</em>
+<a class="jxr_linenumber" name="283" href="#283">283</a>     <em class="jxr_comment">// Setup: TX 0 -&gt; Add initial data to cells R1C1 (v0) &amp; R2C2 (v0)</em>
+<a class="jxr_linenumber" name="284" href="#284">284</a>     <em class="jxr_comment">// TX 1 starts (TSO1)</em>
+<a class="jxr_linenumber" name="285" href="#285">285</a>     <em class="jxr_comment">// TX 1 modifies cells R1C1 &amp; R2C2 (v1)</em>
+<a class="jxr_linenumber" name="286" href="#286">286</a>     <em class="jxr_comment">// TSO 1 is KILLED -&gt; TSO 2 becomes MASTER</em>
+<a class="jxr_linenumber" name="287" href="#287">287</a>     <em class="jxr_comment">// TX 1 tries to commit -&gt; should abort because was started in TSO 1</em>
+<a class="jxr_linenumber" name="288" href="#288">288</a>     <em class="jxr_comment">// TX 2 starts (TSO1)</em>
+<a class="jxr_linenumber" name="289" href="#289">289</a>     <em class="jxr_comment">// TX 2 reads R1C1 -&gt; should get v0</em>
+<a class="jxr_linenumber" name="290" href="#290">290</a>     <em class="jxr_comment">// TX 2 reads R2C2 -&gt; should get v0</em>
+<a class="jxr_linenumber" name="291" href="#291">291</a>     <em class="jxr_comment">// TX 2 modifies cells R1C1 &amp; R2C2 (v2)</em>
+<a class="jxr_linenumber" name="292" href="#292">292</a>     <em class="jxr_comment">// TX 2 commits</em>
+<a class="jxr_linenumber" name="293" href="#293">293</a>     <em class="jxr_comment">// End of Test state: R1C1 &amp; R2C2 (v2)</em>
+<a class="jxr_linenumber" name="294" href="#294">294</a>     @Test(timeOut = 60_000)
+<a class="jxr_linenumber" name="295" href="#295">295</a>     <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> testScenario2() <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="296" href="#296">296</a>         <strong class="jxr_keyword">try</strong> (TTable txTable = <strong class="jxr_keyword">new</strong> TTable(connection, TEST_TABLE)) {
+<a class="jxr_linenumber" name="297" href="#297">297</a> 
+<a class="jxr_linenumber" name="298" href="#298">298</a>             <em class="jxr_comment">// Write initial values for the test</em>
+<a class="jxr_linenumber" name="299" href="#299">299</a>             HBaseTransaction tx0 = (HBaseTransaction) tm.begin();
+<a class="jxr_linenumber" name="300" href="#300">300</a>             <strong class="jxr_keyword">long</strong> initialEpoch = tx0.getEpoch();
+<a class="jxr_linenumber" name="301" href="#301">301</a>             LOG.info(<span class="jxr_string">"Starting Tx {} writing initial values for cells ({}) "</span>, tx0, Bytes.toString(initialData));
+<a class="jxr_linenumber" name="302" href="#302">302</a>             Put putInitialDataRow1 = <strong class="jxr_keyword">new</strong> Put(row1);
+<a class="jxr_linenumber" name="303" href="#303">303</a>             putInitialDataRow1.addColumn(TEST_FAMILY.getBytes(), qualifier1, initialData);
+<a class="jxr_linenumber" name="304" href="#304">304</a>             txTable.put(tx0, putInitialDataRow1);
+<a class="jxr_linenumber" name="305" href="#305">305</a>             Put putInitialDataRow2 = <strong class="jxr_keyword">new</strong> Put(row2);
+<a class="jxr_linenumber" name="306" href="#306">306</a>             putInitialDataRow2.addColumn(TEST_FAMILY.getBytes(), qualifier2, initialData);
+<a class="jxr_linenumber" name="307" href="#307">307</a>             txTable.put(tx0, putInitialDataRow2);
+<a class="jxr_linenumber" name="308" href="#308">308</a>             tm.commit(tx0);
+<a class="jxr_linenumber" name="309" href="#309">309</a> 
+<a class="jxr_linenumber" name="310" href="#310">310</a>             HBaseTransaction tx1 = (HBaseTransaction) tm.begin();
+<a class="jxr_linenumber" name="311" href="#311">311</a>             LOG.info(<span class="jxr_string">"Starting Tx {} writing values for cells ({}, {}) "</span>, tx1, Bytes.toString(data1_q1),
+<a class="jxr_linenumber" name="312" href="#312">312</a>                      Bytes.toString(data1_q2));
+<a class="jxr_linenumber" name="313" href="#313">313</a>             Put putData1R1Q1 = <strong class="jxr_keyword">new</strong> Put(row1);
+<a class="jxr_linenumber" name="314" href="#314">314</a>             putData1R1Q1.addColumn(TEST_FAMILY.getBytes(), qualifier1, data1_q1);
+<a class="jxr_linenumber" name="315" href="#315">315</a>             txTable.put(tx1, putData1R1Q1);
+<a class="jxr_linenumber" name="316" href="#316">316</a>             Put putData1R2Q2 = <strong class="jxr_keyword">new</strong> Put(row2);
+<a class="jxr_linenumber" name="317" href="#317">317</a>             putData1R2Q2.addColumn(TEST_FAMILY.getBytes(), qualifier2, data1_q2);
+<a class="jxr_linenumber" name="318" href="#318">318</a>             txTable.put(tx1, putData1R2Q2);
+<a class="jxr_linenumber" name="319" href="#319">319</a> 
+<a class="jxr_linenumber" name="320" href="#320">320</a>             <em class="jxr_comment">// Provoke change in mastership (should throw a Connection exception)</em>
 <a class="jxr_linenumber" name="321" href="#321">321</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++++++++++++++++++++++++++++++++++++"</span>);
-<a class="jxr_linenumber" name="322" href="#322">322</a>             tso1.stopAndWait();
-<a class="jxr_linenumber" name="323" href="#323">323</a>             TestUtils.waitForSocketNotListening(<span class="jxr_string">"localhost"</span>, TSO1_PORT, 100);
-<a class="jxr_linenumber" name="324" href="#324">324</a> 
-<a class="jxr_linenumber" name="325" href="#325">325</a>             <em class="jxr_comment">// Try to commit, but it should abort due to the change in mastership</em>
-<a class="jxr_linenumber" name="326" href="#326">326</a>             <strong class="jxr_keyword">try</strong> {
-<a class="jxr_linenumber" name="327" href="#327">327</a>                 tm.commit(tx1);
-<a class="jxr_linenumber" name="328" href="#328">328</a>                 String failMsg = String.format(<span class="jxr_string">"%s should not commit. Initial epoch was: %d"</span>, tx1, initialEpoch);
-<a class="jxr_linenumber" name="329" href="#329">329</a>                 fail(failMsg);
-<a class="jxr_linenumber" name="330" href="#330">330</a>             } <strong class="jxr_keyword">catch</strong> (RollbackException e) {
-<a class="jxr_linenumber" name="331" href="#331">331</a>                 <em class="jxr_comment">// Expected</em>
-<a class="jxr_linenumber" name="332" href="#332">332</a>                 LOG.info(<span class="jxr_string">"Rollback cause for Tx {}: "</span>, tx1, e.getCause());
-<a class="jxr_linenumber" name="333" href="#333">333</a>                 assertEquals(tx1.getStatus(), Transaction.Status.ROLLEDBACK);
-<a class="jxr_linenumber" name="334" href="#334">334</a>                 assertEquals(tx1.getEpoch(), initialEpoch);
-<a class="jxr_linenumber" name="335" href="#335">335</a>             }
-<a class="jxr_linenumber" name="336" href="#336">336</a> 
-<a class="jxr_linenumber" name="337" href="#337">337</a>             LOG.info(<span class="jxr_string">"Sleep some time till the client is informed about"</span>
-<a class="jxr_linenumber" name="338" href="#338">338</a>                              + <span class="jxr_string">"the new TSO connection parameters and how can connect"</span>);
-<a class="jxr_linenumber" name="339" href="#339">339</a>             TimeUnit.SECONDS.sleep(10 + 2);
-<a class="jxr_linenumber" name="340" href="#340">340</a> 
-<a class="jxr_linenumber" name="341" href="#341">341</a>             HBaseTransaction tx2 = (HBaseTransaction) tm.begin();
-<a class="jxr_linenumber" name="342" href="#342">342</a>             LOG.info(<span class="jxr_string">"Starting Tx {} writing values for cells ({}, {}) "</span>, tx2, Bytes.toString(data1_q1),
-<a class="jxr_linenumber" name="343" href="#343">343</a>                      Bytes.toString(data1_q2));
-<a class="jxr_linenumber" name="344" href="#344">344</a>             Get getData1R1Q1 = <strong class="jxr_keyword">new</strong> Get(row1).setMaxVersions(1);
-<a class="jxr_linenumber" name="345" href="#345">345</a>             Result r = txTable.get(tx2, getData1R1Q1);
-<a class="jxr_linenumber" name="346" href="#346">346</a>             assertEquals(r.getValue(TEST_FAMILY.getBytes(), qualifier1), initialData,
-<a class="jxr_linenumber" name="347" href="#347">347</a>                          <span class="jxr_string">"Unexpected value for SI read R1Q1"</span> + tx2 + <span class="jxr_string">": "</span>
-<a class="jxr_linenumber" name="348" href="#348">348</a>                                  + Bytes.toString(r.getValue(TEST_FAMILY.getBytes(), qualifier1)));
-<a class="jxr_linenumber" name="349" href="#349">349</a>             Get getData1R2Q2 = <strong class="jxr_keyword">new</strong> Get(row2).setMaxVersions(1);
-<a class="jxr_linenumber" name="350" href="#350">350</a>             r = txTable.get(tx2, getData1R2Q2);
-<a class="jxr_linenumber" name="351" href="#351">351</a>             assertEquals(r.getValue(TEST_FAMILY.getBytes(), qualifier2), initialData,
+<a class="jxr_linenumber" name="322" href="#322">322</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++++++++++++++++++++++++++++++++++++"</span>);
+<a class="jxr_linenumber" name="323" href="#323">323</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++ KILLING TSO 1 +++++++++++++++++++"</span>);
+<a class="jxr_linenumber" name="324" href="#324">324</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++++++++++++++++++++++++++++++++++++"</span>);
+<a class="jxr_linenumber" name="325" href="#325">325</a>             LOG.info(<span class="jxr_string">"++++++++++++++++++++++++++++++++++++++++++++++++++++++"</span>);
+<a class="jxr_linenumber" name="326" href="#326">326</a>             tso1.stopAsync();
+<a class="jxr_linenumber" name="327" href="#327">327</a>             tso1.awaitTerminated();
+<a class="jxr_linenumber" name="328" href="#328">328</a>             TestUtils.waitForSocketNotListening(<span class="jxr_string">"localhost"</span>, TSO1_PORT, 100);
+<a class="jxr_linenumber" name="329" href="#329">329</a> 
+<a class="jxr_linenumber" name="330" href="#330">330</a>             <em class="jxr_comment">// Try to commit, but it should abort due to the change in mastership</em>
+<a class="jxr_linenumber" name="331" href="#331">331</a>             <strong class="jxr_keyword">try</strong> {
+<a class="jxr_linenumber" name="332" href="#332">332</a>                 tm.commit(tx1);
+<a class="jxr_linenumber" name="333" href="#333">333</a>                 String failMsg = String.format(<span class="jxr_string">"%s should not commit. Initial epoch was: %d"</span>, tx1, initialEpoch);
+<a class="jxr_linenumber" name="334" href="#334">334</a>                 fail(failMsg);
+<a class="jxr_linenumber" name="335" href="#335">335</a>             } <strong class="jxr_keyword">catch</strong> (RollbackException e) {
+<a class="jxr_linenumber" name="336" href="#336">336</a>                 <em class="jxr_comment">// Expected</em>
+<a class="jxr_linenumber" name="337" href="#337">337</a>                 LOG.info(<span class="jxr_string">"Rollback cause for Tx {}: "</span>, tx1, e.getCause());
+<a class="jxr_linenumber" name="338" href="#338">338</a>                 assertEquals(tx1.getStatus(), Transaction.Status.ROLLEDBACK);
+<a class="jxr_linenumber" name="339" href="#339">339</a>                 assertEquals(tx1.getEpoch(), initialEpoch);
+<a class="jxr_linenumber" name="340" href="#340">340</a>             }
+<a class="jxr_linenumber" name="341" href="#341">341</a> 
+<a class="jxr_linenumber" name="342" href="#342">342</a>             LOG.info(<span class="jxr_string">"Sleep some time till the client is informed about"</span>
+<a class="jxr_linenumber" name="343" href="#343">343</a>                              + <span class="jxr_string">"the new TSO connection parameters and how can connect"</span>);
+<a class="jxr_linenumber" name="344" href="#344">344</a>             TimeUnit.SECONDS.sleep(10 + 2);
+<a class="jxr_linenumber" name="345" href="#345">345</a> 
+<a class="jxr_linenumber" name="346" href="#346">346</a>             HBaseTransaction tx2 = (HBaseTransaction) tm.begin();
+<a class="jxr_linenumber" name="347" href="#347">347</a>             LOG.info(<span class="jxr_string">"Starting Tx {} writing values for cells ({}, {}) "</span>, tx2, Bytes.toString(data1_q1),
+<a class="jxr_linenumber" name="348" href="#348">348</a>                      Bytes.toString(data1_q2));
+<a class="jxr_linenumber" name="349" href="#349">349</a>             Get getData1R1Q1 = <strong class="jxr_keyword">new</strong> Get(row1).setMaxVersions(1);
+<a class="jxr_linenumber" name="350" href="#350">350</a>             Result r = txTable.get(tx2, getData1R1Q1);
+<a class="jxr_linenumber" name="351" href="#351">351</a>             assertEquals(r.getValue(TEST_FAMILY.getBytes(), qualifier1), initialData,
 <a class="jxr_linenumber" name="352" href="#352">352</a>                          <span class="jxr_string">"Unexpected value for SI read R1Q1"</span> + tx2 + <span class="jxr_string">": "</span>
-<a class="jxr_linenumber" name="353" href="#353">353</a>                                  + Bytes.toString(r.getValue(TEST_FAMILY.getBytes(), qualifier2)));
-<a class="jxr_linenumber" name="354" href="#354">354</a> 
-<a class="jxr_linenumber" name="355" href="#355">355</a>             Put putData2R1Q1 = <strong class="jxr_keyword">new</strong> Put(row1);
-<a class="jxr_linenumber" name="356" href="#356">356</a>             putData2R1Q1.addColumn(TEST_FAMILY.getBytes(), qualifier1, data2_q1);
-<a class="jxr_linenumber" name="357" href="#357">357</a>             txTable.put(tx2, putData2R1Q1);
-<a class="jxr_linenumber" name="358" href="#358">358</a>             Put putData2R2Q2 = <strong class="jxr_keyword">new</strong> Put(row2);
-<a class="jxr_linenumber" name="359" href="#359">359</a>             putData2R2Q2.addColumn(TEST_FAMILY.getBytes(), qualifier2, data2_q2);
-<a class="jxr_linenumber" name="360" href="#360">360</a>             txTable.put(tx2, putData2R2Q2);
-<a class="jxr_linenumber" name="361" href="#361">361</a>             <em class="jxr_comment">// This one should commit in the new TSO</em>
-<a class="jxr_linenumber" name="362" href="#362">362</a>             tm.commit(tx2);
-<a class="jxr_linenumber" name="363" href="#363">363</a> 
-<a class="jxr_linenumber" name="364" href="#364">364</a>             assertEquals(tx2.getStatus(), Transaction.Status.COMMITTED);
-<a class="jxr_linenumber" name="365" href="#365">365</a>             assertTrue(tx2.getEpoch() &gt; tx0.getCommitTimestamp());
-<a class="jxr_linenumber" name="366" href="#366">366</a> 
-<a class="jxr_linenumber" name="367" href="#367">367</a>             checkRowValues(txTable, data2_q1, data2_q2);
-<a class="jxr_linenumber" name="368" href="#368">368</a>         }
-<a class="jxr_linenumber" name="369" href="#369">369</a> 
-<a class="jxr_linenumber" name="370" href="#370">370</a>     }
+<a class="jxr_linenumber" name="353" href="#353">353</a>                                  + Bytes.toString(r.getValue(TEST_FAMILY.getBytes(), qualifier1)));
+<a class="jxr_linenumber" name="354" href="#354">354</a>             Get getData1R2Q2 = <strong class="jxr_keyword">new</strong> Get(row2).setMaxVersions(1);
+<a class="jxr_linenumber" name="355" href="#355">355</a>             r = txTable.get(tx2, getData1R2Q2);
+<a class="jxr_linenumber" name="356" href="#356">356</a>             assertEquals(r.getValue(TEST_FAMILY.getBytes(), qualifier2), initialData,
+<a class="jxr_linenumber" name="357" href="#357">357</a>                          <span class="jxr_string">"Unexpected value for SI read R1Q1"</span> + tx2 + <span class="jxr_string">": "</span>
+<a class="jxr_linenumber" name="358" href="#358">358</a>                                  + Bytes.toString(r.getValue(TEST_FAMILY.getBytes(), qualifier2)));
+<a class="jxr_linenumber" name="359" href="#359">359</a> 
+<a class="jxr_linenumber" name="360" href="#360">360</a>             Put putData2R1Q1 = <strong class="jxr_keyword">new</strong> Put(row1);
+<a class="jxr_linenumber" name="361" href="#361">361</a>             putData2R1Q1.addColumn(TEST_FAMILY.getBytes(), qualifier1, data2_q1);
+<a class="jxr_linenumber" name="362" href="#362">362</a>             txTable.put(tx2, putData2R1Q1);
+<a class="jxr_linenumber" name="363" href="#363">363</a>             Put putData2R2Q2 = <strong class="jxr_keyword">new</strong> Put(row2);
+<a class="jxr_linenumber" name="364" href="#364">364</a>             putData2R2Q2.addColumn(TEST_FAMILY.getBytes(), qualifier2, data2_q2);
+<a class="jxr_linenumber" name="365" href="#365">365</a>             txTable.put(tx2, putData2R2Q2);
+<a class="jxr_linenumber" name="366" href="#366">366</a>             <em class="jxr_comment">// This one should commit in the new TSO</em>
+<a class="jxr_linenumber" name="367" href="#367">367</a>             tm.commit(tx2);
+<a class="jxr_linenumber" name="368" href="#368">368</a> 
+<a class="jxr_linenumber" name="369" href="#369">369</a>             assertEquals(tx2.getStatus(), Transaction.Status.COMMITTED);
+<a class="jxr_linenumber" name="370" href="#370">370</a>             assertTrue(tx2.getEpoch() &gt; tx0.getCommitTimestamp());
 <a class="jxr_linenumber" name="371" href="#371">371</a> 
-<a class="jxr_linenumber" name="372" href="#372">372</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> checkRowValues(TTable txTable, byte[] expectedDataR1Q1, byte[] expectedDataR2Q2)
-<a class="jxr_linenumber" name="373" href="#373">373</a>             <strong class="jxr_keyword">throws</strong> IOException, RollbackException {
-<a class="jxr_linenumber" name="374" href="#374">374</a>         Transaction readTx = tm.begin();
-<a class="jxr_linenumber" name="375" href="#375">375</a>         LOG.info(<span class="jxr_string">"Starting Read Tx {} for checking cell values"</span>, readTx.getTransactionId());
-<a class="jxr_linenumber" name="376" href="#376">376</a>         Get getRow1 = <strong class="jxr_keyword">new</strong> Get(row1).setMaxVersions(1);
-<a class="jxr_linenumber" name="377" href="#377">377</a>         getRow1.addColumn(TEST_FAMILY.getBytes(), qualifier1);
-<a class="jxr_linenumber" name="378" href="#378">378</a>         Result r = txTable.get(readTx, getRow1);
-<a class="jxr_linenumber" name="379" href="#379">379</a>         assertEquals(r.getValue(TEST_FAMILY.getBytes(), qualifier1), expectedDataR1Q1,
-<a class="jxr_linenumber" name="380" href="#380">380</a>                      <span class="jxr_string">"Unexpected value for SI read R1Q1"</span> + readTx + <span class="jxr_string">": "</span> + Bytes
-<a class="jxr_linenumber" name="381" href="#381">381</a>                              .toString(r.getValue(TEST_FAMILY.getBytes(), qualifier1)));
-<a class="jxr_linenumber" name="382" href="#382">382</a>         Get getRow2 = <strong class="jxr_keyword">new</strong> Get(row2).setMaxVersions(1);
-<a class="jxr_linenumber" name="383" href="#383">383</a>         r = txTable.get(readTx, getRow2);
-<a class="jxr_linenumber" name="384" href="#384">384</a>         assertEquals(r.getValue(TEST_FAMILY.getBytes(), qualifier2), expectedDataR2Q2,
-<a class="jxr_linenumber" name="385" href="#385">385</a>                      <span class="jxr_string">"Unexpected value for SI read R2Q2"</span> + readTx + <span class="jxr_string">": "</span> + Bytes
-<a class="jxr_linenumber" name="386" href="#386">386</a>                              .toString(r.getValue(TEST_FAMILY.getBytes(), qualifier2)));
-<a class="jxr_linenumber" name="387" href="#387">387</a>         tm.commit(readTx);
-<a class="jxr_linenumber" name="388" href="#388">388</a>     }
-<a class="jxr_linenumber" name="389" href="#389">389</a> 
-<a class="jxr_linenumber" name="390" href="#390">390</a>     <em class="jxr_comment">// ----------------------------------------------------------------------------------------------------------------</em>
-<a class="jxr_linenumber" name="391" href="#391">391</a>     <em class="jxr_comment">// Helpers</em>
-<a class="jxr_linenumber" name="392" href="#392">392</a>     <em class="jxr_comment">// ----------------------------------------------------------------------------------------------------------------</em>
-<a class="jxr_linenumber" name="393" href="#393">393</a> 
-<a class="jxr_linenumber" name="394" href="#394">394</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> CuratorFramework provideInitializedZookeeperClient(String zkConnection) <strong class="jxr_keyword">throws</strong> Exception {
-<a class="jxr_linenumber" name="395" href="#395">395</a> 
-<a class="jxr_linenumber" name="396" href="#396">396</a>         LOG.info(<span class="jxr_string">"Creating Zookeeper Client connecting to {}"</span>, zkConnection);
-<a class="jxr_linenumber" name="397" href="#397">397</a> 
-<a class="jxr_linenumber" name="398" href="#398">398</a>         RetryPolicy retryPolicy = <strong class="jxr_keyword">new</strong> ExponentialBackoffRetry(1000, 3);
-<a class="jxr_linenumber" name="399" href="#399">399</a>         CuratorFramework zkClient = CuratorFrameworkFactory
-<a class="jxr_linenumber" name="400" href="#400">400</a>                 .builder()
-<a class="jxr_linenumber" name="401" href="#401">401</a>                 .namespace(NAMESPACE)
-<a class="jxr_linenumber" name="402" href="#402">402</a>                 .connectString(zkConnection)
-<a class="jxr_linenumber" name="403" href="#403">403</a>                 .retryPolicy(retryPolicy).build();
-<a class="jxr_linenumber" name="404" href="#404">404</a> 
-<a class="jxr_linenumber" name="405" href="#405">405</a>         LOG.info(<span class="jxr_string">"Connecting to ZK cluster {}"</span>, zkClient.getState());
-<a class="jxr_linenumber" name="406" href="#406">406</a>         zkClient.start();
-<a class="jxr_linenumber" name="407" href="#407">407</a>         zkClient.blockUntilConnected();
-<a class="jxr_linenumber" name="408" href="#408">408</a>         LOG.info(<span class="jxr_string">"Connection to ZK cluster {}"</span>, zkClient.getState());
+<a class="jxr_linenumber" name="372" href="#372">372</a>             checkRowValues(txTable, data2_q1, data2_q2);
+<a class="jxr_linenumber" name="373" href="#373">373</a>         }
+<a class="jxr_linenumber" name="374" href="#374">374</a> 
+<a class="jxr_linenumber" name="375" href="#375">375</a>     }
+<a class="jxr_linenumber" name="376" href="#376">376</a> 
+<a class="jxr_linenumber" name="377" href="#377">377</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">void</strong> checkRowValues(TTable txTable, byte[] expectedDataR1Q1, byte[] expectedDataR2Q2)
+<a class="jxr_linenumber" name="378" href="#378">378</a>             <strong class="jxr_keyword">throws</strong> IOException, RollbackException {
+<a class="jxr_linenumber" name="379" href="#379">379</a>         Transaction readTx = tm.begin();
+<a class="jxr_linenumber" name="380" href="#380">380</a>         LOG.info(<span class="jxr_string">"Starting Read Tx {} for checking cell values"</span>, readTx.getTransactionId());
+<a class="jxr_linenumber" name="381" href="#381">381</a>         Get getRow1 = <strong class="jxr_keyword">new</strong> Get(row1).setMaxVersions(1);
+<a class="jxr_linenumber" name="382" href="#382">382</a>         getRow1.addColumn(TEST_FAMILY.getBytes(), qualifier1);
+<a class="jxr_linenumber" name="383" href="#383">383</a>         Result r = txTable.get(readTx, getRow1);
+<a class="jxr_linenumber" name="384" href="#384">384</a>         assertEquals(r.getValue(TEST_FAMILY.getBytes(), qualifier1), expectedDataR1Q1,
+<a class="jxr_linenumber" name="385" href="#385">385</a>                      <span class="jxr_string">"Unexpected value for SI read R1Q1"</span> + readTx + <span class="jxr_string">": "</span> + Bytes
+<a class="jxr_linenumber" name="386" href="#386">386</a>                              .toString(r.getValue(TEST_FAMILY.getBytes(), qualifier1)));
+<a class="jxr_linenumber" name="387" href="#387">387</a>         Get getRow2 = <strong class="jxr_keyword">new</strong> Get(row2).setMaxVersions(1);
+<a class="jxr_linenumber" name="388" href="#388">388</a>         r = txTable.get(readTx, getRow2);
+<a class="jxr_linenumber" name="389" href="#389">389</a>         assertEquals(r.getValue(TEST_FAMILY.getBytes(), qualifier2), expectedDataR2Q2,
+<a class="jxr_linenumber" name="390" href="#390">390</a>                      <span class="jxr_string">"Unexpected value for SI read R2Q2"</span> + readTx + <span class="jxr_string">": "</span> + Bytes
+<a class="jxr_linenumber" name="391" href="#391">391</a>                              .toString(r.getValue(TEST_FAMILY.getBytes(), qualifier2)));
+<a class="jxr_linenumber" name="392" href="#392">392</a>         tm.commit(readTx);
+<a class="jxr_linenumber" name="393" href="#393">393</a>     }
+<a class="jxr_linenumber" name="394" href="#394">394</a> 
+<a class="jxr_linenumber" name="395" href="#395">395</a>     <em class="jxr_comment">// ----------------------------------------------------------------------------------------------------------------</em>
+<a class="jxr_linenumber" name="396" href="#396">396</a>     <em class="jxr_comment">// Helpers</em>
+<a class="jxr_linenumber" name="397" href="#397">397</a>     <em class="jxr_comment">// ----------------------------------------------------------------------------------------------------------------</em>
+<a class="jxr_linenumber" name="398" href="#398">398</a> 
+<a class="jxr_linenumber" name="399" href="#399">399</a>     <strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> CuratorFramework provideInitializedZookeeperClient(String zkConnection) <strong class="jxr_keyword">throws</strong> Exception {
+<a class="jxr_linenumber" name="400" href="#400">400</a> 
+<a class="jxr_linenumber" name="401" href="#401">401</a>         LOG.info(<span class="jxr_string">"Creating Zookeeper Client connecting to {}"</span>, zkConnection);
+<a class="jxr_linenumber" name="402" href="#402">402</a> 
+<a class="jxr_linenumber" name="403" href="#403">403</a>         RetryPolicy retryPolicy = <strong class="jxr_keyword">new</strong> ExponentialBackoffRetry(1000, 3);
+<a class="jxr_linenumber" name="404" href="#404">404</a>         CuratorFramework zkClient = CuratorFrameworkFactory
+<a class="jxr_linenumber" name="405" href="#405">405</a>                 .builder()
+<a class="jxr_linenumber" name="406" href="#406">406</a>                 .namespace(NAMESPACE)
+<a class="jxr_linenumber" name="407" href="#407">407</a>                 .connectString(zkConnection)
+<a class="jxr_linenumber" name="408" href="#408">408</a>                 .retryPolicy(retryPolicy).build();
 <a class="jxr_linenumber" name="409" href="#409">409</a> 
-<a class="jxr_linenumber" name="410" href="#410">410</a>         <strong class="jxr_keyword">return</strong> zkClient;
-<a class="jxr_linenumber" name="411" href="#411">411</a>     }
-<a class="jxr_linenumber" name="412" href="#412">412</a> 
-<a class="jxr_linenumber" name="413" href="#413">413</a> }
+<a class="jxr_linenumber" name="410" href="#410">410</a>         LOG.info(<span class="jxr_string">"Connecting to ZK cluster {}"</span>, zkClient.getState());
+<a class="jxr_linenumber" name="411" href="#411">411</a>         zkClient.start();
+<a class="jxr_linenumber" name="412" href="#412">412</a>         zkClient.blockUntilConnected();
+<a class="jxr_linenumber" name="413" href="#413">413</a>         LOG.info(<span class="jxr_string">"Connection to ZK cluster {}"</span>, zkClient.getState());
+<a class="jxr_linenumber" name="414" href="#414">414</a> 
+<a class="jxr_linenumber" name="415" href="#415">415</a>         <strong class="jxr_keyword">return</strong> zkClient;
+<a class="jxr_linenumber" name="416" href="#416">416</a>     }
+<a class="jxr_linenumber" name="417" href="#417">417</a> 
+<a class="jxr_linenumber" name="418" href="#418">418</a> }
 </pre>
 <hr/><div id="footer">This page was automatically generated by <a href="http://maven.apache.org/">Maven</a></div></body>
 </html>
